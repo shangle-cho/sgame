@@ -11,144 +11,192 @@
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&display=swap');
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background-color: #0F172A;
+      background-color: #0B1120;
       color: #F8FAFC;
+      touch-action: manipulation;
+    }
+    .playing-card {
+      border-color: #6366F1 !important;
+      background-color: #1E1B4B !important;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 select-none pb-8">
+<body class="min-h-screen flex flex-col items-center justify-between p-4 select-none pb-8">
+
+  <!-- 보이지 않는 실제 오디오 재생기 -->
+  <audio id="audio-player" loop></audio>
 
   <!-- 헤더 -->
-  <header class="w-full max-w-sm text-center pt-2 mb-4">
-    <div class="inline-block bg-indigo-900/60 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-1 border border-indigo-700/50">
-      ✨ 꿀잠 수면 플레이어
+  <header class="w-full max-w-sm text-center pt-3 mb-2">
+    <div class="inline-block bg-indigo-950 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-1 border border-indigo-800">
+      ✨ 꿀잠 수면 사운드
     </div>
-    <h1 class="text-2xl font-black text-indigo-100">잠 못 드는 밤 랜덤 플레이</h1>
-    <p class="text-slate-400 text-xs mt-1">원하는 테마를 누르면 랜덤으로 즉시 재생돼요 🌙</p>
+    <h1 class="text-2xl font-black text-indigo-100">잠 솔솔 힐링 사운드</h1>
+    <p class="text-slate-400 text-xs mt-1">버튼을 터치하면 포근한 소리가 바로 흘러나와요 🌙</p>
   </header>
 
-  <!-- 유튜브 플레이어 영역 (터치하면 여기에 즉시 나타남) -->
-  <div id="player-container" class="w-full max-w-sm mb-5 hidden">
-    <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-indigo-500/30 bg-black">
-      <iframe id="yt-player" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <!-- 현재 재생 상태 바 -->
+  <div class="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex items-center justify-between my-2">
+    <div class="flex items-center gap-3">
+      <div id="status-icon" class="text-3xl">🌙</div>
+      <div>
+        <div id="status-title" class="text-sm font-bold text-white">소리를 선택해 주세요</div>
+        <div id="status-desc" class="text-xs text-slate-400">볼륨을 적당히 켜두고 터치해 보세요</div>
+      </div>
     </div>
-    <div class="flex items-center justify-between mt-2 px-1">
-      <span id="playing-title" class="text-xs font-bold text-indigo-300">재생 중...</span>
-      <button onclick="playRandomCurrent()" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 px-2.5 py-1 rounded-lg border border-indigo-700/50">
-        🔀 다른 영상 랜덤 재생
-      </button>
-    </div>
+    <button id="stop-btn" onclick="stopSound()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center text-sm border border-slate-700 active:scale-95">
+      <i class="fa-solid fa-stop"></i>
+    </button>
   </div>
 
-  <!-- 5가지 수면 버튼 리스트 -->
-  <main class="w-full max-w-sm flex flex-col gap-2.5">
+  <!-- 5가지 진짜 MP3 수면 사운드 리스트 -->
+  <main class="w-full max-w-sm flex flex-col gap-2.5 my-auto">
 
-    <!-- 1. 수면 음악 -->
-    <button onclick="playCategory('music')" class="w-full flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow transition active:scale-98 text-left">
+    <!-- 1. 포근한 밤빗소리 -->
+    <div id="card-rain" onclick="playAudio('rain')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🎵</div>
+        <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl">🌧️</div>
         <div>
-          <h2 class="text-sm font-bold text-white">잔잔한 수면 음악</h2>
-          <p class="text-xs text-slate-400">마음을 편안하게 해주는 수면 피아노</p>
+          <h2 class="text-sm font-bold text-white">포근한 창가 빗소리</h2>
+          <p class="text-xs text-slate-400">마음을 차분하게 씻어주는 실제 빗소리</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-indigo-400 text-xs"></i>
-    </button>
+      <i class="fa-solid fa-play text-slate-500 text-xs"></i>
+    </div>
 
-    <!-- 2. 수면 이야기 -->
-    <button onclick="playCategory('story')" class="w-full flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow transition active:scale-98 text-left">
+    <!-- 2. 타닥타닥 모닥불 -->
+    <div id="card-fire" onclick="playAudio('fire')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">📖</div>
+        <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl">🔥</div>
         <div>
-          <h2 class="text-sm font-bold text-white">조곤조곤 수면 이야기</h2>
-          <p class="text-xs text-slate-400">마음이 차분해지는 옛날이야기 오디오북</p>
+          <h2 class="text-sm font-bold text-white">따뜻한 장작 모닥불</h2>
+          <p class="text-xs text-slate-400">타닥타닥 타오르는 포근한 장작소리</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-amber-400 text-xs"></i>
-    </button>
+      <i class="fa-solid fa-play text-slate-500 text-xs"></i>
+    </div>
 
-    <!-- 3. 자연의 소리 -->
-    <button onclick="playCategory('nature')" class="w-full flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow transition active:scale-98 text-left">
+    <!-- 3. 밤바다 파도소리 -->
+    <div id="card-wave" onclick="playAudio('wave')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">🌧️</div>
+        <div class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl">🌊</div>
         <div>
-          <h2 class="text-sm font-bold text-white">자연의 백색소음</h2>
-          <p class="text-xs text-slate-400">토닥토닥 밤빗소리와 모닥불 소리</p>
+          <h2 class="text-sm font-bold text-white">잔잔한 밤바다 파도소리</h2>
+          <p class="text-xs text-slate-400">천천히 밀려왔다 나가는 편안한 물결</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-emerald-400 text-xs"></i>
-    </button>
+      <i class="fa-solid fa-play text-slate-500 text-xs"></i>
+    </div>
 
-    <!-- 4. 수면 가이드 명상 -->
-    <button onclick="playCategory('meditation')" class="w-full flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow transition active:scale-98 text-left">
+    <!-- 4. 숲속 시냇물 & 새소리 -->
+    <div id="card-forest" onclick="playAudio('forest')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">🧘</div>
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl">🍃</div>
         <div>
-          <h2 class="text-sm font-bold text-white">온몸 이완 수면 명상</h2>
-          <p class="text-xs text-slate-400">긴장을 스르륵 풀어주는 바디스캔</p>
+          <h2 class="text-sm font-bold text-white">숲속 시냇물과 바람소리</h2>
+          <p class="text-xs text-slate-400">시원하고 맑은 자연 힐링 사운드</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-purple-400 text-xs"></i>
-    </button>
+      <i class="fa-solid fa-play text-slate-500 text-xs"></i>
+    </div>
 
-    <!-- 5. 팅글 ASMR -->
-    <button onclick="playCategory('asmr')" class="w-full flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow transition active:scale-98 text-left">
+    <!-- 5. 잔잔한 수면 피아노 -->
+    <div id="card-piano" onclick="playAudio('piano')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl">🎧</div>
+        <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl">🎹</div>
         <div>
-          <h2 class="text-sm font-bold text-white">나긋나긋 힐링 ASMR</h2>
-          <p class="text-xs text-slate-400">잡념을 지워주는 부드러운 팅글 소리</p>
+          <h2 class="text-sm font-bold text-white">감미로운 수면 피아노 멜로디</h2>
+          <p class="text-xs text-slate-400">눈을 감고 듣기 좋은 편안한 연주곡</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-rose-400 text-xs"></i>
-    </button>
+      <i class="fa-solid fa-play text-slate-500 text-xs"></i>
+    </div>
 
   </main>
 
-  <footer class="w-full max-w-sm mt-6 text-center text-xs text-slate-500">
-    소리를 켜두고 편안하게 눈을 감으세요 💤
+  <footer class="w-full max-w-sm text-center text-xs text-slate-500 pt-3">
+    화면을 켜두고 편안하게 눈을 감아보세요 💤
   </footer>
 
   <script>
-    // 외부 재생(임베드) 허용된 영상 리스트 풀
-    const playlist = {
-      music: [
-        { id: '1ZYbU8csArI', title: '잔잔한 피아노 수면 음악' },
-        { id: 'sjkrrmBnpK8', title: '깊은 잠을 부르는 델타파 음악' },
-        { id: '77ZozI0rw7w', title: '지브리 오르골 수면 멜로디' }
-      ],
-      story: [
-        { id: 'Dk2bX4c8g_M', title: '잠 솔솔 오는 전래동화 이야기' },
-        { id: 'r2LpTky92qI', title: '편안한 목소리의 오디오북' },
-        { id: 'FjHGZj2IjBk', title: '마음이 따뜻해지는 밤 이야기' }
-      ],
-      nature: [
-        { id: 'mPZkdNFkNps', title: '지붕 위를 두드리는 포근한 빗소리' },
-        { id: 'uGQPK-closU', title: '생각을 멈추게 하는 밤 빗소리' },
-        { id: 'L_LUpnjgPso', title: '타닥타닥 따뜻한 장작 모닥불' }
-      ],
-      meditation: [
-        { id: 'aEqlQvczMJQ', title: '누워서 듣는 10분 수면 유도 명상' },
-        { id: '2OEL4P1Rz04', title: '전신 이완 바디스캔 명상' },
-        { id: 'inpok4MKVLM', title: '불안과 잡생각을 비우는 호흡 명상' }
-      ],
-      asmr: [
-        { id: 'wXhh398gTqE', title: '귀가 편안해지는 나긋나긋 속삭임' },
-        { id: 'E_kFmO8f8rU', title: '비누 조각 부드러운 수면 ASMR' },
-        { id: '85pmj2Z4s3g', title: '깊은 잠으로 이끄는 마이크 터치 팅글' }
-      ]
+    // 오픈 라이선스 무료 고음질 MP3 주소들
+    const soundList = {
+      rain: {
+        url: 'https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg',
+        title: '포근한 밤빗소리 재생 중',
+        desc: '무한 반복으로 재생됩니다',
+        icon: '🌧️',
+        cardId: 'card-rain'
+      },
+      fire: {
+        url: 'https://actions.google.com/sounds/v1/ambiences/outdoor_fire_burning.ogg',
+        title: '따뜻한 장작 모닥불 재생 중',
+        desc: '타닥타닥 마음이 따뜻해져요',
+        icon: '🔥',
+        cardId: 'card-fire'
+      },
+      wave: {
+        url: 'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg',
+        title: '밤바다 파도소리 재생 중',
+        desc: '천천히 숨을 들이쉬고 내쉬어 보세요',
+        icon: '🌊',
+        cardId: 'card-wave'
+      },
+      forest: {
+        url: 'https://actions.google.com/sounds/v1/environments/forest_birds.ogg',
+        title: '숲속 시냇물 소리 재생 중',
+        desc: '맑은 숲속에 누워있는 기분이에요',
+        icon: '🍃',
+        cardId: 'card-forest'
+      },
+      piano: {
+        url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=sleep-piano-calm-112191.mp3',
+        title: '수면 피아노 멜로디 재생 중',
+        desc: '편안한 꿈나라로 안내해 드려요',
+        icon: '🎹',
+        cardId: 'card-piano'
+      }
     };
 
-    let currentCat = 'music';
+    const player = document.getElementById('audio-player');
+    let currentKey = null;
 
-    function playCategory(category) {
-      currentCat = category;
-      const list = playlist[category];
-      const randomItem = list[Math.floor(Math.random() * list.length)];
+    function playAudio(key) {
+      // 같은 것을 누르면 정지
+      if (currentKey === key && !player.paused) {
+        stopSound();
+        return;
+      }
 
-      const container = document.getElementById('player-container');
-      const player = document.getElementById('yt-player');
-      const title = document.getElementById('playing-title');
+      currentKey = key;
+      const sound = soundList[key];
 
-      container.classList.remove('hidden');
-      title
+      // 카드 선택 표시
+      document.querySelectorAll('.sound-card').forEach(c => c.classList.remove('playing-card'));
+      document.getElementById(sound.cardId).classList.add('playing-card');
+
+      // 상태 안내 업데이트
+      document.getElementById('status-icon').textContent = sound.icon;
+      document.getElementById('status-title').textContent = sound.title;
+      document.getElementById('status-desc').textContent = sound.desc;
+
+      // MP3 재생
+      player.src = sound.url;
+      player.play().catch(e => {
+        alert("브라우저 화면을 한 번 터치한 후 다시 눌러주세요!");
+      });
+    }
+
+    function stopSound() {
+      player.pause();
+      player.currentTime = 0;
+      currentKey = null;
+      document.querySelectorAll('.sound-card').forEach(c => c.classList.remove('playing-card'));
+      document.getElementById('status-icon').textContent = '🌙';
+      document.getElementById('status-title').textContent = '소리가 멈췄습니다';
+      document.getElementById('status-desc').textContent = '원하는 소리를 터치해 보세요';
+    }
+  </script>
+</body>
+</html>
