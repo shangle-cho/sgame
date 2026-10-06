@@ -3,210 +3,191 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>두뇌 튼튼 짝맞추기 게임</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>두뇌 튼튼 오목 한판</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap');
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background-color: #FDFBF7;
+      touch-action: manipulation;
     }
-    .card {
-      perspective: 1000px;
+    .board-bg {
+      background-color: #E4A054;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.25);
     }
-    .card-inner {
+    .grid-cell {
       position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.4s;
-      transform-style: preserve-3d;
     }
-    .card.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
-    .card-front, .card-back {
+    /* 바둑판 격자선 */
+    .grid-cell::before {
+      content: '';
       position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1.5px;
+      background-color: #5C3A1E;
+      transform: translateX(-50%);
     }
-    .card-front {
-      background-color: #3B82F6;
-      color: white;
+    .grid-cell::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background-color: #5C3A1E;
+      transform: translateY(-50%);
     }
-    .card-back {
-      background-color: #FFFFFF;
-      transform: rotateY(180deg);
-      border: 3px solid #3B82F6;
+    /* 모서리 및 테두리 격자선 정리 */
+    .cell-top::before { top: 50%; }
+    .cell-bottom::before { bottom: 50%; }
+    .cell-left::after { left: 50%; }
+    .cell-right::after { right: 50%; }
+
+    /* 바둑돌 */
+    .stone {
+      position: absolute;
+      width: 84%;
+      height: 84%;
+      border-radius: 50%;
+      z-index: 10;
+      box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.4);
+      transition: transform 0.1s ease;
     }
-    .matched {
-      animation: bounce 0.6s;
+    .stone.black {
+      background: radial-gradient(circle at 35% 35%, #555, #111 80%);
     }
-    @keyframes bounce {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+    .stone.white {
+      background: radial-gradient(circle at 35% 35%, #ffffff, #dcdcdc 80%);
+      border: 1px solid #bbb;
+    }
+    .last-marker {
+      width: 25%;
+      height: 25%;
+      background-color: #EF4444;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 20;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between p-4">
+<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-3 select-none">
 
-  <!-- 헤더 영역 -->
-  <header class="w-full max-w-md text-center mt-2">
-    <div class="inline-block bg-amber-100 text-amber-800 text-sm font-bold px-3 py-1 rounded-full mb-1">
-      🧠 매일매일 두뇌 청춘 트레이닝
+  <!-- 헤더 -->
+  <header class="w-full max-w-sm text-center pt-1">
+    <div class="inline-block bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-full mb-1">
+      🧠 두뇌 활력 오목 게임
     </div>
-    <h1 class="text-3xl font-black text-gray-800 mb-1">두뇌 튼튼 짝맞추기</h1>
-    <p class="text-gray-600 font-bold text-base">같은 그림 2장을 찾아 터치해 보세요!</p>
+    <h1 class="text-2xl font-black text-gray-900">두뇌 튼튼 오목 한판</h1>
     
-    <!-- 점수판 -->
-    <div class="flex justify-around bg-white p-3 rounded-2xl shadow-sm border border-gray-100 mt-3">
-      <div class="text-center">
-        <span class="text-xs text-gray-500 font-bold block">맞춘 짝</span>
-        <span id="match-count" class="text-2xl font-black text-blue-600">0 / 6</span>
+    <!-- 모드 선택 및 차례 표시 -->
+    <div class="mt-2 flex items-center justify-between bg-white px-3 py-2 rounded-xl shadow-sm border border-amber-200">
+      <div class="flex gap-1">
+        <button id="mode-ai" onclick="setMode('ai')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-amber-600 text-white">vs 컴퓨터</button>
+        <button id="mode-p2p" onclick="setMode('p2p')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-gray-100 text-gray-700">2인 대결</button>
       </div>
-      <div class="text-center">
-        <span class="text-xs text-gray-500 font-bold block">도전 횟수</span>
-        <span id="tries-count" class="text-2xl font-black text-amber-600">0회</span>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-gray-500">현재 차례:</span>
+        <div id="turn-badge" class="flex items-center gap-1 bg-amber-100 px-2 py-0.5 rounded-full">
+          <div id="turn-indicator" class="w-3.5 h-3.5 rounded-full bg-black"></div>
+          <span id="turn-text" class="text-xs font-black text-gray-800">흑돌 차례</span>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- 게임 카드 판 (4x3 그리드) -->
-  <main class="w-full max-w-md my-4">
-    <div id="game-board" class="grid grid-cols-3 gap-3 aspect-[3/4]">
-      <!-- 자바스크립트로 카드가 생성됩니다 -->
+  <!-- 바둑판 본체 (11 x 11) -->
+  <main class="w-full max-w-sm flex items-center justify-center my-auto">
+    <div class="board-bg p-2 rounded-2xl shadow-xl w-full aspect-square border-4 border-[#8B5A2B]">
+      <div id="board" class="w-full h-full grid grid-cols-11 grid-rows-11">
+        <!-- 자바스크립트로 121개 셀 생성 -->
+      </div>
     </div>
   </main>
 
-  <!-- 하단 컨트롤 버튼 -->
-  <footer class="w-full max-w-md mb-4 text-center">
-    <button onclick="resetGame()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl py-3.5 rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
-      <i class="fa-solid fa-rotate-right"></i> 새 게임 시작하기
+  <!-- 하단 조작 버튼 -->
+  <footer class="w-full max-w-sm pb-2 flex gap-2">
+    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-2.5 rounded-xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
+      ↩ 무르기
+    </button>
+    <button onclick="restartGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow-md text-sm active:scale-95 transition">
+      🔄 새 판 시작하기
     </button>
   </footer>
 
-  <!-- 성공 축하 모달 -->
-  <div id="success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-3xl p-6 text-center max-w-sm w-full shadow-2xl animate-bounce">
-      <div class="text-6xl mb-3">🎉</div>
-      <h2 class="text-2xl font-black text-gray-800 mb-2">대단하세요! 성공!</h2>
-      <p class="text-gray-600 text-lg font-bold mb-4">
-        두뇌 집중력이 정말 최고예요!<br>
-        <span class="text-blue-600 font-black" id="result-tries"></span> 번 만에 다 맞추셨어요.
-      </p>
-      <button onclick="resetGame()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg py-3 rounded-xl shadow-md transition">
-        한 판 더 하기 🚀
+  <!-- 승리 축하 모달 -->
+  <div id="winner-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl border-4 border-amber-400">
+      <div class="text-5xl mb-2">🏆</div>
+      <h2 id="winner-title" class="text-2xl font-black text-gray-800 mb-1">흑돌 승리!</h2>
+      <p id="winner-desc" class="text-gray-600 text-sm font-bold mb-5">축하드립니다! 다섯 알을 멋지게 이으셨어요!</p>
+      <button onclick="restartGame()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base py-3 rounded-xl shadow-md transition">
+        다시 한판 하기 🎯
       </button>
     </div>
   </div>
 
   <script>
-    // 과일 및 꽃 이모티콘 6종 (총 12장)
-    const items = ['🍎 사과', '🍌 바나나', '🍇 포도', '🍉 수박', '🌻 꽃', '🍓 딸기'];
-    let cards = [];
-    let flippedCards = [];
-    let matchedPairs = 0;
-    let tries = 0;
-    let lockBoard = false;
+    const SIZE = 11;
+    let boardState = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+    let currentPlayer = 1; // 1: 흑, 2: 백
+    let gameMode = 'ai'; // 'ai' or 'p2p'
+    let moveHistory = [];
+    let isGameOver = false;
 
-    const board = document.getElementById('game-board');
-    const matchCountEl = document.getElementById('match-count');
-    const triesCountEl = document.getElementById('tries-count');
-    const successModal = document.getElementById('success-modal');
-    const resultTriesEl = document.getElementById('result-tries');
+    const boardEl = document.getElementById('board');
+    const turnIndicator = document.getElementById('turn-indicator');
+    const turnText = document.getElementById('turn-text');
+    const winnerModal = document.getElementById('winner-modal');
+    const winnerTitle = document.getElementById('winner-title');
+    const winnerDesc = document.getElementById('winner-desc');
 
-    function createBoard() {
-      // 6쌍 만들기 (총 12장)
-      const deck = [...items, ...items];
-      // 무작위 섞기
-      deck.sort(() => 0.5 - Math.random());
-
-      board.innerHTML = '';
-      deck.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.classList.add('card', 'cursor-pointer');
-        card.dataset.value = item;
-
-        card.innerHTML = `
-          <div class="card-inner">
-            <div class="card-front text-3xl font-black">
-              ❓
-            </div>
-            <div class="card-back text-2xl font-black text-gray-800 flex flex-col items-center">
-              <span>${item.split(' ')[0]}</span>
-              <span class="text-sm font-bold text-gray-600 mt-1">${item.split(' ')[1]}</span>
-            </div>
-          </div>
-        `;
-
-        card.addEventListener('click', () => flipCard(card));
-        board.appendChild(card);
-      });
-    }
-
-    function flipCard(card) {
-      if (lockBoard) return;
-      if (card.classList.contains('flipped')) return;
-
-      card.classList.add('flipped');
-      flippedCards.push(card);
-
-      if (flippedCards.length === 2) {
-        tries++;
-        triesCountEl.textContent = tries + '회';
-        checkMatch();
-      }
-    }
-
-    function checkMatch() {
-      const [card1, card2] = flippedCards;
-      const match = card1.dataset.value === card2.dataset.value;
-
-      if (match) {
-        matchedPairs++;
-        matchCountEl.textContent = `${matchedPairs} / 6`;
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        flippedCards = [];
-
-        if (matchedPairs === 6) {
-          setTimeout(() => {
-            resultTriesEl.textContent = tries;
-            successModal.classList.remove('hidden');
-          }, 500);
+    function initBoard() {
+      boardEl.innerHTML = '';
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          const cell = document.createElement('div');
+          cell.classList.add('grid-cell', 'flex', 'items-center', 'justify-center', 'cursor-pointer');
+          if (r === 0) cell.classList.add('cell-top');
+          if (r === SIZE - 1) cell.classList.add('cell-bottom');
+          if (c === 0) cell.classList.add('cell-left');
+          if (c === SIZE - 1) cell.classList.add('cell-right');
+          
+          cell.dataset.row = r;
+          cell.dataset.col = c;
+          cell.addEventListener('click', () => handleCellClick(r, c));
+          boardEl.appendChild(cell);
         }
-      } else {
-        lockBoard = true;
-        setTimeout(() => {
-          card1.classList.remove('flipped');
-          card2.classList.remove('flipped');
-          flippedCards = [];
-          lockBoard = false;
-        }, 1000);
       }
     }
 
-    function resetGame() {
-      matchedPairs = 0;
-      tries = 0;
-      matchCountEl.textContent = '0 / 6';
-      triesCountEl.textContent = '0회';
-      flippedCards = [];
-      lockBoard = false;
-      successModal.classList.add('hidden');
-      createBoard();
+    function handleCellClick(r, c) {
+      if (isGameOver || boardState[r][c] !== 0) return;
+
+      placeStone(r, c, currentPlayer);
+
+      if (checkWin(r, c, currentPlayer)) {
+        endGame(currentPlayer);
+        return;
+      }
+
+      // 턴 넘기기
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      updateTurnUI();
+
+      // 컴퓨터 AI 차례
+      if (gameMode === 'ai' && currentPlayer === 2 && !isGameOver) {
+        setTimeout(makeAIMove, 300);
+      }
     }
 
-    // 게임 시작
-    createBoard();
-  </script>
-</body>
-</html>
+    function placeStone(r, c, player) {
+      boardState[r][c] = player;
+      moveHistory.push({ r, c, player });
+
+      const cell = boardEl.children[r * SIZE + c];
+      const stone = document.createElement('div');
+      stone.classList.add('stone', player === 1 ? 'black' : 'white');
+      cell.appendChild(stone);
