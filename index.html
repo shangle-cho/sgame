@@ -22,7 +22,7 @@
   <!-- 헤더 영역 -->
   <header class="w-full max-w-sm text-center pt-3 mb-2">
     <div class="inline-block bg-indigo-900/60 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-1 border border-indigo-700/50">
-      ✨ 100% 한국어 수면 힐링
+      ✨ 수면 힐링
     </div>
     <h1 class="text-2xl font-black text-indigo-100">잠 솔솔 힐링 플레이어 🌙</h1>
     <p class="text-slate-400 text-xs mt-1">원하는 테마를 누르면 상단에서 바로 재생돼요</p>
@@ -41,10 +41,10 @@
     </div>
   </div>
 
-  <!-- 5가지 한국 콘텐츠 수면 리스트 -->
+  <!-- 5가지  수면 리스트 -->
   <main class="w-full max-w-sm flex flex-col gap-2.5 my-auto">
 
-    <!-- 1. 한국 수면 피아노 & 뉴에이지 -->
+    <!-- 1.  수면 피아노 & 뉴에이지 -->
     <div onclick="selectCategory('music')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🎵</div>
@@ -56,7 +56,7 @@
       <i class="fa-solid fa-play text-indigo-400 text-sm"></i>
     </div>
 
-    <!-- 2. 조곤조곤 한국어 수면 이야기 -->
+    <!-- 2. 조곤조곤  수면 이야기 -->
     <div onclick="selectCategory('story')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">📖</div>
@@ -68,7 +68,7 @@
       <i class="fa-solid fa-play text-amber-400 text-sm"></i>
     </div>
 
-    <!-- 3. 한국 시골 창가 빗소리 -->
+    <!-- 3. 시골 창가 빗소리 -->
     <div onclick="selectCategory('rain')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">🌧️</div>
@@ -92,7 +92,7 @@
       <i class="fa-solid fa-play text-orange-400 text-sm"></i>
     </div>
 
-    <!-- 5. 한국어 수면 유도 명상 -->
+    <!-- 5.  수면 유도 명상 -->
     <div onclick="selectCategory('meditation')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">🧘</div>
@@ -113,7 +113,7 @@
   <!-- 유튜브 공식 IFrame API -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    // 100% 한국 채널이 제작하고 외부 재생(임베드)이 확실히 허용된 영상 리스트
+    // 외부 재생(임베드)이 확실히 허용된 영상 리스트
     const verifiedPlaylists = {
       music: [
         { id: '1ZYbU8csArI', title: '마음을 편안하게 해주는 한국 수면 피아노' },
@@ -133,7 +133,7 @@
         { id: '478TejxW9zM', title: '마음이 포근해지는 캠핑 모닥불' }
       ],
       meditation: [
-        { id: 'aEqlQvczMJQ', title: '10분 한국어 수면유도 바디스캔 명상' },
+        { id: 'aEqlQvczMJQ', title: '10분 수면유도 바디스캔 명상' },
         { id: 'inpok4MKVLM', title: '잡생각을 비워주는 편안한 호흡 명상' }
       ]
     };
@@ -184,7 +184,7 @@
       wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 모바일 재생 차단 에러 감지 시 0.2초 만에 다음 한국 영상으로 즉시 자동 넘김
+    // 모바일 재생 차단 에러 감지 시 0.2초 만에 다음  영상으로 즉시 자동 넘김
     function onPlayerError(e) {
       console.log('재생 불가 감지, 다음 영상으로 전환:', e.data);
       setTimeout(() => {
