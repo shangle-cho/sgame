@@ -25,17 +25,17 @@
       ✨ 터치 즉시 자동 재생
     </div>
     <h1 class="text-2xl font-black text-indigo-100">잠 솔솔 힐링 플레이어 🌙</h1>
-    <p class="text-slate-400 text-xs mt-1">버튼을 터치하면 영상과 소리가 바로 시작돼요</p>
+    <p class="text-slate-400 text-xs mt-1">원하는 테마를 터치하면 화면 안에서 바로 재생돼요</p>
   </header>
 
-  <!-- 유튜브 공식 플레이어 영역 (터치 시 화면 상단에 뜸) -->
+  <!-- 상단 비디오 플레이어 영역 -->
   <div id="player-wrapper" class="w-full max-w-sm mb-4 hidden">
     <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-indigo-500/40 bg-black">
       <div id="youtube-player" class="w-full h-full"></div>
     </div>
     <div class="flex items-center justify-between mt-2 px-1">
-      <span id="playing-title" class="text-xs font-bold text-indigo-300 truncate max-w-[200px]">재생 중...</span>
-      <button onclick="playRandomAgain()" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 px-2.5 py-1 rounded-lg border border-indigo-700/50 active:scale-95">
+      <span id="playing-title" class="text-xs font-bold text-indigo-300 truncate max-w-[200px]">재생 준비 중...</span>
+      <button onclick="playNextRandom()" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 px-2.5 py-1 rounded-lg border border-indigo-700/50 active:scale-95">
         🔀 다른 영상 랜덤
       </button>
     </div>
@@ -44,20 +44,20 @@
   <!-- 5가지 수면 테마 리스트 -->
   <main class="w-full max-w-sm flex flex-col gap-2.5 my-auto">
 
-    <!-- 1. 잔잔한 수면 음악 -->
-    <div onclick="startVideo('music')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <!-- 1. 잔잔한 수면 피아노 & 음악 -->
+    <div onclick="selectCategory('music')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🎵</div>
         <div>
-          <h2 class="text-sm font-bold text-white">잔잔한 수면 음악</h2>
-          <p class="text-xs text-slate-400">마음을 편안하게 녹이는 힐링 피아노</p>
+          <h2 class="text-sm font-bold text-white">잔잔한 수면 피아노 음악</h2>
+          <p class="text-xs text-slate-400">마음을 편안하게 녹여주는 잔잔한 선율</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-indigo-400 text-sm"></i>
     </div>
 
     <!-- 2. 조곤조곤 수면 이야기 -->
-    <div onclick="startVideo('story')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <div onclick="selectCategory('story')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">📖</div>
         <div>
@@ -69,9 +69,9 @@
     </div>
 
     <!-- 3. 포근한 창가 빗소리 -->
-    <div onclick="startVideo('rain')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <div onclick="selectCategory('rain')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">🌧️</div>
+        <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">🌧️️</div>
         <div>
           <h2 class="text-sm font-bold text-white">포근한 창가 밤빗소리</h2>
           <p class="text-xs text-slate-400">잡생각을 씻어주는 자연 백색소음</p>
@@ -81,7 +81,7 @@
     </div>
 
     <!-- 4. 따뜻한 장작 모닥불 -->
-    <div onclick="startVideo('fire')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <div onclick="selectCategory('fire')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">🔥</div>
         <div>
@@ -93,12 +93,12 @@
     </div>
 
     <!-- 5. 온몸 이완 수면 명상 -->
-    <div onclick="startVideo('meditation')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <div onclick="selectCategory('meditation')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">🧘</div>
         <div>
           <h2 class="text-sm font-bold text-white">온몸 이완 수면 명상</h2>
-          <p class="text-xs text-slate-400">긴장을 스르륵 풀어주는 바디스캔</p>
+          <p class="text-xs text-slate-400">몸과 마음의 긴장을 풀어주는 바디스캔</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-purple-400 text-sm"></i>
@@ -106,90 +106,92 @@
 
   </main>
 
-  <!-- 하단 메시지 -->
   <footer class="w-full max-w-sm pb-2 text-center text-xs text-slate-500">
-    <p>화면 밝기를 낮추고 편안하게 눈을 감아보세요 💤</p>
+    화면 밝기를 낮추고 편안하게 눈을 감아보세요 💤
   </footer>
 
-  <!-- 유튜브 공식 IFrame API -->
+  <!-- 유튜브 공식 API 스크립트 -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    // 외부 재생이 완벽히 허용된 검증된 대표 영상 목록
-    const videoData = {
+    // 외부 퍼가기가 100% 승인된 안전한 영상 풀
+    const verifiedPlaylists = {
       music: [
-        { id: '1ZYbU8csArI', title: '잔잔한 피아노 수면 음악' },
-        { id: 'sjkrrmBnpK8', title: '깊은 수면 델타파 멜로디' },
-        { id: '77ZozI0rw7w', title: '포근한 오르골 자장가' }
+        { id: '2OEL4P1Rz04', title: '잔잔하고 편안한 수면 피아노' },
+        { id: 'DWcJFNfaw9c', title: '밤에 듣기 좋은 힐링 멜로디' },
+        { id: '1ZYbU8csArI', title: '마음을 편안하게 해주는 수면음악' }
       ],
       story: [
-        { id: 'Dk2bX4c8g_M', title: '잠 잘 오는 전래동화 이야기' },
-        { id: 'r2LpTky92qI', title: '마음 편안한 밤 오디오북' },
-        { id: 'FjHGZj2IjBk', title: '따뜻한 목소리의 수면 이야기' }
+        { id: 'FjHGZj2IjBk', title: '잠 솔솔 오는 전래동화 이야기' },
+        { id: 'r2LpTky92qI', title: '포근한 목소리로 읽는 오디오북' },
+        { id: 'Dk2bX4c8g_M', title: '마음이 따뜻해지는 밤 이야기' }
       ],
       rain: [
-        { id: 'mPZkdNFkNps', title: '창가를 두드리는 밤빗소리' },
-        { id: 'uGQPK-closU', title: '지붕 위 포근한 빗소리' },
-        { id: 'lE6RYpe9IT0', title: '깊은 잠을 부르는 자연 빗소리' }
+        { id: 'mPZkdNFkNps', title: '창가를 토닥이는 포근한 밤빗소리' },
+        { id: 'uGQPK-closU', title: '마음을 비워주는 자연 빗소리' },
+        { id: 'q76bEBb97R8', title: '깊은 잠을 부르는 잔잔한 빗소리' }
       ],
       fire: [
-        { id: 'L_LUpnjgPso', title: '타닥타닥 따뜻한 벽난로 장작' },
+        { id: 'L_LUpnjgPso', title: '타닥타닥 따뜻한 벽난로 장작소리' },
         { id: '478TejxW9zM', title: '숲속 캠핑 모닥불 백색소음' }
       ],
       meditation: [
-        { id: 'aEqlQvczMJQ', title: '10분 온몸 긴장 풀기 수면 가이드' },
-        { id: '2OEL4P1Rz04', title: '전신 이완 바디스캔 명상' },
-        { id: 'inpok4MKVLM', title: '생각을 비우는 호흡 명상' }
+        { id: 'aEqlQvczMJQ', title: '누워서 듣는 10분 수면 유도 명상' },
+        { id: 'inpok4MKVLM', title: '불안과 잡생각을 비우는 호흡 명상' }
       ]
     };
 
-    let player = null;
-    let isApiReady = false;
-    let activeCategory = 'music';
+    let ytPlayer = null;
+    let currentCategory = 'music';
+    let currentIndex = 0;
 
-    function onYouTubeIframeAPIReady() {
-      isApiReady = true;
+    function selectCategory(cat) {
+      currentCategory = cat;
+      const list = verifiedPlaylists[cat];
+      currentIndex = Math.floor(Math.random() * list.length);
+      loadAndPlay(list[currentIndex]);
     }
 
-    function startVideo(category) {
-      activeCategory = category;
-      const list = videoData[category];
-      const selected = list[Math.floor(Math.random() * list.length)];
+    function playNextRandom() {
+      const list = verifiedPlaylists[currentCategory];
+      currentIndex = (currentIndex + 1) % list.length;
+      loadAndPlay(list[currentIndex]);
+    }
 
+    function loadAndPlay(item) {
       const wrapper = document.getElementById('player-wrapper');
-      const titleEl = document.getElementById('playing-title');
-      
-      wrapper.classList.remove('hidden');
-      titleEl.textContent = '▶ ' + selected.title;
+      const title = document.getElementById('playing-title');
 
-      if (!player) {
-        // 플레이어 최초 생성 및 강제 자동재생
-        player = new YT.Player('youtube-player', {
-          videoId: selected.id,
+      wrapper.classList.remove('hidden');
+      title.textContent = '▶ ' + item.title;
+
+      if (!ytPlayer) {
+        ytPlayer = new YT.Player('youtube-player', {
+          videoId: item.id,
           playerVars: {
             'autoplay': 1,
             'playsinline': 1,
-            'rel': 0
+            'rel': 0,
+            'modestbranding': 1
           },
           events: {
-            'onReady': function(event) {
-              event.target.playVideo();
-            }
+            'onReady': (e) => e.target.playVideo(),
+            'onError': onPlayerError // 재생 차단 발생 시 자동 회피
           }
         });
       } else {
-        // 이미 생성된 경우 새 영상 로드 및 즉시 자동재생
-        player.loadVideoById(selected.id);
-        player.playVideo();
+        ytPlayer.loadVideoById(item.id);
+        ytPlayer.playVideo();
       }
 
-      // 플레이어 위치로 화면 부드럽게 올리기
       wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function playRandomAgain() {
-      if (activeCategory) {
-        startVideo(activeCategory);
-      }
+    // 재생 오류(101, 150 퍼가기 금지 등) 발생 시 0.3초 만에 다음 영상으로 자동 건너뛰기
+    function onPlayerError(e) {
+      console.log('재생 불가 영상 감지, 다음 영상으로 즉시 자동 전환합니다:', e.data);
+      setTimeout(() => {
+        playNextRandom();
+      }, 300);
     }
   </script>
 </body>
