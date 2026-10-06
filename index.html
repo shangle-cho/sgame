@@ -56,4 +56,111 @@
       <i class="fa-solid fa-play text-indigo-400 text-sm"></i>
     </div>
 
-    <!-- 2. 조곤조곤 수면
+    <!-- 2. 조곤조곤 수면 이야기 -->
+    <div onclick="playSelected('story')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">📖</div>
+        <div>
+          <h2 class="text-sm font-bold text-white">조곤조곤 옛날 이야기</h2>
+          <p class="text-xs text-slate-400">마음 편안해지는 전래동화 & 낭독</p>
+        </div>
+      </div>
+      <i class="fa-solid fa-play text-amber-400 text-sm"></i>
+    </div>
+
+    <!-- 3. 포근한 창가 빗소리 -->
+    <div onclick="playSelected('rain')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">🌧️</div>
+        <div>
+          <h2 class="text-sm font-bold text-white">포근한 처마 밑 빗소리</h2>
+          <p class="text-xs text-slate-400">생각을 비워주는 차분한 밤 빗소리</p>
+        </div>
+      </div>
+      <i class="fa-solid fa-play text-blue-400 text-sm"></i>
+    </div>
+
+    <!-- 4. 따뜻한 장작 모닥불 -->
+    <div onclick="playSelected('fire')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">🔥</div>
+        <div>
+          <h2 class="text-sm font-bold text-white">따뜻한 장작 모닥불</h2>
+          <p class="text-xs text-slate-400">타닥타닥 마음이 따뜻해지는 불멍 소리</p>
+        </div>
+      </div>
+      <i class="fa-solid fa-play text-orange-400 text-sm"></i>
+    </div>
+
+    <!-- 5. 온몸 이완 수면 명상 -->
+    <div onclick="playSelected('meditation')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">🧘</div>
+        <div>
+          <h2 class="text-sm font-bold text-white">온몸 이완 수면 명상</h2>
+          <p class="text-xs text-slate-400">다정한 음성 안내로 편안한 전신 이완</p>
+        </div>
+      </div>
+      <i class="fa-solid fa-play text-purple-400 text-sm"></i>
+    </div>
+
+  </main>
+
+  <footer class="w-full max-w-sm pb-2 text-center text-xs text-slate-500">
+    화면 밝기를 낮추고 편안하게 눈을 감아보세요 💤
+  </footer>
+
+  <script>
+    // 퍼가기 재생 권한이 안정적인 영상 목록
+    const videoData = {
+      music: [
+        { id: '1ZYbU8csArI', title: '잔잔한 수면 피아노' },
+        { id: 'DWcJFNfaw9c', title: '밤에 듣기 좋은 피아노 멜로디' }
+      ],
+      story: [
+        { id: 'Dk2bX4c8g_M', title: '포근한 목소리의 옛날이야기' },
+        { id: 'FjHGZj2IjBk', title: '잠 솔솔 오는 전래동화' },
+        { id: 'r2LpTky92qI', title: '차분한 밤 낭독 오디오북' }
+      ],
+      rain: [
+        { id: 'mPZkdNFkNps', title: '포근한 처마 밑 빗소리' },
+        { id: 'uGQPK-closU', title: '마음을 편안하게 해주는 빗소리' }
+      ],
+      fire: [
+        { id: 'L_LUpnjgPso', title: '따뜻한 모닥불 장작소리' },
+        { id: '478TejxW9zM', title: '포근한 캠핑 모닥불' }
+      ],
+      meditation: [
+        { id: 'aEqlQvczMJQ', title: '10분 수면 유도 바디스캔 명상' },
+        { id: 'inpok4MKVLM', title: '생각을 비워주는 호흡 명상' }
+      ]
+    };
+
+    let activeCat = 'music';
+
+    function playSelected(category) {
+      activeCat = category;
+      const list = videoData[category];
+      const item = list[Math.floor(Math.random() * list.length)];
+
+      const wrapper = document.getElementById('player-wrapper');
+      const frame = document.getElementById('video-frame');
+      const title = document.getElementById('playing-title');
+
+      wrapper.classList.remove('hidden');
+      title.textContent = '▶ ' + item.title;
+
+      // 모바일 유튜브 표준 임베드 인라인 주입
+      frame.src = 'https://www.youtube.com/embed/' + item.id + '?autoplay=1&playsinline=1&enablejsapi=1';
+
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function playRandomCurrent() {
+      if (activeCat) {
+        playSelected(activeCat);
+      }
+    }
+  </script>
+</body>
+</html>
