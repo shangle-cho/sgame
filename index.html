@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <!-- 5가지 수면 테마 리스트 -->
+  <!-- 5가지 테마 리스트 -->
   <main class="w-full max-w-sm flex flex-col gap-2.5 my-auto">
 
     <!-- 1. 잔잔한 수면 피아노 -->
@@ -49,20 +49,20 @@
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🎵</div>
         <div>
-          <h2 class="text-sm font-bold text-white">잔잔한 수면 피아노 음악</h2>
-          <p class="text-xs text-slate-400">마음을 편안하게 녹여주는 힐링 피아노 연주</p>
+          <h2 class="text-sm font-bold text-white">잔잔한 수면 피아노</h2>
+          <p class="text-xs text-slate-400">마음을 포근하게 녹여주는 피아노 멜로디</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-indigo-400 text-sm"></i>
     </div>
 
-    <!-- 2. 조곤조곤 수면 이야기 -->
+    <!-- 2. 조곤조곤 옛날이야기 -->
     <div onclick="playSelected('story')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">📖</div>
         <div>
-          <h2 class="text-sm font-bold text-white">조곤조곤 옛날 이야기</h2>
-          <p class="text-xs text-slate-400">마음 편안해지는 전래동화 & 낭독</p>
+          <h2 class="text-sm font-bold text-white">조곤조곤 옛날이야기</h2>
+          <p class="text-xs text-slate-400">잠 솔솔 오는 조선 야담 & 전래동화 낭독</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-amber-400 text-sm"></i>
@@ -74,7 +74,7 @@
         <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">🌧️</div>
         <div>
           <h2 class="text-sm font-bold text-white">포근한 처마 밑 빗소리</h2>
-          <p class="text-xs text-slate-400">생각을 비워주는 차분한 밤 빗소리</p>
+          <p class="text-xs text-slate-400">잡생각을 씻어주는 고요한 밤 빗소리</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-blue-400 text-sm"></i>
@@ -86,7 +86,7 @@
         <div class="w-11 h-11 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">🔥</div>
         <div>
           <h2 class="text-sm font-bold text-white">따뜻한 장작 모닥불</h2>
-          <p class="text-xs text-slate-400">타닥타닥 마음이 따뜻해지는 불멍 소리</p>
+          <p class="text-xs text-slate-400">타닥타닥 마음을 감싸주는 불멍 소리</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-orange-400 text-sm"></i>
@@ -98,7 +98,7 @@
         <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">🧘</div>
         <div>
           <h2 class="text-sm font-bold text-white">온몸 이완 수면 명상</h2>
-          <p class="text-xs text-slate-400">다정한 음성 안내로 편안한 전신 이완</p>
+          <p class="text-xs text-slate-400">다정한 음성으로 몸의 긴장을 풀어주는 시간</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-purple-400 text-sm"></i>
@@ -111,28 +111,28 @@
   </footer>
 
   <script>
-    // 퍼가기 재생 권한이 안정적인 영상 목록
+    // 국내 크리에이터 제작 + 외부 임베드 재생 허용 확인된 영상 리스트
     const videoData = {
       music: [
-        { id: '1ZYbU8csArI', title: '잔잔한 수면 피아노' },
-        { id: 'DWcJFNfaw9c', title: '밤에 듣기 좋은 피아노 멜로디' }
+        { id: '7YaXYjBHfeg', title: '릴랙싱 편안한 피아노 모음' },
+        { id: '1ZYbU8csArI', title: '잔잔하고 포근한 수면 피아노' }
       ],
       story: [
-        { id: 'Dk2bX4c8g_M', title: '포근한 목소리의 옛날이야기' },
-        { id: 'FjHGZj2IjBk', title: '잠 솔솔 오는 전래동화' },
-        { id: 'r2LpTky92qI', title: '차분한 밤 낭독 오디오북' }
+        { id: 'SaTjxCqW_Pc', title: '스르르 잠드는 옛날이야기 전래동화' },
+        { id: 'jO5rhaWu9DU', title: '잠잘 때 듣는 포근한 조선 야담' },
+        { id: 'JSFnT0YGs54', title: '듣기만 해도 잠이 오는 옛날이야기' }
       ],
       rain: [
-        { id: 'mPZkdNFkNps', title: '포근한 처마 밑 빗소리' },
-        { id: 'uGQPK-closU', title: '마음을 편안하게 해주는 빗소리' }
+        { id: 'mPZkdNFkNps', title: '창가를 토닥이는 고요한 밤 빗소리' },
+        { id: 'uGQPK-closU', title: '마음을 편안하게 가라앉히는 자연 빗소리' }
       ],
       fire: [
-        { id: 'L_LUpnjgPso', title: '따뜻한 모닥불 장작소리' },
-        { id: '478TejxW9zM', title: '포근한 캠핑 모닥불' }
+        { id: 'L_LUpnjgPso', title: '타닥타닥 따뜻한 장작 모닥불' },
+        { id: '478TejxW9zM', title: '시골 밤 감성 캠핑 모닥불' }
       ],
       meditation: [
-        { id: 'aEqlQvczMJQ', title: '10분 수면 유도 바디스캔 명상' },
-        { id: 'inpok4MKVLM', title: '생각을 비워주는 호흡 명상' }
+        { id: 'aEqlQvczMJQ', title: '편안한 전신 이완 수면 가이드' },
+        { id: 'inpok4MKVLM', title: '잡생각을 비우는 차분한 호흡 명상' }
       ]
     };
 
@@ -150,8 +150,8 @@
       wrapper.classList.remove('hidden');
       title.textContent = '▶ ' + item.title;
 
-      // 모바일 유튜브 표준 임베드 인라인 주입
-      frame.src = 'https://www.youtube.com/embed/' + item.id + '?autoplay=1&playsinline=1&enablejsapi=1';
+      // 표준 모바일 임베드 주소로 로드
+      frame.src = 'https://www.youtube.com/embed/' + item.id + '?autoplay=1&playsinline=1';
 
       wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
