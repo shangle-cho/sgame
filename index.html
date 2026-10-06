@@ -62,3 +62,347 @@
       <button onclick="resetGame()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base py-3 rounded-xl shadow-md transition">
         다시 한판 하기 🎯
       </button>
+    </div>
+  </div>
+
+  <script>
+    // --- 오디오 효과음 시스템 (Web Audio API) ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // 바둑돌 탁 놓는 소리
+    function playStoneSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.8, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.09);
+      } catch (e) {}
+    }
+
+    // 무르기 소리
+    function playUndoSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.4, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.13);
+      } catch (e) {}
+    }
+
+    // 승리 팡파르 소리
+    function playWinSound() {
+      try {
+        const ctx = getAudioContext();
+        const notes = [261.63, 329.63, 392.00, 523.25]; // 도 - 미 - 솔 - 높은 도
+        notes.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const start = ctx.currentTime + (idx * 0.12);
+          const dur = 0.25;
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, start);
+
+          gain.gain.setValueAtTime(0, start);
+          gain.gain.linearRampToValueAtTime(0.4, start + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.01, start + dur);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(start);
+          osc.stop(start + dur);
+        });
+      } catch (e) {}
+    }
+
+    // --- 게임 로직 ---
+    const canvas = document.getElementById('omokCanvas');
+    const ctx = canvas.getContext('2d');
+    const SIZE = 11;
+    let board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+    let currentPlayer = 1; // 1: 흑, 2: 백
+    let gameMode = 'ai'; // 'ai' or 'p2p'
+    let history = [];
+    let isGameOver = false;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      drawBoard();
+    }
+
+    function getCellSize() {
+      const rect = canvas.getBoundingClientRect();
+      return rect.width / (SIZE + 1);
+    }
+
+    function drawBoard() {
+      const rect = canvas.getBoundingClientRect();
+      const cellSize = getCellSize();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      ctx.strokeStyle = '#5C3A1E';
+      ctx.lineWidth = 1.5;
+
+      for (let i = 0; i < SIZE; i++) {
+        const pos = cellSize * (i + 1);
+        ctx.beginPath();
+        ctx.moveTo(cellSize, pos);
+        ctx.lineTo(cellSize * SIZE, pos);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(pos, cellSize);
+        ctx.lineTo(pos, cellSize * SIZE);
+        ctx.stroke();
+      }
+
+      const centerPos = cellSize * 6;
+      ctx.fillStyle = '#5C3A1E';
+      ctx.beginPath();
+      ctx.arc(centerPos, centerPos, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          if (board[r][c] !== 0) {
+            drawStone(r, c, board[r][c]);
+          }
+        }
+      }
+
+      if (history.length > 0) {
+        const last = history[history.length - 1];
+        const x = cellSize * (last.c + 1);
+        const y = cellSize * (last.r + 1);
+        ctx.fillStyle = '#EF4444';
+        ctx.beginPath();
+        ctx.arc(x, y, cellSize * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawStone(r, c, player) {
+      const cellSize = getCellSize();
+      const x = cellSize * (c + 1);
+      const y = cellSize * (r + 1);
+      const radius = cellSize * 0.42;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+
+      const grad = ctx.createRadialGradient(x - radius/3, y - radius/3, radius/10, x, y, radius);
+      if (player === 1) {
+        grad.addColorStop(0, '#666');
+        grad.addColorStop(1, '#111');
+      } else {
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(1, '#d8d8d8');
+      }
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      if (player === 2) {
+        ctx.strokeStyle = '#bbb';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    canvas.addEventListener('click', (e) => {
+      if (isGameOver) return;
+      if (gameMode === 'ai' && currentPlayer === 2) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cellSize = getCellSize();
+
+      const col = Math.round(x / cellSize) - 1;
+      const row = Math.round(y / cellSize) - 1;
+
+      if (row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] === 0) {
+        placeMove(row, col, currentPlayer);
+      }
+    });
+
+    function placeMove(r, c, player) {
+      board[r][c] = player;
+      history.push({ r, c, player });
+      drawBoard();
+      playStoneSound();
+
+      if (checkWin(r, c, player)) {
+        endGame(player);
+        return;
+      }
+
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      updateUI();
+
+      if (gameMode === 'ai' && currentPlayer === 2 && !isGameOver) {
+        setTimeout(aiMove, 350);
+      }
+    }
+
+    function aiMove() {
+      let best = null;
+      let maxScore = -1;
+
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          if (board[r][c] === 0) {
+            if (checkWin(r, c, 2)) {
+              placeMove(r, c, 2);
+              return;
+            }
+            board[r][c] = 1;
+            let block = checkWin(r, c, 1);
+            board[r][c] = 0;
+            if (block) {
+              placeMove(r, c, 2);
+              return;
+            }
+
+            let dist = Math.abs(r - 5) + Math.abs(c - 5);
+            let score = 50 - dist + Math.random() * 5;
+            if (score > maxScore) {
+              maxScore = score;
+              best = { r, c };
+            }
+          }
+        }
+      }
+
+      if (best) placeMove(best.r, best.c, 2);
+    }
+
+    function checkWin(r, c, p) {
+      const dirs = [[1,0], [0,1], [1,1], [1,-1]];
+      for (let [dr, dc] of dirs) {
+        let count = 1;
+        for (let step = 1; step <= 4; step++) {
+          let nr = r + dr * step, nc = c + dc * step;
+          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
+          else break;
+        }
+        for (let step = 1; step <= 4; step++) {
+          let nr = r - dr * step, nc = c - dc * step;
+          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
+          else break;
+        }
+        if (count >= 5) return true;
+      }
+      return false;
+    }
+
+    function updateUI() {
+      const dot = document.getElementById('turn-dot');
+      const text = document.getElementById('turn-text');
+      if (currentPlayer === 1) {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-black';
+        text.textContent = '흑돌 차례';
+      } else {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-white border border-gray-400';
+        text.textContent = gameMode === 'ai' ? '컴퓨터 생각중...' : '백돌 차례';
+      }
+    }
+
+    function endGame(winner) {
+      isGameOver = true;
+      playWinSound();
+      const modal = document.getElementById('winModal');
+      const title = document.getElementById('winTitle');
+      const desc = document.getElementById('winDesc');
+
+      if (winner === 1) {
+        title.textContent = "흑돌 승리! 🎉";
+        desc.textContent = gameMode === 'ai' ? "대단하세요! 컴퓨터를 이기셨어요!" : "축하드립니다! 오목 완성!";
+      } else {
+        title.textContent = "백돌 승리! 👏";
+        desc.textContent = gameMode === 'ai' ? "컴퓨터가 이겼어요. 다시 도전해 보세요!" : "멋진 대결이었습니다!";
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function undoMove() {
+      if (history.length === 0 || isGameOver) return;
+      playUndoSound();
+      const steps = (gameMode === 'ai' && history.length >= 2) ? 2 : 1;
+      for (let i = 0; i < steps; i++) {
+        const last = history.pop();
+        if (last) board[last.r][last.c] = 0;
+      }
+      currentPlayer = (gameMode === 'ai') ? 1 : (history.length % 2 === 0 ? 1 : 2);
+      updateUI();
+      drawBoard();
+    }
+
+    function resetGame() {
+      board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+      history = [];
+      currentPlayer = 1;
+      isGameOver = false;
+      document.getElementById('winModal').classList.add('hidden');
+      updateUI();
+      drawBoard();
+    }
+
+    function setMode(mode) {
+      gameMode = mode;
+      document.getElementById('mode-ai').className = mode === 'ai' ? 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700';
+      document.getElementById('mode-p2p').className = mode === 'p2p' ? 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700';
+      resetGame();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('load', resizeCanvas);
+    setTimeout(resizeCanvas, 100);
+  </script>
+</body>
+</html>
