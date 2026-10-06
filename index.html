@@ -12,182 +12,317 @@
       font-family: 'Noto Sans KR', sans-serif;
       touch-action: manipulation;
     }
-    .board-bg {
-      background-color: #E4A054;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.25);
-    }
-    .grid-cell {
-      position: relative;
-    }
-    /* 바둑판 격자선 */
-    .grid-cell::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1.5px;
-      background-color: #5C3A1E;
-      transform: translateX(-50%);
-    }
-    .grid-cell::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1.5px;
-      background-color: #5C3A1E;
-      transform: translateY(-50%);
-    }
-    /* 모서리 및 테두리 격자선 정리 */
-    .cell-top::before { top: 50%; }
-    .cell-bottom::before { bottom: 50%; }
-    .cell-left::after { left: 50%; }
-    .cell-right::after { right: 50%; }
-
-    /* 바둑돌 */
-    .stone {
-      position: absolute;
-      width: 84%;
-      height: 84%;
-      border-radius: 50%;
-      z-index: 10;
-      box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.4);
-      transition: transform 0.1s ease;
-    }
-    .stone.black {
-      background: radial-gradient(circle at 35% 35%, #555, #111 80%);
-    }
-    .stone.white {
-      background: radial-gradient(circle at 35% 35%, #ffffff, #dcdcdc 80%);
-      border: 1px solid #bbb;
-    }
-    .last-marker {
-      width: 25%;
-      height: 25%;
-      background-color: #EF4444;
-      border-radius: 50%;
-      position: absolute;
-      z-index: 20;
-    }
   </style>
 </head>
-<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-3 select-none">
+<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-4 select-none">
 
-  <!-- 헤더 -->
-  <header class="w-full max-w-sm text-center pt-1">
+  <!-- 헤더 영역 -->
+  <header class="w-full max-w-sm text-center pt-2">
     <div class="inline-block bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-full mb-1">
       🧠 두뇌 활력 오목 게임
     </div>
     <h1 class="text-2xl font-black text-gray-900">두뇌 튼튼 오목 한판</h1>
     
-    <!-- 모드 선택 및 차례 표시 -->
-    <div class="mt-2 flex items-center justify-between bg-white px-3 py-2 rounded-xl shadow-sm border border-amber-200">
+    <!-- 모드 선택 & 차례 안내 -->
+    <div class="mt-3 flex items-center justify-between bg-white px-3 py-2 rounded-xl shadow-sm border border-amber-200">
       <div class="flex gap-1">
-        <button id="mode-ai" onclick="setMode('ai')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-amber-600 text-white">vs 컴퓨터</button>
-        <button id="mode-p2p" onclick="setMode('p2p')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-gray-100 text-gray-700">2인 대결</button>
+        <button id="mode-ai" onclick="setMode('ai')" class="text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white">vs 컴퓨터</button>
+        <button id="mode-p2p" onclick="setMode('p2p')" class="text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700">2인 대결</button>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="text-xs font-bold text-gray-500">현재 차례:</span>
-        <div id="turn-badge" class="flex items-center gap-1 bg-amber-100 px-2 py-0.5 rounded-full">
-          <div id="turn-indicator" class="w-3.5 h-3.5 rounded-full bg-black"></div>
-          <span id="turn-text" class="text-xs font-black text-gray-800">흑돌 차례</span>
-        </div>
+      <div class="flex items-center gap-1.5">
+        <div id="turn-dot" class="w-3.5 h-3.5 rounded-full bg-black"></div>
+        <span id="turn-text" class="text-xs font-black text-gray-800">흑돌 차례</span>
       </div>
     </div>
   </header>
 
-  <!-- 바둑판 본체 (11 x 11) -->
+  <!-- 바둑판 캔버스 영역 -->
   <main class="w-full max-w-sm flex items-center justify-center my-auto">
-    <div class="board-bg p-2 rounded-2xl shadow-xl w-full aspect-square border-4 border-[#8B5A2B]">
-      <div id="board" class="w-full h-full grid grid-cols-11 grid-rows-11">
-        <!-- 자바스크립트로 121개 셀 생성 -->
-      </div>
+    <div class="bg-[#E4A054] p-3 rounded-2xl shadow-xl border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
+      <canvas id="omokCanvas" class="w-full h-full cursor-pointer"></canvas>
     </div>
   </main>
 
   <!-- 하단 조작 버튼 -->
-  <footer class="w-full max-w-sm pb-2 flex gap-2">
-    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-2.5 rounded-xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
+  <footer class="w-full max-w-sm pb-4 flex gap-2">
+    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3 rounded-xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
       ↩ 무르기
     </button>
-    <button onclick="restartGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow-md text-sm active:scale-95 transition">
+    <button onclick="resetGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl shadow-md text-sm active:scale-95 transition">
       🔄 새 판 시작하기
     </button>
   </footer>
 
-  <!-- 승리 축하 모달 -->
-  <div id="winner-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+  <!-- 승리 모달 -->
+  <div id="winModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl border-4 border-amber-400">
       <div class="text-5xl mb-2">🏆</div>
-      <h2 id="winner-title" class="text-2xl font-black text-gray-800 mb-1">흑돌 승리!</h2>
-      <p id="winner-desc" class="text-gray-600 text-sm font-bold mb-5">축하드립니다! 다섯 알을 멋지게 이으셨어요!</p>
-      <button onclick="restartGame()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base py-3 rounded-xl shadow-md transition">
+      <h2 id="winTitle" class="text-2xl font-black text-gray-800 mb-1">흑돌 승리!</h2>
+      <p id="winDesc" class="text-gray-600 text-sm font-bold mb-5">축하드립니다! 다섯 알을 멋지게 이으셨어요!</p>
+      <button onclick="resetGame()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base py-3 rounded-xl shadow-md transition">
         다시 한판 하기 🎯
       </button>
     </div>
   </div>
 
   <script>
-    const SIZE = 11;
-    let boardState = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+    const canvas = document.getElementById('omokCanvas');
+    const ctx = canvas.getContext('2d');
+    const SIZE = 11; // 11x11 크기
+    let board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
     let currentPlayer = 1; // 1: 흑, 2: 백
     let gameMode = 'ai'; // 'ai' or 'p2p'
-    let moveHistory = [];
+    let history = [];
     let isGameOver = false;
 
-    const boardEl = document.getElementById('board');
-    const turnIndicator = document.getElementById('turn-indicator');
-    const turnText = document.getElementById('turn-text');
-    const winnerModal = document.getElementById('winner-modal');
-    const winnerTitle = document.getElementById('winner-title');
-    const winnerDesc = document.getElementById('winner-desc');
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      drawBoard();
+    }
 
-    function initBoard() {
-      boardEl.innerHTML = '';
+    function getCellSize() {
+      const rect = canvas.getBoundingClientRect();
+      return rect.width / (SIZE + 1);
+    }
+
+    function drawBoard() {
+      const rect = canvas.getBoundingClientRect();
+      const cellSize = getCellSize();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      // 격자선 그리기
+      ctx.strokeStyle = '#5C3A1E';
+      ctx.lineWidth = 1.5;
+
+      for (let i = 0; i < SIZE; i++) {
+        const pos = cellSize * (i + 1);
+        // 가로줄
+        ctx.beginPath();
+        ctx.moveTo(cellSize, pos);
+        ctx.lineTo(cellSize * SIZE, pos);
+        ctx.stroke();
+
+        // 세로줄
+        ctx.beginPath();
+        ctx.moveTo(pos, cellSize);
+        ctx.lineTo(pos, cellSize * SIZE);
+        ctx.stroke();
+      }
+
+      // 화점 (중앙점)
+      const centerPos = cellSize * 6;
+      ctx.fillStyle = '#5C3A1E';
+      ctx.beginPath();
+      ctx.arc(centerPos, centerPos, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 돌 그리기
       for (let r = 0; r < SIZE; r++) {
         for (let c = 0; c < SIZE; c++) {
-          const cell = document.createElement('div');
-          cell.classList.add('grid-cell', 'flex', 'items-center', 'justify-center', 'cursor-pointer');
-          if (r === 0) cell.classList.add('cell-top');
-          if (r === SIZE - 1) cell.classList.add('cell-bottom');
-          if (c === 0) cell.classList.add('cell-left');
-          if (c === SIZE - 1) cell.classList.add('cell-right');
-          
-          cell.dataset.row = r;
-          cell.dataset.col = c;
-          cell.addEventListener('click', () => handleCellClick(r, c));
-          boardEl.appendChild(cell);
+          if (board[r][c] !== 0) {
+            drawStone(r, c, board[r][c]);
+          }
         }
+      }
+
+      // 마지막 둔 수 표시
+      if (history.length > 0) {
+        const last = history[history.length - 1];
+        const x = cellSize * (last.c + 1);
+        const y = cellSize * (last.r + 1);
+        ctx.fillStyle = '#EF4444';
+        ctx.beginPath();
+        ctx.arc(x, y, cellSize * 0.15, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    function handleCellClick(r, c) {
-      if (isGameOver || boardState[r][c] !== 0) return;
+    function drawStone(r, c, player) {
+      const cellSize = getCellSize();
+      const x = cellSize * (c + 1);
+      const y = cellSize * (r + 1);
+      const radius = cellSize * 0.42;
 
-      placeStone(r, c, currentPlayer);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
 
-      if (checkWin(r, c, currentPlayer)) {
-        endGame(currentPlayer);
+      const grad = ctx.createRadialGradient(x - radius/3, y - radius/3, radius/10, x, y, radius);
+      if (player === 1) {
+        grad.addColorStop(0, '#666');
+        grad.addColorStop(1, '#111');
+      } else {
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(1, '#d8d8d8');
+      }
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      if (player === 2) {
+        ctx.strokeStyle = '#bbb';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    canvas.addEventListener('click', (e) => {
+      if (isGameOver) return;
+      if (gameMode === 'ai' && currentPlayer === 2) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cellSize = getCellSize();
+
+      const col = Math.round(x / cellSize) - 1;
+      const row = Math.round(y / cellSize) - 1;
+
+      if (row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] === 0) {
+        placeMove(row, col, currentPlayer);
+      }
+    });
+
+    function placeMove(r, c, player) {
+      board[r][c] = player;
+      history.push({ r, c, player });
+      drawBoard();
+
+      if (checkWin(r, c, player)) {
+        endGame(player);
         return;
       }
 
-      // 턴 넘기기
       currentPlayer = currentPlayer === 1 ? 2 : 1;
-      updateTurnUI();
+      updateUI();
 
-      // 컴퓨터 AI 차례
       if (gameMode === 'ai' && currentPlayer === 2 && !isGameOver) {
-        setTimeout(makeAIMove, 300);
+        setTimeout(aiMove, 300);
       }
     }
 
-    function placeStone(r, c, player) {
-      boardState[r][c] = player;
-      moveHistory.push({ r, c, player });
+    function aiMove() {
+      let best = null;
+      let maxScore = -1;
 
-      const cell = boardEl.children[r * SIZE + c];
-      const stone = document.createElement('div');
-      stone.classList.add('stone', player === 1 ? 'black' : 'white');
-      cell.appendChild(stone);
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          if (board[r][c] === 0) {
+            // 1. 컴퓨터가 이기는 자리 우선
+            if (checkWin(r, c, 2)) {
+              placeMove(r, c, 2);
+              return;
+            }
+            // 2. 어르신이 5알 만드는 자리 방어
+            board[r][c] = 1;
+            let block = checkWin(r, c, 1);
+            board[r][c] = 0;
+            if (block) {
+              placeMove(r, c, 2);
+              return;
+            }
+
+            // 3. 중앙 지향 점수
+            let dist = Math.abs(r - 5) + Math.abs(c - 5);
+            let score = 50 - dist + Math.random() * 5;
+            if (score > maxScore) {
+              maxScore = score;
+              best = { r, c };
+            }
+          }
+        }
+      }
+
+      if (best) placeMove(best.r, best.c, 2);
+    }
+
+    function checkWin(r, c, p) {
+      const dirs = [[1,0], [0,1], [1,1], [1,-1]];
+      for (let [dr, dc] of dirs) {
+        let count = 1;
+        for (let step = 1; step <= 4; step++) {
+          let nr = r + dr * step, nc = c + dc * step;
+          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
+          else break;
+        }
+        for (let step = 1; step <= 4; step++) {
+          let nr = r - dr * step, nc = c - dc * step;
+          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
+          else break;
+        }
+        if (count >= 5) return true;
+      }
+      return false;
+    }
+
+    function updateUI() {
+      const dot = document.getElementById('turn-dot');
+      const text = document.getElementById('turn-text');
+      if (currentPlayer === 1) {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-black';
+        text.textContent = '흑돌 차례';
+      } else {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-white border border-gray-400';
+        text.textContent = gameMode === 'ai' ? '컴퓨터 생각중...' : '백돌 차례';
+      }
+    }
+
+    function endGame(winner) {
+      isGameOver = true;
+      const modal = document.getElementById('winModal');
+      const title = document.getElementById('winTitle');
+      const desc = document.getElementById('winDesc');
+
+      if (winner === 1) {
+        title.textContent = "흑돌 승리! 🎉";
+        desc.textContent = gameMode === 'ai' ? "대단하세요! 컴퓨터를 이기셨어요!" : "축하드립니다! 오목 완성!";
+      } else {
+        title.textContent = "백돌 승리! 👏";
+        desc.textContent = gameMode === 'ai' ? "컴퓨터가 이겼어요. 다시 도전해 보세요!" : "멋진 대결이었습니다!";
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function undoMove() {
+      if (history.length === 0 || isGameOver) return;
+      const steps = (gameMode === 'ai' && history.length >= 2) ? 2 : 1;
+      for (let i = 0; i < steps; i++) {
+        const last = history.pop();
+        if (last) board[last.r][last.c] = 0;
+      }
+      currentPlayer = (gameMode === 'ai') ? 1 : (history.length % 2 === 0 ? 1 : 2);
+      updateUI();
+      drawBoard();
+    }
+
+    function resetGame() {
+      board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+      history = [];
+      currentPlayer = 1;
+      isGameOver = false;
+      document.getElementById('winModal').classList.add('hidden');
+      updateUI();
+      drawBoard();
+    }
+
+    function setMode(mode) {
+      gameMode = mode;
+      document.getElementById('mode-ai').className = mode === 'ai' ? 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700';
+      document.getElementById('mode-p2p').className = mode === 'p2p' ? 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700';
+      resetGame();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('load', resizeCanvas);
+    setTimeout(resizeCanvas, 100);
+  </script>
+</body>
+</html>
