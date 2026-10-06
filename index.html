@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>두뇌 튼튼 짝맞추기 게임</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #FDFBF7;
+    }
+    .card {
+      perspective: 1000px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.4s;
+      transform-style: preserve-3d;
+    }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .card-front {
+      background-color: #3B82F6;
+      color: white;
+    }
+    .card-back {
+      background-color: #FFFFFF;
+      transform: rotateY(180deg);
+      border: 3px solid #3B82F6;
+    }
+    .matched {
+      animation: bounce 0.6s;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-4">
+
+  <!-- 헤더 영역 -->
+  <header class="w-full max-w-md text-center mt-2">
+    <div class="inline-block bg-amber-100 text-amber-800 text-sm font-bold px-3 py-1 rounded-full mb-1">
+      🧠 매일매일 두뇌 청춘 트레이닝
+    </div>
+    <h1 class="text-3xl font-black text-gray-800 mb-1">두뇌 튼튼 짝맞추기</h1>
+    <p class="text-gray-600 font-bold text-base">같은 그림 2장을 찾아 터치해 보세요!</p>
+    
+    <!-- 점수판 -->
+    <div class="flex justify-around bg-white p-3 rounded-2xl shadow-sm border border-gray-100 mt-3">
+      <div class="text-center">
+        <span class="text-xs text-gray-500 font-bold block">맞춘 짝</span>
+        <span id="match-count" class="text-2xl font-black text-blue-600">0 / 6</span>
+      </div>
+      <div class="text-center">
+        <span class="text-xs text-gray-500 font-bold block">도전 횟수</span>
+        <span id="tries-count" class="text-2xl font-black text-amber-600">0회</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 게임 카드 판 (4x3 그리드) -->
+  <main class="w-full max-w-md my-4">
+    <div id="game-board" class="grid grid-cols-3 gap-3 aspect-[3/4]">
+      <!-- 자바스크립트로 카드가 생성됩니다 -->
+    </div>
+  </main>
+
+  <!-- 하단 컨트롤 버튼 -->
+  <footer class="w-full max-w-md mb-4 text-center">
+    <button onclick="resetGame()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl py-3.5 rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
+      <i class="fa-solid fa-rotate-right"></i> 새 게임 시작하기
+    </button>
+  </footer>
+
+  <!-- 성공 축하 모달 -->
+  <div id="success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl p-6 text-center max-w-sm w-full shadow-2xl animate-bounce">
+      <div class="text-6xl mb-3">🎉</div>
+      <h2 class="text-2xl font-black text-gray-800 mb-2">대단하세요! 성공!</h2>
+      <p class="text-gray-600 text-lg font-bold mb-4">
+        두뇌 집중력이 정말 최고예요!<br>
+        <span class="text-blue-600 font-black" id="result-tries"></span> 번 만에 다 맞추셨어요.
+      </p>
+      <button onclick="resetGame()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg py-3 rounded-xl shadow-md transition">
+        한 판 더 하기 🚀
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 과일 및 꽃 이모티콘 6종 (총 12장)
+    const items = ['🍎 사과', '🍌 바나나', '🍇 포도', '🍉 수박', '🌻 꽃', '🍓 딸기'];
+    let cards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let tries = 0;
+    let lockBoard = false;
+
+    const board = document.getElementById('game-board');
+    const matchCountEl = document.getElementById('match-count');
+    const triesCountEl = document.getElementById('tries-count');
+    const successModal = document.getElementById('success-modal');
+    const resultTriesEl = document.getElementById('result-tries');
+
+    function createBoard() {
+      // 6쌍 만들기 (총 12장)
+      const deck = [...items, ...items];
+      // 무작위 섞기
+      deck.sort(() => 0.5 - Math.random());
+
+      board.innerHTML = '';
+      deck.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card', 'cursor-pointer');
+        card.dataset.value = item;
+
+        card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front text-3xl font-black">
+              ❓
+            </div>
+            <div class="card-back text-2xl font-black text-gray-800 flex flex-col items-center">
+              <span>${item.split(' ')[0]}</span>
+              <span class="text-sm font-bold text-gray-600 mt-1">${item.split(' ')[1]}</span>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => flipCard(card));
+        board.appendChild(card);
+      });
+    }
+
+    function flipCard(card) {
+      if (lockBoard) return;
+      if (card.classList.contains('flipped')) return;
+
+      card.classList.add('flipped');
+      flippedCards.push(card);
+
+      if (flippedCards.length === 2) {
+        tries++;
+        triesCountEl.textContent = tries + '회';
+        checkMatch();
+      }
+    }
+
+    function checkMatch() {
+      const [card1, card2] = flippedCards;
+      const match = card1.dataset.value === card2.dataset.value;
+
+      if (match) {
+        matchedPairs++;
+        matchCountEl.textContent = `${matchedPairs} / 6`;
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        flippedCards = [];
+
+        if (matchedPairs === 6) {
+          setTimeout(() => {
+            resultTriesEl.textContent = tries;
+            successModal.classList.remove('hidden');
+          }, 500);
+        }
+      } else {
+        lockBoard = true;
+        setTimeout(() => {
+          card1.classList.remove('flipped');
+          card2.classList.remove('flipped');
+          flippedCards = [];
+          lockBoard = false;
+        }, 1000);
+      }
+    }
+
+    function resetGame() {
+      matchedPairs = 0;
+      tries = 0;
+      matchCountEl.textContent = '0 / 6';
+      triesCountEl.textContent = '0회';
+      flippedCards = [];
+      lockBoard = false;
+      successModal.classList.add('hidden');
+      createBoard();
+    }
+
+    // 게임 시작
+    createBoard();
+  </script>
+</body>
+</html>
