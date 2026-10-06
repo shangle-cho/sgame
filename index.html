@@ -17,182 +17,91 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between p-4 select-none pb-8">
+<body class="min-h-screen flex flex-col items-center justify-between p-5 select-none pb-8">
 
   <!-- 헤더 영역 -->
-  <header class="w-full max-w-sm text-center pt-3 mb-2">
-    <div class="inline-block bg-indigo-900/60 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-1 border border-indigo-700/50">
-      ✨ 터치 즉시 자동 재생
+  <header class="w-full max-w-sm text-center pt-4">
+    <div class="inline-block bg-indigo-900/60 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-2 border border-indigo-700/50">
+      ✨ 실시간 최신 유튜브 연결
     </div>
-    <h1 class="text-2xl font-black text-indigo-100">잠 솔솔 힐링 플레이어 🌙</h1>
-    <p class="text-slate-400 text-xs mt-1">원하는 테마를 터치하면 화면 안에서 바로 재생돼요</p>
+    <h1 class="text-2xl font-black text-indigo-100">잠 솔솔 수면 소리 🌙</h1>
+    <p class="text-slate-400 text-xs mt-1">누르면 유튜브 최신 영상 목록이 바로 열려요</p>
   </header>
 
-  <!-- 상단 비디오 플레이어 영역 -->
-  <div id="player-wrapper" class="w-full max-w-sm mb-4 hidden">
-    <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-indigo-500/40 bg-black">
-      <div id="youtube-player" class="w-full h-full"></div>
-    </div>
-    <div class="flex items-center justify-between mt-2 px-1">
-      <span id="playing-title" class="text-xs font-bold text-indigo-300 truncate max-w-[200px]">재생 준비 중...</span>
-      <button onclick="playNextRandom()" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 px-2.5 py-1 rounded-lg border border-indigo-700/50 active:scale-95">
-        🔀 다른 영상 랜덤
-      </button>
-    </div>
-  </div>
+  <!-- 5가지 단순 검색 리스트 -->
+  <main class="w-full max-w-sm my-auto flex flex-col gap-3">
 
-  <!-- 5가지 수면 테마 리스트 -->
-  <main class="w-full max-w-sm flex flex-col gap-2.5 my-auto">
-
-    <!-- 1. 잔잔한 수면 피아노 & 음악 -->
-    <div onclick="selectCategory('music')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <!-- 1. 수면음악 -->
+    <a href="https://www.youtube.com/results?search_query=수면음악" target="_blank"
+       class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🎵</div>
+        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-2xl">🎵</div>
         <div>
-          <h2 class="text-sm font-bold text-white">잔잔한 수면 피아노 음악</h2>
-          <p class="text-xs text-slate-400">마음을 편안하게 녹여주는 잔잔한 선율</p>
+          <h2 class="text-base font-bold text-white">수면음악</h2>
+          <p class="text-xs text-slate-400">실시간 인기 수면 피아노·음악</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-indigo-400 text-sm"></i>
-    </div>
+      <i class="fa-solid fa-arrow-up-right-from-square text-indigo-400 text-sm"></i>
+    </a>
 
-    <!-- 2. 조곤조곤 수면 이야기 -->
-    <div onclick="selectCategory('story')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <!-- 2. 수면이야기 -->
+    <a href="https://www.youtube.com/results?search_query=수면이야기" target="_blank"
+       class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">📖</div>
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl">📖</div>
         <div>
-          <h2 class="text-sm font-bold text-white">조곤조곤 수면 이야기</h2>
-          <p class="text-xs text-slate-400">포근한 목소리로 읽어주는 옛날이야기</p>
+          <h2 class="text-base font-bold text-white">수면이야기</h2>
+          <p class="text-xs text-slate-400">조곤조곤 전래동화·오디오북</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-amber-400 text-sm"></i>
-    </div>
+      <i class="fa-solid fa-arrow-up-right-from-square text-amber-400 text-sm"></i>
+    </a>
 
-    <!-- 3. 포근한 창가 빗소리 -->
-    <div onclick="selectCategory('rain')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <!-- 3. 빗소리 -->
+    <a href="https://www.youtube.com/results?search_query=빗소리" target="_blank"
+       class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">🌧️️</div>
+        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl">🌧️</div>
         <div>
-          <h2 class="text-sm font-bold text-white">포근한 창가 밤빗소리</h2>
-          <p class="text-xs text-slate-400">잡생각을 씻어주는 자연 백색소음</p>
+          <h2 class="text-base font-bold text-white">빗소리</h2>
+          <p class="text-xs text-slate-400">토닥토닥 밤 창가 빗소리</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-blue-400 text-sm"></i>
-    </div>
+      <i class="fa-solid fa-arrow-up-right-from-square text-blue-400 text-sm"></i>
+    </a>
 
-    <!-- 4. 따뜻한 장작 모닥불 -->
-    <div onclick="selectCategory('fire')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <!-- 4. 모닥불 -->
+    <a href="https://www.youtube.com/results?search_query=모닥불" target="_blank"
+       class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">🔥</div>
+        <div class="w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-2xl">🔥</div>
         <div>
-          <h2 class="text-sm font-bold text-white">따뜻한 모닥불 장작소리</h2>
-          <p class="text-xs text-slate-400">타닥타닥 마음을 감싸주는 모닥불</p>
+          <h2 class="text-base font-bold text-white">모닥불</h2>
+          <p class="text-xs text-slate-400">타닥타닥 따뜻한 장작 타는 소리</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-orange-400 text-sm"></i>
-    </div>
+      <i class="fa-solid fa-arrow-up-right-from-square text-orange-400 text-sm"></i>
+    </a>
 
-    <!-- 5. 온몸 이완 수면 명상 -->
-    <div onclick="selectCategory('meditation')" class="flex items-center justify-between p-3.5 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+    <!-- 5. 수면명상 -->
+    <a href="https://www.youtube.com/results?search_query=수면명상" target="_blank"
+       class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition active:scale-98">
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">🧘</div>
+        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl">🧘</div>
         <div>
-          <h2 class="text-sm font-bold text-white">온몸 이완 수면 명상</h2>
-          <p class="text-xs text-slate-400">몸과 마음의 긴장을 풀어주는 바디스캔</p>
+          <h2 class="text-base font-bold text-white">수면명상</h2>
+          <p class="text-xs text-slate-400">온몸의 긴장을 푸는 바디스캔</p>
         </div>
       </div>
-      <i class="fa-solid fa-play text-purple-400 text-sm"></i>
-    </div>
+      <i class="fa-solid fa-arrow-up-right-from-square text-purple-400 text-sm"></i>
+    </a>
 
   </main>
 
-  <footer class="w-full max-w-sm pb-2 text-center text-xs text-slate-500">
-    화면 밝기를 낮추고 편안하게 눈을 감아보세요 💤
+  <!-- 하단 메시지 -->
+  <footer class="w-full max-w-sm pb-4 text-center text-xs text-slate-500">
+    <p>터치하면 유튜브 최신 검색결과로 깔끔하게 열려요 💤</p>
   </footer>
 
-  <!-- 유튜브 공식 API 스크립트 -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    // 외부 퍼가기가 100% 승인된 안전한 영상 풀
-    const verifiedPlaylists = {
-      music: [
-        { id: '2OEL4P1Rz04', title: '잔잔하고 편안한 수면 피아노' },
-        { id: 'DWcJFNfaw9c', title: '밤에 듣기 좋은 힐링 멜로디' },
-        { id: '1ZYbU8csArI', title: '마음을 편안하게 해주는 수면음악' }
-      ],
-      story: [
-        { id: 'FjHGZj2IjBk', title: '잠 솔솔 오는 전래동화 이야기' },
-        { id: 'r2LpTky92qI', title: '포근한 목소리로 읽는 오디오북' },
-        { id: 'Dk2bX4c8g_M', title: '마음이 따뜻해지는 밤 이야기' }
-      ],
-      rain: [
-        { id: 'mPZkdNFkNps', title: '창가를 토닥이는 포근한 밤빗소리' },
-        { id: 'uGQPK-closU', title: '마음을 비워주는 자연 빗소리' },
-        { id: 'q76bEBb97R8', title: '깊은 잠을 부르는 잔잔한 빗소리' }
-      ],
-      fire: [
-        { id: 'L_LUpnjgPso', title: '타닥타닥 따뜻한 벽난로 장작소리' },
-        { id: '478TejxW9zM', title: '숲속 캠핑 모닥불 백색소음' }
-      ],
-      meditation: [
-        { id: 'aEqlQvczMJQ', title: '누워서 듣는 10분 수면 유도 명상' },
-        { id: 'inpok4MKVLM', title: '불안과 잡생각을 비우는 호흡 명상' }
-      ]
-    };
-
-    let ytPlayer = null;
-    let currentCategory = 'music';
-    let currentIndex = 0;
-
-    function selectCategory(cat) {
-      currentCategory = cat;
-      const list = verifiedPlaylists[cat];
-      currentIndex = Math.floor(Math.random() * list.length);
-      loadAndPlay(list[currentIndex]);
-    }
-
-    function playNextRandom() {
-      const list = verifiedPlaylists[currentCategory];
-      currentIndex = (currentIndex + 1) % list.length;
-      loadAndPlay(list[currentIndex]);
-    }
-
-    function loadAndPlay(item) {
-      const wrapper = document.getElementById('player-wrapper');
-      const title = document.getElementById('playing-title');
-
-      wrapper.classList.remove('hidden');
-      title.textContent = '▶ ' + item.title;
-
-      if (!ytPlayer) {
-        ytPlayer = new YT.Player('youtube-player', {
-          videoId: item.id,
-          playerVars: {
-            'autoplay': 1,
-            'playsinline': 1,
-            'rel': 0,
-            'modestbranding': 1
-          },
-          events: {
-            'onReady': (e) => e.target.playVideo(),
-            'onError': onPlayerError // 재생 차단 발생 시 자동 회피
-          }
-        });
-      } else {
-        ytPlayer.loadVideoById(item.id);
-        ytPlayer.playVideo();
-      }
-
-      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // 재생 오류(101, 150 퍼가기 금지 등) 발생 시 0.3초 만에 다음 영상으로 자동 건너뛰기
-    function onPlayerError(e) {
-      console.log('재생 불가 영상 감지, 다음 영상으로 즉시 자동 전환합니다:', e.data);
-      setTimeout(() => {
-        playNextRandom();
-      }, 300);
-    }
-  </script>
 </body>
 </html>
