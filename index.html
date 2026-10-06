@@ -24,8 +24,7 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between p-4 select-none pb-8">
 
-  <!-- 보이지 않는 실제 오디오 재생기 -->
-  <audio id="audio-player" loop></audio>
+  <audio id="audio-player" loop preload="auto"></audio>
 
   <!-- 헤더 -->
   <header class="w-full max-w-sm text-center pt-3 mb-2">
@@ -42,7 +41,7 @@
       <div id="status-icon" class="text-3xl">🌙</div>
       <div>
         <div id="status-title" class="text-sm font-bold text-white">소리를 선택해 주세요</div>
-        <div id="status-desc" class="text-xs text-slate-400">볼륨을 적당히 켜두고 터치해 보세요</div>
+        <div id="status-desc" class="text-xs text-slate-400">볼륨을 편안하게 맞추고 터치해 보세요</div>
       </div>
     </div>
     <button id="stop-btn" onclick="stopSound()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center text-sm border border-slate-700 active:scale-95">
@@ -50,7 +49,7 @@
     </button>
   </div>
 
-  <!-- 5가지 진짜 MP3 수면 사운드 리스트 -->
+  <!-- 5가지 수면 사운드 리스트 -->
   <main class="w-full max-w-sm flex flex-col gap-2.5 my-auto">
 
     <!-- 1. 포근한 밤빗소리 -->
@@ -89,13 +88,13 @@
       <i class="fa-solid fa-play text-slate-500 text-xs"></i>
     </div>
 
-    <!-- 4. 숲속 시냇물 & 새소리 -->
-    <div id="card-forest" onclick="playAudio('forest')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
+    <!-- 4. 숲속 시냇물 -->
+    <div id="card-stream" onclick="playAudio('stream')" class="sound-card flex items-center justify-between p-3.5 bg-slate-800/80 border border-slate-700 rounded-2xl shadow transition cursor-pointer active:scale-98">
       <div class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl">🍃</div>
         <div>
-          <h2 class="text-sm font-bold text-white">숲속 시냇물과 바람소리</h2>
-          <p class="text-xs text-slate-400">시원하고 맑은 자연 힐링 사운드</p>
+          <h2 class="text-sm font-bold text-white">숲속 시냇물 소리</h2>
+          <p class="text-xs text-slate-400">졸졸 흐르는 시원하고 맑은 물소리</p>
         </div>
       </div>
       <i class="fa-solid fa-play text-slate-500 text-xs"></i>
@@ -120,35 +119,35 @@
   </footer>
 
   <script>
-    // 오픈 라이선스 무료 고음질 MP3 주소들
+    // 호환성 높은 표준 MP3 안정 음원 URL
     const soundList = {
       rain: {
-        url: 'https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg',
+        url: 'https://cdn.pixabay.com/download/audio/2021/09/06/audio_7303f26938.mp3?filename=soft-rain-ambient-111154.mp3',
         title: '포근한 밤빗소리 재생 중',
         desc: '무한 반복으로 재생됩니다',
         icon: '🌧️',
         cardId: 'card-rain'
       },
       fire: {
-        url: 'https://actions.google.com/sounds/v1/ambiences/outdoor_fire_burning.ogg',
+        url: 'https://cdn.pixabay.com/download/audio/2022/03/09/audio_c3be4e040a.mp3?filename=campfire-crackling-fireplace-sound-119594.mp3',
         title: '따뜻한 장작 모닥불 재생 중',
         desc: '타닥타닥 마음이 따뜻해져요',
         icon: '🔥',
         cardId: 'card-fire'
       },
       wave: {
-        url: 'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg',
+        url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=ocean-waves-ambient-110057.mp3',
         title: '밤바다 파도소리 재생 중',
         desc: '천천히 숨을 들이쉬고 내쉬어 보세요',
         icon: '🌊',
         cardId: 'card-wave'
       },
-      forest: {
-        url: 'https://actions.google.com/sounds/v1/environments/forest_birds.ogg',
+      stream: {
+        url: 'https://cdn.pixabay.com/download/audio/2021/08/09/audio_27efae6066.mp3?filename=gentle-stream-nature-sounds-8636.mp3',
         title: '숲속 시냇물 소리 재생 중',
-        desc: '맑은 숲속에 누워있는 기분이에요',
+        desc: '졸졸 흐르는 시냇물에 마음을 비워보세요',
         icon: '🍃',
-        cardId: 'card-forest'
+        cardId: 'card-stream'
       },
       piano: {
         url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=sleep-piano-calm-112191.mp3',
@@ -163,7 +162,6 @@
     let currentKey = null;
 
     function playAudio(key) {
-      // 같은 것을 누르면 정지
       if (currentKey === key && !player.paused) {
         stopSound();
         return;
@@ -172,19 +170,17 @@
       currentKey = key;
       const sound = soundList[key];
 
-      // 카드 선택 표시
       document.querySelectorAll('.sound-card').forEach(c => c.classList.remove('playing-card'));
       document.getElementById(sound.cardId).classList.add('playing-card');
 
-      // 상태 안내 업데이트
       document.getElementById('status-icon').textContent = sound.icon;
       document.getElementById('status-title').textContent = sound.title;
       document.getElementById('status-desc').textContent = sound.desc;
 
-      // MP3 재생
       player.src = sound.url;
-      player.play().catch(e => {
-        alert("브라우저 화면을 한 번 터치한 후 다시 눌러주세요!");
+      player.load();
+      player.play().catch(err => {
+        console.log("재생 대기:", err);
       });
     }
 
