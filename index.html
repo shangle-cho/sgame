@@ -32,4 +32,116 @@
   <main class="w-full max-w-sm my-6 flex flex-col gap-3">
 
     <!-- 1. 잔잔한 수면 음악 -->
-    <div onclick="openRandomYoutube('music')" class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2
+    <div onclick="openRandomYoutube('music')" class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-2xl">🎵</div>
+        <div>
+          <h2 class="text-base font-bold text-white">잔잔한 수면 음악</h2>
+          <p class="text-xs text-slate-400">피아노, 오르골, 델타파 음악 랜덤</p>
+        </div>
+      </div>
+      <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+    </div>
+
+    <!-- 2. 조곤조곤 수면 이야기 -->
+    <div onclick="openRandomYoutube('story')" class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl">📖</div>
+        <div>
+          <h2 class="text-base font-bold text-white">조곤조곤 수면 이야기</h2>
+          <p class="text-xs text-slate-400">전래동화, 오디오북, 라디오 이야기 랜덤</p>
+        </div>
+      </div>
+      <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+    </div>
+
+    <!-- 3. 자연의 소리 & 빗소리 -->
+    <div onclick="openRandomYoutube('rain')" class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl">🌧️</div>
+        <div>
+          <h2 class="text-base font-bold text-white">포근한 빗소리와 자연음</h2>
+          <p class="text-xs text-slate-400">창가 밤빗소리, 파도소리, 숲소리 랜덤</p>
+        </div>
+      </div>
+      <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+    </div>
+
+    <!-- 4. 타닥타닥 모닥불 -->
+    <div onclick="openRandomYoutube('fire')" class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-2xl">🔥</div>
+        <div>
+          <h2 class="text-base font-bold text-white">따뜻한 모닥불 장작소리</h2>
+          <p class="text-xs text-slate-400">벽난로, 캠핑 모닥불, 백색소음 랜덤</p>
+        </div>
+      </div>
+      <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+    </div>
+
+    <!-- 5. 온몸 이완 수면 명상 -->
+    <div onclick="openRandomYoutube('meditation')" class="flex items-center justify-between p-4 bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 rounded-2xl shadow-lg transition cursor-pointer active:scale-98">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl">🧘</div>
+        <div>
+          <h2 class="text-base font-bold text-white">온몸 이완 수면 명상</h2>
+          <p class="text-xs text-slate-400">바디스캔, 수면유도 가이드, 호흡 명상 랜덤</p>
+        </div>
+      </div>
+      <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+    </div>
+
+  </main>
+
+  <!-- 하단 메시지 -->
+  <footer class="w-full max-w-sm pb-4 text-center text-xs text-slate-500">
+    <p>터치하면 유튜브 앱이나 새 창으로 바로 연결돼요 💤</p>
+  </footer>
+
+  <script>
+    // 카테고리별 다양한 검색 키워드 풀 (터치할 때마다 랜덤 선택)
+    const searchPool = {
+      music: [
+        '수면음악 잔잔한 피아노',
+        '깊은 잠 수면음악 델타파',
+        '밤에 듣기 좋은 오르골 수면음악',
+        '꿀잠 부르는 편안한 힐링 피아노',
+        '숙면 유도 클래식 음악'
+      ],
+      story: [
+        '잠 잘오는 수면 이야기',
+        '조곤조곤 전래동화 오디오북',
+        '잠들기 전 듣는 따뜻한 이야기',
+        '수면유도 옛날이야기',
+        '마음이 편안해지는 수면 낭독'
+      ],
+      rain: [
+        '수면 빗소리 밤 창가',
+        '마음이 편안해지는 밤 빗소리 백색소음',
+        '잠 잘오는 잔잔한 파도소리',
+        '깊은 수면 자연의 소리 시냇물'
+      ],
+      fire: [
+        '모닥불 장작 타는 소리 수면',
+        '따뜻한 벽난로 소리 백색소음',
+        '타닥타닥 장작불 소리 힐링'
+      ],
+      meditation: [
+        '수면 유도 명상 바디스캔',
+        '누워서 듣는 꿀잠 수면 명상',
+        '생각을 비우는 이완 호흡 명상',
+        '불안을 없애주는 깊은 수면 가이드'
+      ]
+    };
+
+    function openRandomYoutube(category) {
+      const keywords = searchPool[category];
+      const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
+      
+      // 유튜브 모바일 및 앱 표준 검색 URL로 안전하게 새 창 오픈
+      const targetUrl = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(randomKeyword);
+      window.open(targetUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
