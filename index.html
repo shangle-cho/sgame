@@ -4,198 +4,405 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>오늘 밤 꿀잠 수면음악 🌙</title>
+  <title>두뇌 튼튼 오목 한판</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap');
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background-color: #070B14;
-      color: #F8FAFC;
       touch-action: manipulation;
-      overflow-x: hidden;
-    }
-
-    /* 부드럽게 위아래로 둥실거리는 애니메이션 */
-    @keyframes floating {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-12px) rotate(3deg); }
-    }
-    .animate-float {
-      animation: floating 4s ease-in-out infinite;
-    }
-
-    /* 별빛 깜빡임 애니메이션 */
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; transform: scale(0.8); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
-    .animate-twinkle {
-      animation: twinkle 3s ease-in-out infinite;
-    }
-    .delay-1 { animation-delay: 1s; }
-    .delay-2 { animation-delay: 2s; }
-
-    /* 잔잔한 오로라 빛 애니메이션 */
-    @keyframes glow {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50% { opacity: 0.7; transform: scale(1.08); }
-    }
-    .animate-glow {
-      animation: glow 6s ease-in-out infinite;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between p-4 select-none relative pb-8">
-
-  <!-- 배경에 반짝이는 밤하늘 별들 (무한 반복) -->
-  <div class="fixed inset-0 pointer-events-none z-0">
-    <div class="absolute top-12 left-10 text-amber-200 text-xs animate-twinkle">✦</div>
-    <div class="absolute top-24 right-12 text-indigo-300 text-sm animate-twinkle delay-1">★</div>
-    <div class="absolute top-1/3 left-6 text-amber-100 text-xs animate-twinkle delay-2">✦</div>
-    <div class="absolute top-2/3 right-8 text-indigo-200 text-sm animate-twinkle">★</div>
-    <div class="absolute bottom-24 left-14 text-amber-200 text-xs animate-twinkle delay-1">✦</div>
-  </div>
+<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-4 select-none">
 
   <!-- 헤더 영역 -->
-  <header class="w-full max-w-sm text-center pt-3 mb-2 z-10">
-    <div class="inline-block bg-indigo-950/80 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full mb-2 border border-indigo-800/60 shadow-sm">
-      ✨ 무한 수면음악 라디오
+  <header class="w-full max-w-sm text-center pt-2">
+    <div class="inline-block bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-full mb-1">
+      🧠 두뇌 활력 오목 게임
     </div>
-    <h1 class="text-2xl font-black text-indigo-100 flex items-center justify-center gap-2">
-      잠 솔솔 수면음악
-      <span class="text-2xl animate-float inline-block">🌙</span>
-    </h1>
-    <p class="text-slate-400 text-xs mt-1">터치하면 화면 안에서 바로 연속 재생돼요</p>
+    <h1 class="text-2xl font-black text-gray-900">두뇌 튼튼 오목 한판</h1>
+    
+    <!-- 모드 선택 & 차례 안내 -->
+    <div class="mt-3 flex items-center justify-between bg-white px-3 py-2 rounded-xl shadow-sm border border-amber-200">
+      <div class="flex gap-1">
+        <button id="mode-ai" onclick="setMode('ai')" class="text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white">vs 컴퓨터</button>
+        <button id="mode-p2p" onclick="setMode('p2p')" class="text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700">2인 대결</button>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <div id="turn-dot" class="w-3.5 h-3.5 rounded-full bg-black"></div>
+        <span id="turn-text" class="text-xs font-black text-gray-800">흑돌 차례</span>
+      </div>
+    </div>
   </header>
 
-  <!-- 메인 영역 (움직이는 일러스트 + 유튜브 플레이어) -->
-  <main class="w-full max-w-sm my-auto flex flex-col items-center z-10">
-    
-    <!-- 둥실둥실 움직이는 꿀잠 일러스트 카드 -->
-    <div class="relative w-full mb-3 flex flex-col items-center justify-center py-2">
-      <!-- 몽환적인 원형 빛 -->
-      <div class="absolute w-32 h-32 bg-indigo-600/20 rounded-full blur-2xl animate-glow"></div>
-      
-      <!-- 위아래로 유영하는 모션 캐릭터 -->
-      <div class="relative animate-float text-center">
-        <div class="text-6xl drop-shadow-[0_10px_15px_rgba(251,191,36,0.3)]">
-          🛌💤
-        </div>
-        <div class="flex items-center justify-center gap-2 mt-2">
-          <span class="text-xs bg-indigo-900/60 text-indigo-200 border border-indigo-700/40 px-3 py-0.5 rounded-full font-medium shadow-inner">
-            꿈나라 여행 중
-          </span>
-        </div>
-      </div>
+  <!-- 바둑판 캔버스 영역 -->
+  <main class="w-full max-w-sm flex items-center justify-center my-auto">
+    <div class="bg-[#E4A054] p-3 rounded-2xl shadow-xl border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
+      <canvas id="omokCanvas" class="w-full h-full cursor-pointer"></canvas>
     </div>
-
-    <!-- 유튜브 플레이어 영역 -->
-    <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-2 border-indigo-500/40 bg-black">
-      <div id="youtube-player" class="w-full h-full"></div>
-    </div>
-    
-    <!-- 재생 상태 표시 -->
-    <div class="w-full flex items-center justify-between mt-3 px-2">
-      <div class="flex items-center gap-2 truncate">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="playing-title" class="text-xs font-bold text-indigo-200 truncate">재생 준비 완료</span>
-      </div>
-      <span class="text-[11px] text-slate-500 font-medium">자동 전환 ON</span>
-    </div>
-
-    <!-- 큼직한 원터치 버튼 -->
-    <button onclick="playNextMusic()" class="w-full mt-5 py-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 hover:from-indigo-500 hover:to-purple-700 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-3 border border-indigo-400/30 active:scale-95 transition">
-      <i class="fa-solid fa-shuffle text-lg"></i>
-      <span>수면음악 재생 / 다음 곡</span>
-    </button>
   </main>
 
-  <!-- 하단 안내 문구 -->
-  <footer class="w-full max-w-sm text-center text-xs text-slate-500 pt-2 z-10">
-    <p>오류가 나면 다음 영상으로 스스로 넘어가요 💤</p>
-    <p class="mt-1">화면 밝기를 낮추고 편안하게 눈을 감아보세요</p>
+  <!-- 하단 조작 버튼 -->
+  <footer class="w-full max-w-sm pb-4 flex gap-2">
+    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3 rounded-xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
+      ↩ 무르기
+    </button>
+    <button onclick="resetGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl shadow-md text-sm active:scale-95 transition">
+      🔄 새 판 시작하기
+    </button>
   </footer>
 
-  <!-- 유튜브 공식 API 스크립트 -->
-  <script src="https://www.youtube.com/iframe_api"></script>
+  <!-- 승리 모달 -->
+  <div id="winModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl border-4 border-amber-400">
+      <div class="text-5xl mb-2">🏆</div>
+      <h2 id="winTitle" class="text-2xl font-black text-gray-800 mb-1">흑돌 승리!</h2>
+      <p id="winDesc" class="text-gray-600 text-sm font-bold mb-5">축하드립니다! 다섯 알을 멋지게 이으셨어요!</p>
+      <button onclick="resetGame()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base py-3 rounded-xl shadow-md transition">
+        다시 한판 하기 🎯
+      </button>
+    </div>
+  </div>
+
   <script>
-    // 국내 제작 고음질 수면음악 리스트
-    const musicPool = [
-      { id: '1ZYbU8csArI', title: '마음을 편안하게 녹이는 수면 피아노' },
-      { id: '7YaXYjBHfeg', title: '잔잔하고 포근한 힐링 피아노 연주' },
-      { id: 'DWcJFNfaw9c', title: '깊은 밤 편안한 감성 수면 선율' },
-      { id: '2OEL4P1Rz04', title: '몸의 긴장을 풀어주는 수면 멜로디' },
-      { id: 'mPZkdNFkNps', title: '빗소리와 함께 듣는 잔잔한 피아노' },
-      { id: 'sjkrrmBnpK8', title: '뇌파를 안정시키는 깊은 수면 델타파' }
-    ];
+    // --- 오디오 효과음 시스템 (Web Audio API) ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
 
-    let player = null;
-    let playedIndices = [];
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
 
-    function onYouTubeIframeAPIReady() {
-      const initialIdx = getRandomIndex();
-      const firstTrack = musicPool[initialIdx];
-      document.getElementById('playing-title').textContent = firstTrack.title;
+    // 바둑돌 탁 놓는 소리
+    function playStoneSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-      player = new YT.Player('youtube-player', {
-        videoId: firstTrack.id,
-        playerVars: {
-          'autoplay': 1,
-          'playsinline': 1,
-          'rel': 0,
-          'modestbranding': 1
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange,
-          'onError': onPlayerError
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.8, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.09);
+      } catch (e) {}
+    }
+
+    // 무르기 소리
+    function playUndoSound() {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.4, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.13);
+      } catch (e) {}
+    }
+
+    // 승리 팡파르 소리
+    function playWinSound() {
+      try {
+        const ctx = getAudioContext();
+        const notes = [261.63, 329.63, 392.00, 523.25]; // 도 - 미 - 솔 - 높은 도
+        notes.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const start = ctx.currentTime + (idx * 0.12);
+          const dur = 0.25;
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, start);
+
+          gain.gain.setValueAtTime(0, start);
+          gain.gain.linearRampToValueAtTime(0.4, start + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.01, start + dur);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(start);
+          osc.stop(start + dur);
+        });
+      } catch (e) {}
+    }
+
+    // --- 게임 로직 ---
+    const canvas = document.getElementById('omokCanvas');
+    const ctx = canvas.getContext('2d');
+    const SIZE = 11;
+    let board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+    let currentPlayer = 1; // 1: 흑, 2: 백
+    let gameMode = 'ai'; // 'ai' or 'p2p'
+    let history = [];
+    let isGameOver = false;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      drawBoard();
+    }
+
+    function getCellSize() {
+      const rect = canvas.getBoundingClientRect();
+      return rect.width / (SIZE + 1);
+    }
+
+    function drawBoard() {
+      const rect = canvas.getBoundingClientRect();
+      const cellSize = getCellSize();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      ctx.strokeStyle = '#5C3A1E';
+      ctx.lineWidth = 1.5;
+
+      for (let i = 0; i < SIZE; i++) {
+        const pos = cellSize * (i + 1);
+        ctx.beginPath();
+        ctx.moveTo(cellSize, pos);
+        ctx.lineTo(cellSize * SIZE, pos);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(pos, cellSize);
+        ctx.lineTo(pos, cellSize * SIZE);
+        ctx.stroke();
+      }
+
+      const centerPos = cellSize * 6;
+      ctx.fillStyle = '#5C3A1E';
+      ctx.beginPath();
+      ctx.arc(centerPos, centerPos, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          if (board[r][c] !== 0) {
+            drawStone(r, c, board[r][c]);
+          }
         }
-      });
-    }
+      }
 
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        playNextMusic();
+      if (history.length > 0) {
+        const last = history[history.length - 1];
+        const x = cellSize * (last.c + 1);
+        const y = cellSize * (last.r + 1);
+        ctx.fillStyle = '#EF4444';
+        ctx.beginPath();
+        ctx.arc(x, y, cellSize * 0.15, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    function onPlayerError(event) {
-      console.log('재생 불가 영상 감지, 다음 곡으로 자동 전환');
-      document.getElementById('playing-title').textContent = '다음 곡 연결 중...';
-      setTimeout(() => {
-        playNextMusic();
-      }, 300);
-    }
+    function drawStone(r, c, player) {
+      const cellSize = getCellSize();
+      const x = cellSize * (c + 1);
+      const y = cellSize * (r + 1);
+      const radius = cellSize * 0.42;
 
-    function getRandomIndex() {
-      if (playedIndices.length >= musicPool.length) {
-        playedIndices = [];
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+
+      const grad = ctx.createRadialGradient(x - radius/3, y - radius/3, radius/10, x, y, radius);
+      if (player === 1) {
+        grad.addColorStop(0, '#666');
+        grad.addColorStop(1, '#111');
+      } else {
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(1, '#d8d8d8');
       }
-      let idx;
-      do {
-        idx = Math.floor(Math.random() * musicPool.length);
-      } while (playedIndices.includes(idx));
-      
-      playedIndices.push(idx);
-      return idx;
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      if (player === 2) {
+        ctx.strokeStyle = '#bbb';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      ctx.restore();
     }
 
-    function playNextMusic() {
-      const idx = getRandomIndex();
-      const track = musicPool[idx];
-      document.getElementById('playing-title').textContent = track.title;
+    canvas.addEventListener('click', (e) => {
+      if (isGameOver) return;
+      if (gameMode === 'ai' && currentPlayer === 2) return;
 
-      if (player && player.loadVideoById) {
-        player.loadVideoById(track.id);
-        player.playVideo();
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cellSize = getCellSize();
+
+      const col = Math.round(x / cellSize) - 1;
+      const row = Math.round(y / cellSize) - 1;
+
+      if (row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] === 0) {
+        placeMove(row, col, currentPlayer);
+      }
+    });
+
+    function placeMove(r, c, player) {
+      board[r][c] = player;
+      history.push({ r, c, player });
+      drawBoard();
+      playStoneSound();
+
+      if (checkWin(r, c, player)) {
+        endGame(player);
+        return;
+      }
+
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      updateUI();
+
+      if (gameMode === 'ai' && currentPlayer === 2 && !isGameOver) {
+        setTimeout(aiMove, 350);
       }
     }
+
+    function aiMove() {
+      let best = null;
+      let maxScore = -1;
+
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+          if (board[r][c] === 0) {
+            if (checkWin(r, c, 2)) {
+              placeMove(r, c, 2);
+              return;
+            }
+            board[r][c] = 1;
+            let block = checkWin(r, c, 1);
+            board[r][c] = 0;
+            if (block) {
+              placeMove(r, c, 2);
+              return;
+            }
+
+            let dist = Math.abs(r - 5) + Math.abs(c - 5);
+            let score = 50 - dist + Math.random() * 5;
+            if (score > maxScore) {
+              maxScore = score;
+              best = { r, c };
+            }
+          }
+        }
+      }
+
+      if (best) placeMove(best.r, best.c, 2);
+    }
+
+    function checkWin(r, c, p) {
+      const dirs = [[1,0], [0,1], [1,1], [1,-1]];
+      for (let [dr, dc] of dirs) {
+        let count = 1;
+        for (let step = 1; step <= 4; step++) {
+          let nr = r + dr * step, nc = c + dc * step;
+          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
+          else break;
+        }
+        for (let step = 1; step <= 4; step++) {
+          let nr = r - dr * step, nc = c - dc * step;
+          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
+          else break;
+        }
+        if (count >= 5) return true;
+      }
+      return false;
+    }
+
+    function updateUI() {
+      const dot = document.getElementById('turn-dot');
+      const text = document.getElementById('turn-text');
+      if (currentPlayer === 1) {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-black';
+        text.textContent = '흑돌 차례';
+      } else {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-white border border-gray-400';
+        text.textContent = gameMode === 'ai' ? '컴퓨터 생각중...' : '백돌 차례';
+      }
+    }
+
+    function endGame(winner) {
+      isGameOver = true;
+      playWinSound();
+      const modal = document.getElementById('winModal');
+      const title = document.getElementById('winTitle');
+      const desc = document.getElementById('winDesc');
+
+      if (winner === 1) {
+        title.textContent = "흑돌 승리! 🎉";
+        desc.textContent = gameMode === 'ai' ? "대단하세요! 컴퓨터를 이기셨어요!" : "축하드립니다! 오목 완성!";
+      } else {
+        title.textContent = "백돌 승리! 👏";
+        desc.textContent = gameMode === 'ai' ? "컴퓨터가 이겼어요. 다시 도전해 보세요!" : "멋진 대결이었습니다!";
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function undoMove() {
+      if (history.length === 0 || isGameOver) return;
+      playUndoSound();
+      const steps = (gameMode === 'ai' && history.length >= 2) ? 2 : 1;
+      for (let i = 0; i < steps; i++) {
+        const last = history.pop();
+        if (last) board[last.r][last.c] = 0;
+      }
+      currentPlayer = (gameMode === 'ai') ? 1 : (history.length % 2 === 0 ? 1 : 2);
+      updateUI();
+      drawBoard();
+    }
+
+    function resetGame() {
+      board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+      history = [];
+      currentPlayer = 1;
+      isGameOver = false;
+      document.getElementById('winModal').classList.add('hidden');
+      updateUI();
+      drawBoard();
+    }
+
+    function setMode(mode) {
+      gameMode = mode;
+      document.getElementById('mode-ai').className = mode === 'ai' ? 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700';
+      document.getElementById('mode-p2p').className = mode === 'p2p' ? 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs px-2.5 py-1.5 rounded-lg font-bold bg-gray-100 text-gray-700';
+      resetGame();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('load', resizeCanvas);
+    setTimeout(resizeCanvas, 100);
   </script>
 </body>
 </html>
