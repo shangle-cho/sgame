@@ -462,9 +462,9 @@
       { target: 77, emoji: '👑', title: '무조건 소원 1가지 들어주기권', desc: '언제든 사용 가능! 묻지도 따지지도 않고 소원 1개 들어줍니다 👑' }
     ];
 
-    // 하트 속도 계산 (잡을수록 600ms -> 350ms까지 점점 더 빨라짐)
+    // 하트 속도 계산 (잡을수록 1000ms -> 600ms까지 점점 더 빨라짐)
     function getHeartSpeed() {
-      return Math.max(350, 600 - (heartClicks * 4));
+      return Math.max(600, 1000 - (heartClicks * 4));
     }
 
     function startHeartTimer() {
