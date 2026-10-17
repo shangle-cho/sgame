@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -33,10 +34,10 @@
     }
     @keyframes heartFloat {
       0%, 100% { transform: scale(1) translateY(0); }
-      50% { transform: scale(1.12) translateY(-8px); }
+      50% { transform: scale(1.15) translateY(-6px); }
     }
     .heart-float {
-      animation: heartFloat 0.8s ease-in-out infinite;
+      animation: heartFloat 0.5s ease-in-out infinite;
     }
     @keyframes popParticle {
       0% { transform: translate(0, 0) scale(1); opacity: 1; }
@@ -58,7 +59,7 @@
     <p class="text-xs sm:text-sm text-slate-400 mb-6 text-center">하고 싶은 게임을 골라보세요!</p>
 
     <div class="w-full flex flex-col gap-3.5">
-      <!-- 0) 애인 전용 하트 누르기 게임 -->
+      <!-- 0) 당신을 위한 하트 누르기 게임 -->
       <button onclick="openGame('loveHeart')" class="w-full bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 border-2 border-pink-300 p-5 rounded-3xl shadow-[0_0_25px_rgba(244,63,94,0.4)] flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
           <div class="w-14 h-14 text-3xl bg-white/20 backdrop-blur-sm rounded-2xl border border-white/40 flex items-center justify-center shrink-0 heart-float">
@@ -66,10 +67,10 @@
           </div>
           <div>
             <div class="flex items-center gap-1.5">
-              <span class="bg-white text-rose-600 text-[10px] font-black px-2 py-0.5 rounded-full">당신을 위한 🎁</span>
+              <span class="bg-white text-rose-600 text-[10px] font-black px-2 py-0.5 rounded-full">스피드 하트 ⚡</span>
               <h2 class="text-lg sm:text-xl font-black text-white">러브 하트 팡팡!</h2>
             </div>
-            <p class="text-xs sm:text-sm text-rose-100/90 mt-0.5">움직이는 하트를 잡으면 특급 쿠폰 당첨!</p>
+            <p class="text-xs sm:text-sm text-rose-100/90 mt-0.5">도망치는 하트를 콕 잡으면 특급 쿠폰 당첨!</p>
           </div>
         </div>
         <i class="fa-solid fa-gift text-white text-xl pr-2 animate-bounce"></i>
@@ -127,11 +128,11 @@
         <i class="fa-solid fa-house"></i> 홈
       </button>
       <div class="text-center">
-        <span class="text-sm sm:text-base font-black text-rose-300">러브 하트 캐치 💖</span>
+        <span class="text-sm sm:text-base font-black text-rose-300">러브 하트 캐치 ⚡</span>
       </div>
       <div class="flex gap-2 text-right">
         <div class="bg-slate-950 border border-rose-900 px-3 py-1 rounded-xl">
-          <span class="text-[9px] text-rose-300/70 block font-bold">누른 하트</span>
+          <span class="text-[9px] text-rose-300/70 block font-bold">잡은 횟수</span>
           <span id="heartCountText" class="text-sm sm:text-base font-black text-rose-400">0 회</span>
         </div>
         <div class="bg-slate-950 border border-amber-900 px-3 py-1 rounded-xl">
@@ -141,16 +142,17 @@
       </div>
     </div>
 
-    <!-- 하트 잡기 무대 -->
+    <!-- 하트 잡기 무대 (초고속 도망 공간) -->
     <div class="my-auto w-full p-1 flex flex-col items-center justify-center">
       <div id="heartPlayground" class="relative bg-gradient-to-b from-rose-950/40 via-purple-950/30 to-slate-950 p-4 rounded-3xl sm:rounded-[36px] shadow-[inset_0_0_40px_rgba(244,63,94,0.3)] border-4 border-rose-900/60 w-full aspect-[4/5] max-w-lg flex flex-col items-center justify-center overflow-hidden cursor-pointer">
         
         <div class="absolute top-4 text-center pointer-events-none z-10 px-4">
-          <p class="text-xs sm:text-sm font-black text-rose-300 drop-shadow">움직이는 하트를 터치해서 쿠폰을 받아보세요!</p>
-          <p id="subHintText" class="text-[11px] text-slate-400 mt-0.5">10회 꽉 안아주기 · 25회 저녁데이트 · 50회 어깨안마 · 77회 소원권</p>
+          <p class="text-xs sm:text-sm font-black text-rose-300 drop-shadow">도망가는 하트를 재빠르게 터치해 보세요!</p>
+          <p id="subHintText" class="text-[11px] text-slate-400 mt-0.5">점수가 높아질수록 하트가 더 쏜살같이 도망가요!</p>
         </div>
 
-        <button id="floatingHeartBtn" onclick="onHeartClicked(event)" class="absolute z-20 text-6xl sm:text-7xl active:scale-75 transition-all duration-200 select-none drop-shadow-[0_0_20px_rgba(244,63,94,0.9)] heart-float focus:outline-none">
+        <!-- 빠르게 움직이는 하트 버튼 -->
+        <button id="floatingHeartBtn" onclick="onHeartClicked(event)" class="absolute z-20 text-6xl sm:text-7xl active:scale-75 select-none drop-shadow-[0_0_25px_rgba(244,63,94,0.95)] heart-float focus:outline-none transition-all duration-200">
           💖
         </button>
 
@@ -398,6 +400,7 @@
     // --- 화면 네비게이션 ---
     function openGame(name) {
       getAudioCtx();
+      stopHeartTimer();
       document.getElementById('lobbyScreen').classList.add('hidden');
       ['loveHeartScreen', 'jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
         const el = document.getElementById(id);
@@ -425,6 +428,7 @@
     }
 
     function goHome() {
+      stopHeartTimer();
       ['loveHeartScreen', 'jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
         const el = document.getElementById(id);
         el.classList.add('hidden');
@@ -444,10 +448,11 @@
     }
 
     // ==============================================================
-    // [0] 애인 전용 러브 하트 누르기 게임 엔진 (돈 안 드는 달콤한 쿠폰)
+    // [0] 애인 전용 고속 러브 하트 누르기 엔진
     // ==============================================================
     let heartClicks = 0;
     let unlockedRewards = [];
+    let heartMoveTimer = null;
     const heartEmojis = ['💖', '💕', '💗', '💓', '💝', '💘', '✨'];
 
     const REWARDS = [
@@ -457,9 +462,29 @@
       { target: 77, emoji: '👑', title: '무조건 소원 1가지 들어주기권', desc: '언제든 사용 가능! 묻지도 따지지도 않고 소원 1개 들어줍니다 👑' }
     ];
 
+    // 하트 속도 계산 (잡을수록 600ms -> 350ms까지 점점 더 빨라짐)
+    function getHeartSpeed() {
+      return Math.max(350, 600 - (heartClicks * 4));
+    }
+
+    function startHeartTimer() {
+      stopHeartTimer();
+      heartMoveTimer = setInterval(() => {
+        moveHeartRandomly();
+      }, getHeartSpeed());
+    }
+
+    function stopHeartTimer() {
+      if (heartMoveTimer) {
+        clearInterval(heartMoveTimer);
+        heartMoveTimer = null;
+      }
+    }
+
     function initLoveHeartGame() {
       updateHeartUI();
       moveHeartRandomly();
+      startHeartTimer();
     }
 
     function onHeartClicked(e) {
@@ -470,7 +495,10 @@
 
       const btn = document.getElementById('floatingHeartBtn');
       btn.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      
+      // 누르자마자 즉시 순간 이동 후 새 속도로 타이머 재시작
       moveHeartRandomly();
+      startHeartTimer();
 
       checkRewardMilestone();
       updateHeartUI();
@@ -479,6 +507,7 @@
     function moveHeartRandomly() {
       const playground = document.getElementById('heartPlayground');
       const btn = document.getElementById('floatingHeartBtn');
+      if (!playground || !btn) return;
       const rect = playground.getBoundingClientRect();
 
       const maxX = rect.width - 90;
@@ -517,6 +546,7 @@
       for (let r of REWARDS) {
         if (heartClicks === r.target && !unlockedRewards.some(item => item.target === r.target)) {
           unlockedRewards.push(r);
+          stopHeartTimer(); // 모달 뜰 때는 잠시 멈춤
           setTimeout(() => {
             triggerCouponModal(r);
           }, 200);
@@ -535,6 +565,7 @@
 
     function closeCouponModal() {
       document.getElementById('couponModal').classList.add('hidden');
+      startHeartTimer(); // 모달 닫으면 다시 빠르게 달리기 시작
     }
 
     function updateHeartUI() {
@@ -550,6 +581,7 @@
     }
 
     function showMyRewards() {
+      stopHeartTimer();
       const list = document.getElementById('rewardListContainer');
       list.innerHTML = '';
 
@@ -581,6 +613,7 @@
 
     function closeRewardsModal() {
       document.getElementById('myRewardsModal').classList.add('hidden');
+      startHeartTimer();
     }
 
     function resetHeartGame() {
@@ -589,6 +622,7 @@
         unlockedRewards = [];
         updateHeartUI();
         moveHeartRandomly();
+        startHeartTimer();
       }
     }
 
