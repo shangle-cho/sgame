@@ -28,6 +28,21 @@
     .card-back {
       transform: rotateY(180deg);
     }
+    /* 정통 화투 패 입체 테두리 */
+    .hwatu-card {
+      aspect-ratio: 5 / 8;
+      background: #c1121f;
+      border: 3px solid #780000;
+      box-shadow: 2px 3px 6px rgba(0,0,0,0.5), inset 0 0 3px rgba(255,255,255,0.3);
+      border-radius: 8px;
+    }
+    .hwatu-inner {
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+    }
   </style>
 </head>
 <body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-between p-3 select-none">
@@ -41,13 +56,13 @@
     <p class="text-xs text-slate-400 mb-6">원하는 게임을 콕 눌러보세요!</p>
 
     <div class="w-full flex flex-col gap-3.5">
-      <!-- 1) 화투 짝맞추기 -->
+      <!-- 1) 정통 실사 화투 짝맞추기 -->
       <button onclick="openGame('hwatu')" class="w-full bg-gradient-to-r from-red-800 to-rose-700 hover:from-red-700 hover:to-rose-600 border-2 border-red-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-3.5">
           <span class="text-3xl bg-black/40 p-2.5 rounded-2xl border border-red-400/30">🎴</span>
           <div>
             <h2 class="text-base font-black text-white">원조 손맛! 화투 짝맞추기</h2>
-            <p class="text-[11px] text-red-200/80">같은 화투 패를 찾아 짝 맞추기!</p>
+            <p class="text-[11px] text-red-200/80">정통 화투패 그림으로 즐기는 짝맞추기!</p>
           </div>
         </div>
         <i class="fa-solid fa-chevron-right text-red-300 text-base pr-1"></i>
@@ -85,17 +100,17 @@
       <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
         <i class="fa-solid fa-house"></i> 홈
       </button>
-      <h2 class="text-base font-black text-red-400">화투 짝맞추기 🎴</h2>
+      <h2 class="text-base font-black text-red-400">정통 화투 짝맞추기 🎴</h2>
       <div class="bg-slate-900 border border-slate-700 px-3 py-1 rounded-xl text-right">
         <span class="text-[9px] text-slate-400 block font-bold">남은 패</span>
         <span id="hwatuRemainText" class="text-sm font-black text-rose-300">16</span>
       </div>
     </div>
 
-    <!-- 화투판 (녹색 담요 느낌) -->
+    <!-- 초록 모포 담요 바닥 -->
     <div class="my-auto p-1 flex items-center justify-center">
-      <div class="bg-[#1b4332] p-2.5 rounded-3xl shadow-2xl border-4 border-[#081c15] w-full aspect-[4/5] flex items-center justify-center">
-        <div id="hwatuGrid" class="w-full h-full grid grid-cols-4 gap-2"></div>
+      <div class="bg-[#1f5135] p-3 rounded-3xl shadow-[inset_0_0_20px_rgba(0,0,0,0.6)] border-4 border-[#0d2a1b] w-full flex items-center justify-center">
+        <div id="hwatuGrid" class="w-full grid grid-cols-4 gap-2.5"></div>
       </div>
     </div>
 
@@ -197,19 +212,17 @@
         if (type === 'hwatuHit') {
           // 착! 화투 패 내려치는 찰진 소리
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(420, now);
+          osc.frequency.setValueAtTime(450, now);
           osc.frequency.exponentialRampToValueAtTime(70, now + 0.08);
           gain.gain.setValueAtTime(0.9, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
         } else if (type === 'cardFlip') {
-          // 카드 뒤집기
           osc.type = 'sine';
           osc.frequency.setValueAtTime(320, now);
           osc.frequency.exponentialRampToValueAtTime(540, now + 0.06);
           gain.gain.setValueAtTime(0.3, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
         } else if (type === 'match') {
-          // 짝 맞았을 때 딩동
           [523, 659, 783].forEach((f, i) => {
             const o = ctx.createOscillator();
             const g = ctx.createGain();
@@ -221,7 +234,6 @@
           });
           return;
         } else if (type === 'stone') {
-          // 바둑돌 탁 소리
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(500, now);
           osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
@@ -280,17 +292,152 @@
     }
 
     // ==============================================================
-    // [1] 화투 짝맞추기 게임 로직
+    // [1] 정통 고화질 화투패 SVG 벡터 그래픽 엔진
     // ==============================================================
-    const hwatuCardsData = [
-      { id: 1, name: '1월 송학', symbol: '🦅', color: 'border-red-600 bg-red-950/80 text-rose-200' },
-      { id: 2, name: '2월 매화', symbol: '🌸', color: 'border-pink-600 bg-pink-950/80 text-pink-200' },
-      { id: 3, name: '3월 벚꽃', symbol: '🌺', color: 'border-rose-500 bg-rose-950/80 text-rose-100' },
-      { id: 4, name: '4월 흑싸리', symbol: '🌿', color: 'border-emerald-600 bg-emerald-950/80 text-emerald-200' },
-      { id: 5, name: '5월 난초', symbol: '🎋', color: 'border-teal-600 bg-teal-950/80 text-teal-200' },
-      { id: 6, name: '6월 모란', symbol: '💮', color: 'border-amber-600 bg-amber-950/80 text-amber-200' },
-      { id: 7, name: '7월 홍싸리', symbol: '🐗', color: 'border-red-500 bg-red-900/80 text-red-200' },
-      { id: 8, name: '8월 공산', symbol: '🌕', color: 'border-yellow-400 bg-yellow-950/80 text-yellow-200' }
+    const hwatuSVGs = {
+      // 1월 송학 광 (붉은 태양, 솔잎, 학)
+      songhak: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <circle cx="50" cy="40" r="32" fill="#d90429" />
+          <!-- 솔잎 -->
+          <path d="M10 160 Q30 110 50 140 Q70 110 90 160 Z" fill="#1b4332" />
+          <path d="M20 160 Q45 125 50 150 Q55 125 80 160 Z" fill="#2d6a4f" />
+          <!-- 학 -->
+          <ellipse cx="50" cy="95" rx="14" ry="24" fill="#fff" stroke="#111" stroke-width="2"/>
+          <circle cx="50" cy="65" r="7" fill="#fff" stroke="#111" stroke-width="2"/>
+          <circle cx="50" cy="60" r="3" fill="#d90429" />
+          <path d="M50 72 L50 90" stroke="#111" stroke-width="3"/>
+          <line x1="44" y1="115" x2="42" y2="150" stroke="#111" stroke-width="2.5"/>
+          <line x1="56" y1="115" x2="58" y2="150" stroke="#111" stroke-width="2.5"/>
+          <circle cx="20" cy="22" r="12" fill="#d90429" />
+          <text x="20" y="27" fill="#fff" font-size="14" font-weight="900" text-anchor="middle">光</text>
+        </svg>
+      `,
+      // 2월 매화 휘파람새 (홍매화와 새)
+      meong: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <!-- 매화 고목 -->
+          <path d="M15 160 Q40 80 85 40 Q70 80 75 160 Z" fill="#582f0e" />
+          <circle cx="35" cy="60" r="10" fill="#e63946" />
+          <circle cx="65" cy="45" r="9" fill="#e63946" />
+          <circle cx="80" cy="75" r="8" fill="#e63946" />
+          <!-- 새 -->
+          <ellipse cx="38" cy="85" rx="12" ry="7" fill="#55a630" transform="rotate(-15, 38, 85)"/>
+          <circle cx="48" cy="80" r="5" fill="#55a630" />
+          <polygon points="53,80 58,82 53,84" fill="#f4a261" />
+          <rect x="10" y="10" width="16" height="50" fill="#d90429" rx="2" />
+          <text x="18" y="38" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle" writing-mode="vertical-rl">홍단</text>
+        </svg>
+      `,
+      // 3월 벚꽃 삼광 (장막과 벚꽃)
+      sakura: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <!-- 벚꽃들 -->
+          <circle cx="25" cy="30" r="10" fill="#ffb703" />
+          <circle cx="25" cy="30" r="8" fill="#e63946" />
+          <circle cx="75" cy="35" r="12" fill="#ffb703" />
+          <circle cx="75" cy="35" r="9" fill="#e63946" />
+          <circle cx="50" cy="55" r="10" fill="#e63946" />
+          <!-- 장막 -->
+          <path d="M10 95 Q50 85 90 95 L90 160 L10 160 Z" fill="#2b2d42" />
+          <path d="M30 92 L30 160 M50 90 L50 160 M70 92 L70 160" stroke="#fff" stroke-width="4" />
+          <circle cx="20" cy="22" r="12" fill="#d90429" />
+          <text x="20" y="27" fill="#fff" font-size="14" font-weight="900" text-anchor="middle">光</text>
+        </svg>
+      `,
+      // 4월 흑싸리 두견새
+      heukssari: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <!-- 등나무/흑싸리 넝쿨 -->
+          <path d="M20 0 Q40 60 20 120" stroke="#111" stroke-width="6" fill="none" />
+          <path d="M50 0 Q30 50 60 100" stroke="#111" stroke-width="5" fill="none" />
+          <path d="M80 0 Q60 70 80 130" stroke="#111" stroke-width="5" fill="none" />
+          <circle cx="25" cy="50" r="5" fill="#4361ee" />
+          <circle cx="45" cy="70" r="5" fill="#4361ee" />
+          <circle cx="65" cy="60" r="5" fill="#4361ee" />
+          <!-- 붉은 달과 새 -->
+          <circle cx="70" cy="120" r="16" fill="#e63946" />
+          <path d="M60 125 Q70 115 80 120 Q65 135 60 125 Z" fill="#111" />
+        </svg>
+      `,
+      // 5월 난초 다리 (창포와 다리)
+      nancho: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <!-- 난초 줄기 -->
+          <path d="M20 160 Q25 80 10 50 M35 160 Q40 70 60 40 M70 160 Q65 75 85 50" stroke="#2d6a4f" stroke-width="5" fill="none" />
+          <!-- 난초 보라꽃 -->
+          <ellipse cx="20" cy="55" rx="8" ry="12" fill="#5a189a" />
+          <ellipse cx="65" cy="45" rx="8" ry="12" fill="#5a189a" />
+          <!-- 야츠하시 목책 다리 -->
+          <polygon points="10,140 90,105 90,120 10,155" fill="#f4a261" stroke="#bc6c25" stroke-width="2"/>
+          <rect x="10" y="10" width="16" height="50" fill="#d90429" rx="2" />
+          <text x="18" y="38" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle" writing-mode="vertical-rl">초단</text>
+        </svg>
+      `,
+      // 6월 모란 나비
+      moran: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <!-- 줄기 -->
+          <path d="M30 160 L50 90 L70 160" stroke="#2d6a4f" stroke-width="6" fill="none"/>
+          <!-- 모란 붉은 꽃송이 -->
+          <circle cx="50" cy="80" r="22" fill="#9d0208" />
+          <circle cx="50" cy="80" r="15" fill="#d00000" />
+          <circle cx="50" cy="80" r="8" fill="#ffba08" />
+          <!-- 나비 2마리 -->
+          <path d="M30 35 Q20 20 35 25 Q45 20 40 35 Z" fill="#ffb703" stroke="#111" stroke-width="1.5"/>
+          <path d="M65 40 Q55 25 70 30 Q80 25 75 40 Z" fill="#4361ee" stroke="#111" stroke-width="1.5"/>
+          <rect x="75" y="10" width="16" height="50" fill="#1d3557" rx="2" />
+          <text x="83" y="38" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle" writing-mode="vertical-rl">청단</text>
+        </svg>
+      `,
+      // 8월 팔달 보름달 광 (억새 언덕과 둥근 달)
+      palwol: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#e63946" />
+          <!-- 하얀 보름달 -->
+          <circle cx="50" cy="65" r="30" fill="#fff" />
+          <!-- 까만 억새 언덕 3개 -->
+          <path d="M-10 160 Q20 100 50 160 Z" fill="#111" />
+          <path d="M30 160 Q65 110 100 160 Z" fill="#111" />
+          <path d="M10 160 Q50 120 90 160 Z" fill="#000" />
+          <circle cx="20" cy="22" r="12" fill="#111" />
+          <text x="20" y="27" fill="#fff" font-size="14" font-weight="900" text-anchor="middle">光</text>
+        </svg>
+      `,
+      // 10월 단풍 사슴
+      danpung: `
+        <svg viewBox="0 0 100 160" class="w-full h-full">
+          <rect width="100" height="160" fill="#fff" />
+          <!-- 붉은 단풍잎들 -->
+          <path d="M20 20 L30 10 L40 20 L30 30 Z" fill="#d90429" />
+          <path d="M70 30 L80 15 L90 30 L80 40 Z" fill="#d90429" />
+          <path d="M15 60 L25 50 L35 60 L25 70 Z" fill="#f77f00" />
+          <path d="M60 70 L75 55 L85 70 L75 85 Z" fill="#d90429" />
+          <!-- 서 있는 수사슴 -->
+          <path d="M35 150 L40 105 L65 105 L70 150 L60 150 L58 120 L48 120 L45 150 Z" fill="#582f0e"/>
+          <ellipse cx="65" cy="100" rx="10" ry="7" fill="#582f0e" />
+          <path d="M68 95 L75 75 M72 85 L80 82 M70 95 L65 78 M67 85 L60 82" stroke="#111" stroke-width="2.5" />
+          <rect x="75" y="10" width="16" height="50" fill="#1d3557" rx="2" />
+          <text x="83" y="38" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle" writing-mode="vertical-rl">청단</text>
+        </svg>
+      `
+    };
+
+    const hwatuMasterData = [
+      { id: 'songhak', name: '1월 송학(광)', svg: hwatuSVGs.songhak },
+      { id: 'meong', name: '2월 매화(홍단)', svg: hwatuSVGs.meong },
+      { id: 'sakura', name: '3월 벚꽃(광)', svg: hwatuSVGs.sakura },
+      { id: 'heukssari', name: '4월 흑싸리', svg: hwatuSVGs.heukssari },
+      { id: 'nancho', name: '5월 난초(초단)', svg: hwatuSVGs.nancho },
+      { id: 'moran', name: '6월 모란(청단)', svg: hwatuSVGs.moran },
+      { id: 'palwol', name: '8월 팔달(광)', svg: hwatuSVGs.palwol },
+      { id: 'danpung', name: '10월 단풍(사슴)', svg: hwatuSVGs.danpung }
     ];
 
     let hwatuDeck = [];
@@ -299,13 +446,12 @@
     let hwatuLock = false;
 
     function initHwatu() {
-      // 8종류 x 2장 = 16장
-      hwatuDeck = [...hwatuCardsData, ...hwatuCardsData].map((item, idx) => ({
+      // 8종류 x 2장 = 16장 덱
+      hwatuDeck = [...hwatuMasterData, ...hwatuMasterData].map((item, idx) => ({
         ...item,
         uniqueId: idx,
         matched: false
       }));
-      // 셔플
       hwatuDeck.sort(() => Math.random() - 0.5);
       hwatuSelected = null;
       hwatuRemain = 16;
@@ -318,15 +464,21 @@
       const grid = document.getElementById('hwatuGrid');
       grid.innerHTML = '';
       hwatuDeck.forEach((card, index) => {
-        const btn = document.createElement('button');
+        const btn = document.createElement('div');
         if (card.matched) {
-          btn.className = 'w-full h-full rounded-2xl opacity-0 pointer-events-none';
+          btn.className = 'w-full hwatu-card opacity-0 pointer-events-none';
         } else {
           const isSel = hwatuSelected && hwatuSelected.uniqueId === card.uniqueId;
-          btn.className = `w-full h-full rounded-2xl border-2 flex flex-col items-center justify-center p-1 shadow-lg transition active:scale-95 ${card.color} ${isSel ? 'ring-4 ring-yellow-400 scale-105' : ''}`;
+          btn.className = `w-full hwatu-card cursor-pointer flex flex-col items-center justify-center p-0.5 active:scale-95 transition-transform ${isSel ? 'ring-4 ring-yellow-300 scale-105' : ''}`;
           btn.innerHTML = `
-            <span class="text-2xl sm:text-3xl">${card.symbol}</span>
-            <span class="text-[10px] font-black mt-1 leading-tight text-center">${card.name}</span>
+            <div class="hwatu-inner flex flex-col items-center justify-between p-1">
+              <div class="w-full flex-1 flex items-center justify-center overflow-hidden">
+                ${card.svg}
+              </div>
+              <span class="text-[9px] font-black text-slate-800 tracking-tighter truncate w-full text-center mt-0.5">
+                ${card.name}
+              </span>
+            </div>
           `;
           btn.onclick = () => selectHwatuCard(index);
         }
@@ -351,7 +503,7 @@
           return;
         }
 
-        // 짝 검사
+        // 짝이 일치할 때
         if (hwatuSelected.id === card.id) {
           playSfx('match');
           hwatuDeck.find(c => c.uniqueId === hwatuSelected.uniqueId).matched = true;
@@ -363,11 +515,11 @@
 
           if (hwatuRemain === 0) {
             setTimeout(() => {
-              openModal('🎴', '화투 짝맞추기 완성!', '모든 화투 패를 멋지게 다 맞추셨습니다! 손맛 최고!');
+              openModal('🎴', '화투 짝맞추기 완성!', '정통 화투 패를 모두 맞추셨습니다! 손맛 최고!');
             }, 300);
           }
         } else {
-          // 틀렸을 때 살짝 보여주고 취소
+          // 불일치 시 잠시 표시 후 해제
           hwatuLock = true;
           renderHwatu();
           setTimeout(() => {
@@ -380,7 +532,7 @@
     }
 
     // ==============================================================
-    // [2] 카드 뒤집기 (기억력 짝맞추기)
+    // [2] 카드 뒤집기
     // ==============================================================
     const cardIcons = ['🍎', '🍌', '🍓', '🍇', '🍉', '🍍', '🍒', '🥝'];
     let cardDeck = [];
@@ -448,7 +600,7 @@
 
           if (cardMatchedCount === 16) {
             setTimeout(() => {
-              openModal('🃏', '기억력 카드 완벽 클리어!', `${cardMoves}번 만에 모든 카드의 짝을 다 찾으셨어요! 대단합니다!`);
+              openModal('🃏', '기억력 카드 완벽 클리어!', `${cardMoves}번 만에 모든 카드의 짝을 다 찾으셨어요!`);
             }, 400);
           }
         } else {
