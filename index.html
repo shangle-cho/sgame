@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>두뇌 힐링 게임 라운지 🎮</title>
+  <title>국민 두뇌 힐링 게임 삼총사 🎴⚫🃏</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -12,76 +12,138 @@
       font-family: 'Noto Sans KR', sans-serif;
       touch-action: manipulation;
     }
+    .card-flip {
+      perspective: 1000px;
+    }
+    .card-inner {
+      transition: transform 0.4s;
+      transform-style: preserve-3d;
+    }
+    .card-inner.flipped {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      backface-visibility: hidden;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+    }
   </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-between p-2 sm:p-4 select-none">
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-between p-3 select-none">
 
-  <!-- ================= 1. 메인 첫 화면 (게임 선택 로비) ================= -->
-  <section id="lobbyScreen" class="w-full max-w-md my-auto flex flex-col items-center py-6 px-3">
-    <div class="inline-block bg-gradient-to-r from-amber-500 to-rose-500 text-white text-xs font-black px-4 py-1.5 rounded-full mb-2 shadow-md">
-      ☕ 부담 없이 편하게 즐기는
+  <!-- ================= 1. 메인 첫 화면 (로비) ================= -->
+  <section id="lobbyScreen" class="w-full max-w-sm my-auto flex flex-col items-center py-4">
+    <div class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3.5 py-1 rounded-full mb-3 shadow">
+      ✨ 남녀노소 즐기는 두뇌 활력 3종
     </div>
-    <h1 class="text-3xl font-black text-amber-200 mb-1 text-center">힐링 게임 라운지 🎮</h1>
-    <p class="text-xs text-slate-400 mb-6 text-center">하고 싶은 게임을 골라보세요!</p>
+    <h1 class="text-3xl font-black text-amber-100 mb-1 tracking-tight">민속 게임 라운지 🎴</h1>
+    <p class="text-xs text-slate-400 mb-6">원하는 게임을 콕 눌러보세요!</p>
 
     <div class="w-full flex flex-col gap-3.5">
-      <!-- 오목 카드 -->
-      <button onclick="switchScreen('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+      <!-- 1) 화투 짝맞추기 -->
+      <button onclick="openGame('hwatu')" class="w-full bg-gradient-to-r from-red-800 to-rose-700 hover:from-red-700 hover:to-rose-600 border-2 border-red-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-3.5">
-          <div class="w-13 h-13 text-3xl bg-amber-950/70 rounded-2xl p-2.5 flex items-center justify-center border border-amber-400/30">
-            ⚫⚪
-          </div>
+          <span class="text-3xl bg-black/40 p-2.5 rounded-2xl border border-red-400/30">🎴</span>
           <div>
-            <h2 class="text-lg font-black text-white">두뇌 튼튼 오목 한판</h2>
-            <p class="text-xs text-amber-200/80 mt-0.5">시원시원한 대형 바둑판 & AI 대전</p>
+            <h2 class="text-base font-black text-white">원조 손맛! 화투 짝맞추기</h2>
+            <p class="text-[11px] text-red-200/80">같은 화투 패를 찾아 짝 맞추기!</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-amber-300 pr-1 text-lg"></i>
+        <i class="fa-solid fa-chevron-right text-red-300 text-base pr-1"></i>
       </button>
 
-      <!-- 2048 카드 -->
-      <button onclick="switchScreen('game2048')" class="w-full bg-gradient-to-r from-orange-800 to-amber-600 hover:from-orange-700 hover:to-amber-500 border-2 border-orange-400/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+      <!-- 2) 기억력 카드 뒤집기 -->
+      <button onclick="openGame('card')" class="w-full bg-gradient-to-r from-indigo-800 to-purple-700 hover:from-indigo-700 hover:to-purple-600 border-2 border-indigo-400/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-3.5">
-          <div class="w-13 h-13 text-3xl bg-amber-950/70 rounded-2xl p-2.5 flex items-center justify-center border border-orange-400/30 font-black text-amber-300">
-            2048
-          </div>
+          <span class="text-3xl bg-black/40 p-2.5 rounded-2xl border border-indigo-400/30">🃏</span>
           <div>
-            <h2 class="text-lg font-black text-white">2048 숫자합치기</h2>
-            <p class="text-xs text-orange-200/80 mt-0.5">화면을 쓱쓱 밀어 숫자를 뻥튀기!</p>
+            <h2 class="text-base font-black text-white">기억력 쑥쑥! 카드 뒤집기</h2>
+            <p class="text-[11px] text-indigo-200/80">숨겨진 카드를 열어 짝을 맞춰봐요</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-orange-300 pr-1 text-lg"></i>
+        <i class="fa-solid fa-chevron-right text-indigo-300 text-base pr-1"></i>
       </button>
 
-      <!-- 오델로(리버시) 카드 -->
-      <button onclick="switchScreen('othello')" class="w-full bg-gradient-to-r from-emerald-900 to-teal-800 hover:from-emerald-800 hover:to-teal-700 border-2 border-emerald-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+      <!-- 3) 두뇌 오목 -->
+      <button onclick="openGame('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-3.5">
-          <div class="w-13 h-13 text-3xl bg-emerald-950/70 rounded-2xl p-2.5 flex items-center justify-center border border-emerald-400/30">
-            🔄
-          </div>
+          <span class="text-3xl bg-black/40 p-2.5 rounded-2xl border border-amber-400/30">⚫⚪</span>
           <div>
-            <h2 class="text-lg font-black text-white">오델로 (돌 뒤집기)</h2>
-            <p class="text-xs text-emerald-200/80 mt-0.5">상대 돌을 가둬 싹 뒤집는 손맛!</p>
+            <h2 class="text-base font-black text-white">두뇌 튼튼 오목 한판</h2>
+            <p class="text-[11px] text-amber-200/80">시원시원한 대형 바둑판 & AI 대전</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-emerald-300 pr-1 text-lg"></i>
+        <i class="fa-solid fa-chevron-right text-amber-300 text-base pr-1"></i>
       </button>
     </div>
   </section>
 
-  <!-- ================= 2. 오목 게임 화면 ================= -->
-  <section id="omokScreen" class="w-full max-w-md hidden flex flex-col justify-between h-full flex-1">
-    <!-- 헤더 -->
-    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700 mt-1">
-      <button onclick="switchScreen('lobby')" class="text-xs font-bold text-slate-300 hover:text-white px-2 py-1 bg-slate-700/80 rounded-xl active:scale-95 flex items-center gap-1">
-        <i class="fa-solid fa-house"></i> 홈으로
+  <!-- ================= 2. 화투 짝맞추기 화면 ================= -->
+  <section id="hwatuScreen" class="w-full max-w-sm hidden flex-col justify-between h-full flex-1">
+    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700">
+      <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
+        <i class="fa-solid fa-house"></i> 홈
+      </button>
+      <h2 class="text-base font-black text-red-400">화투 짝맞추기 🎴</h2>
+      <div class="bg-slate-900 border border-slate-700 px-3 py-1 rounded-xl text-right">
+        <span class="text-[9px] text-slate-400 block font-bold">남은 패</span>
+        <span id="hwatuRemainText" class="text-sm font-black text-rose-300">16</span>
+      </div>
+    </div>
+
+    <!-- 화투판 (녹색 담요 느낌) -->
+    <div class="my-auto p-1 flex items-center justify-center">
+      <div class="bg-[#1b4332] p-2.5 rounded-3xl shadow-2xl border-4 border-[#081c15] w-full aspect-[4/5] flex items-center justify-center">
+        <div id="hwatuGrid" class="w-full h-full grid grid-cols-4 gap-2"></div>
+      </div>
+    </div>
+
+    <div class="pb-2">
+      <button onclick="initHwatu()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
+        🔄 화투 패 다시 섞기
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 3. 카드 뒤집기 화면 ================= -->
+  <section id="cardScreen" class="w-full max-w-sm hidden flex-col justify-between h-full flex-1">
+    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700">
+      <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
+        <i class="fa-solid fa-house"></i> 홈
+      </button>
+      <h2 class="text-base font-black text-indigo-400">카드 뒤집기 🃏</h2>
+      <div class="bg-slate-900 border border-slate-700 px-3 py-1 rounded-xl text-right">
+        <span class="text-[9px] text-slate-400 block font-bold">시도 횟수</span>
+        <span id="cardMovesText" class="text-sm font-black text-amber-300">0</span>
+      </div>
+    </div>
+
+    <div class="my-auto p-1 flex items-center justify-center">
+      <div class="bg-slate-800/90 p-2.5 rounded-3xl shadow-2xl border-2 border-slate-700 w-full aspect-square flex items-center justify-center">
+        <div id="cardGrid" class="w-full h-full grid grid-cols-4 gap-2"></div>
+      </div>
+    </div>
+
+    <div class="pb-2">
+      <button onclick="initCardGame()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
+        🔄 새 게임 시작하기
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 4. 두뇌 오목 화면 ================= -->
+  <section id="omokScreen" class="w-full max-w-sm hidden flex-col justify-between h-full flex-1">
+    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700">
+      <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
+        <i class="fa-solid fa-house"></i> 홈
       </button>
       <div class="flex gap-1 bg-slate-900 p-0.5 rounded-xl">
-        <button id="omok-diff-hard" onclick="setOmokDifficulty('hard')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white">어려움</button>
-        <button id="omok-diff-normal" onclick="setOmokDifficulty('normal')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400">보통</button>
+        <button id="omok-diff-hard" onclick="setOmokDiff('hard')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white">어려움</button>
+        <button id="omok-diff-normal" onclick="setOmokDiff('normal')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400">보통</button>
       </div>
       <div class="flex items-center gap-1.5">
-        <div id="omok-turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow border border-white/20"></div>
+        <div id="omok-turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow border border-white/30"></div>
         <span id="omok-turn-text" class="text-xs font-black text-amber-300">내 차례</span>
       </div>
     </div>
@@ -93,98 +155,30 @@
       </div>
     </div>
 
-    <!-- 하단 버튼 -->
     <div class="pb-2 flex gap-2">
-      <button onclick="undoOmok()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 rounded-2xl border border-slate-700 shadow text-xs active:scale-95">
+      <button onclick="undoOmok()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 rounded-2xl border border-slate-700 text-xs active:scale-95">
         ↩ 무르기
       </button>
       <button onclick="resetOmok()" class="flex-[2] bg-amber-600 hover:bg-amber-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
-        🔄 새 판 시작하기
+        🔄 새 판 시작
       </button>
     </div>
   </section>
 
-  <!-- ================= 3. 2048 숫자합치기 화면 ================= -->
-  <section id="game2048Screen" class="w-full max-w-md hidden flex flex-col justify-between h-full flex-1">
-    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700 mt-1">
-      <button onclick="switchScreen('lobby')" class="text-xs font-bold text-slate-300 hover:text-white px-2 py-1 bg-slate-700/80 rounded-xl active:scale-95 flex items-center gap-1">
-        <i class="fa-solid fa-house"></i> 홈으로
-      </button>
-      <h2 class="text-lg font-black text-orange-400">2048</h2>
-      <div class="bg-slate-900 border border-slate-700 px-3 py-1 rounded-xl text-right">
-        <span class="text-[9px] text-slate-400 block font-bold">SCORE</span>
-        <span id="score2048" class="text-sm font-black text-amber-300">0</span>
-      </div>
-    </div>
-
-    <!-- 2048 격자 보드 -->
-    <div class="my-auto p-1 flex items-center justify-center">
-      <div id="board2048Container" class="bg-slate-800 p-2.5 rounded-2xl shadow-2xl border-2 border-slate-700 w-full aspect-square grid grid-cols-4 gap-2 touch-none">
-        <!-- 16개 셀이 자바스크립트로 생성됨 -->
-      </div>
-    </div>
-
-    <!-- 모바일 방향 가이드 & 다시하기 -->
-    <div class="pb-2 flex flex-col gap-2">
-      <p class="text-center text-[11px] text-slate-400">화면을 상하좌우로 쓱 밀어보세요!</p>
-      <div class="flex gap-2">
-        <div class="grid grid-cols-4 gap-1.5 flex-1">
-          <button onclick="move2048('up')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-up"></i></button>
-          <button onclick="move2048('down')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-down"></i></button>
-          <button onclick="move2048('left')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-left"></i></button>
-          <button onclick="move2048('right')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-        <button onclick="init2048()" class="bg-orange-600 hover:bg-orange-500 font-black px-4 rounded-xl text-xs active:scale-95">
-          🔄 다시하기
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 4. 오델로 게임 화면 ================= -->
-  <section id="othelloScreen" class="w-full max-w-md hidden flex flex-col justify-between h-full flex-1">
-    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700 mt-1">
-      <button onclick="switchScreen('lobby')" class="text-xs font-bold text-slate-300 hover:text-white px-2 py-1 bg-slate-700/80 rounded-xl active:scale-95 flex items-center gap-1">
-        <i class="fa-solid fa-house"></i> 홈으로
-      </button>
-      <div class="flex items-center gap-3">
-        <span class="text-xs font-bold text-slate-200">나(흑): <b id="othelloBlackCount" class="text-emerald-400">2</b></span>
-        <span class="text-xs font-bold text-slate-200">AI(백): <b id="othelloWhiteCount" class="text-rose-400">2</b></span>
-      </div>
-      <div class="flex items-center gap-1">
-        <span id="othelloTurnText" class="text-xs font-black text-emerald-400">내 차례</span>
-      </div>
-    </div>
-
-    <!-- 오델로 녹색 판 (8x8) -->
-    <div class="my-auto p-1 flex items-center justify-center">
-      <div class="bg-[#1b4332] p-1.5 rounded-2xl shadow-2xl border-4 border-[#081c15] w-full aspect-square flex items-center justify-center">
-        <canvas id="othelloCanvas" class="w-full h-full cursor-pointer rounded-xl"></canvas>
-      </div>
-    </div>
-
-    <!-- 하단 버튼 -->
-    <div class="pb-2">
-      <button onclick="initOthello()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
-        🔄 오델로 새 판 시작하기
-      </button>
-    </div>
-  </section>
-
-  <!-- 승리/알림 모달 -->
-  <div id="gameModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-    <div class="bg-slate-900 border-2 border-amber-400/80 rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl">
+  <!-- 결과 축하 모달 -->
+  <div id="gameModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border-2 border-amber-400 rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl">
       <div id="modalEmoji" class="text-5xl mb-2">🏆</div>
-      <h3 id="modalTitle" class="text-xl font-black text-white mb-1">승리!</h3>
-      <p id="modalDesc" class="text-xs text-slate-300 font-bold mb-5">멋진 승부였습니다!</p>
-      <button onclick="closeModal()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm py-3 rounded-xl shadow active:scale-95">
+      <h3 id="modalTitle" class="text-xl font-black text-white mb-1">성공!</h3>
+      <p id="modalDesc" class="text-xs text-slate-300 font-bold mb-5">멋지게 해내셨습니다!</p>
+      <button onclick="closeModal()" class="w-full bg-amber-500 text-slate-950 font-black text-sm py-3 rounded-xl active:scale-95">
         확인 👍
       </button>
     </div>
   </div>
 
   <script>
-    // --- 공통 Web Audio 효과음 엔진 ---
+    // --- 공통 효과음 시스템 ---
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     function getAudioCtx() {
@@ -200,38 +194,39 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
-        if (type === 'stone') {
+        if (type === 'hwatuHit') {
+          // 착! 화투 패 내려치는 찰진 소리
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(420, now);
+          osc.frequency.exponentialRampToValueAtTime(70, now + 0.08);
+          gain.gain.setValueAtTime(0.9, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        } else if (type === 'cardFlip') {
+          // 카드 뒤집기
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(540, now + 0.06);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+        } else if (type === 'match') {
+          // 짝 맞았을 때 딩동
+          [523, 659, 783].forEach((f, i) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.frequency.setValueAtTime(f, now + i * 0.06);
+            g.gain.setValueAtTime(0.2, now + i * 0.06);
+            g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.06 + 0.12);
+            o.connect(g); g.connect(ctx.destination);
+            o.start(now + i * 0.06); o.stop(now + i * 0.06 + 0.13);
+          });
+          return;
+        } else if (type === 'stone') {
+          // 바둑돌 탁 소리
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(500, now);
           osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
           gain.gain.setValueAtTime(0.7, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-        } else if (type === 'pop') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(350, now);
-          osc.frequency.exponentialRampToValueAtTime(700, now + 0.07);
-          gain.gain.setValueAtTime(0.3, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
-        } else if (type === 'flip') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(260, now);
-          osc.frequency.exponentialRampToValueAtTime(140, now + 0.06);
-          gain.gain.setValueAtTime(0.5, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
-        } else if (type === 'win') {
-          [392, 523, 659, 783].forEach((f, i) => {
-            const o = ctx.createOscillator();
-            const g = ctx.createGain();
-            o.type = 'sine';
-            o.frequency.setValueAtTime(f, now + i * 0.08);
-            g.gain.setValueAtTime(0.2, now + i * 0.08);
-            g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.2);
-            o.connect(g);
-            g.connect(ctx.destination);
-            o.start(now + i * 0.08);
-            o.stop(now + i * 0.08 + 0.21);
-          });
-          return;
         }
         osc.connect(gain);
         gain.connect(ctx.destination);
@@ -241,29 +236,40 @@
     }
 
     // --- 화면 전환 네비게이션 ---
-    function switchScreen(screen) {
+    function openGame(name) {
       getAudioCtx();
       document.getElementById('lobbyScreen').classList.add('hidden');
-      document.getElementById('omokScreen').classList.add('hidden');
-      document.getElementById('game2048Screen').classList.add('hidden');
-      document.getElementById('othelloScreen').classList.add('hidden');
+      ['hwatuScreen', 'cardScreen', 'omokScreen'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      });
 
-      if (screen === 'lobby') {
-        document.getElementById('lobbyScreen').classList.remove('hidden');
-      } else if (screen === 'omok') {
-        document.getElementById('omokScreen').classList.remove('hidden');
+      if (name === 'hwatu') {
+        const el = document.getElementById('hwatuScreen');
+        el.classList.remove('hidden'); el.classList.add('flex');
+        initHwatu();
+      } else if (name === 'card') {
+        const el = document.getElementById('cardScreen');
+        el.classList.remove('hidden'); el.classList.add('flex');
+        initCardGame();
+      } else if (name === 'omok') {
+        const el = document.getElementById('omokScreen');
+        el.classList.remove('hidden'); el.classList.add('flex');
         setTimeout(resizeOmok, 50);
-      } else if (screen === 'game2048') {
-        document.getElementById('game2048Screen').classList.remove('hidden');
-        init2048();
-      } else if (screen === 'othello') {
-        document.getElementById('othelloScreen').classList.remove('hidden');
-        setTimeout(resizeOthello, 50);
       }
     }
 
+    function goHome() {
+      ['hwatuScreen', 'cardScreen', 'omokScreen'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      });
+      document.getElementById('lobbyScreen').classList.remove('hidden');
+    }
+
     function openModal(emoji, title, desc) {
-      playSfx('win');
       document.getElementById('modalEmoji').textContent = emoji;
       document.getElementById('modalTitle').textContent = title;
       document.getElementById('modalDesc').textContent = desc;
@@ -274,7 +280,191 @@
     }
 
     // ==============================================================
-    // [1] 시원한 대형 오목 (Omok) 엔진
+    // [1] 화투 짝맞추기 게임 로직
+    // ==============================================================
+    const hwatuCardsData = [
+      { id: 1, name: '1월 송학', symbol: '🦅', color: 'border-red-600 bg-red-950/80 text-rose-200' },
+      { id: 2, name: '2월 매화', symbol: '🌸', color: 'border-pink-600 bg-pink-950/80 text-pink-200' },
+      { id: 3, name: '3월 벚꽃', symbol: '🌺', color: 'border-rose-500 bg-rose-950/80 text-rose-100' },
+      { id: 4, name: '4월 흑싸리', symbol: '🌿', color: 'border-emerald-600 bg-emerald-950/80 text-emerald-200' },
+      { id: 5, name: '5월 난초', symbol: '🎋', color: 'border-teal-600 bg-teal-950/80 text-teal-200' },
+      { id: 6, name: '6월 모란', symbol: '💮', color: 'border-amber-600 bg-amber-950/80 text-amber-200' },
+      { id: 7, name: '7월 홍싸리', symbol: '🐗', color: 'border-red-500 bg-red-900/80 text-red-200' },
+      { id: 8, name: '8월 공산', symbol: '🌕', color: 'border-yellow-400 bg-yellow-950/80 text-yellow-200' }
+    ];
+
+    let hwatuDeck = [];
+    let hwatuSelected = null;
+    let hwatuRemain = 16;
+    let hwatuLock = false;
+
+    function initHwatu() {
+      // 8종류 x 2장 = 16장
+      hwatuDeck = [...hwatuCardsData, ...hwatuCardsData].map((item, idx) => ({
+        ...item,
+        uniqueId: idx,
+        matched: false
+      }));
+      // 셔플
+      hwatuDeck.sort(() => Math.random() - 0.5);
+      hwatuSelected = null;
+      hwatuRemain = 16;
+      hwatuLock = false;
+      document.getElementById('hwatuRemainText').textContent = hwatuRemain;
+      renderHwatu();
+    }
+
+    function renderHwatu() {
+      const grid = document.getElementById('hwatuGrid');
+      grid.innerHTML = '';
+      hwatuDeck.forEach((card, index) => {
+        const btn = document.createElement('button');
+        if (card.matched) {
+          btn.className = 'w-full h-full rounded-2xl opacity-0 pointer-events-none';
+        } else {
+          const isSel = hwatuSelected && hwatuSelected.uniqueId === card.uniqueId;
+          btn.className = `w-full h-full rounded-2xl border-2 flex flex-col items-center justify-center p-1 shadow-lg transition active:scale-95 ${card.color} ${isSel ? 'ring-4 ring-yellow-400 scale-105' : ''}`;
+          btn.innerHTML = `
+            <span class="text-2xl sm:text-3xl">${card.symbol}</span>
+            <span class="text-[10px] font-black mt-1 leading-tight text-center">${card.name}</span>
+          `;
+          btn.onclick = () => selectHwatuCard(index);
+        }
+        grid.appendChild(btn);
+      });
+    }
+
+    function selectHwatuCard(index) {
+      if (hwatuLock) return;
+      const card = hwatuDeck[index];
+      if (card.matched) return;
+
+      playSfx('hwatuHit');
+
+      if (!hwatuSelected) {
+        hwatuSelected = card;
+        renderHwatu();
+      } else {
+        if (hwatuSelected.uniqueId === card.uniqueId) {
+          hwatuSelected = null;
+          renderHwatu();
+          return;
+        }
+
+        // 짝 검사
+        if (hwatuSelected.id === card.id) {
+          playSfx('match');
+          hwatuDeck.find(c => c.uniqueId === hwatuSelected.uniqueId).matched = true;
+          card.matched = true;
+          hwatuRemain -= 2;
+          document.getElementById('hwatuRemainText').textContent = hwatuRemain;
+          hwatuSelected = null;
+          renderHwatu();
+
+          if (hwatuRemain === 0) {
+            setTimeout(() => {
+              openModal('🎴', '화투 짝맞추기 완성!', '모든 화투 패를 멋지게 다 맞추셨습니다! 손맛 최고!');
+            }, 300);
+          }
+        } else {
+          // 틀렸을 때 살짝 보여주고 취소
+          hwatuLock = true;
+          renderHwatu();
+          setTimeout(() => {
+            hwatuSelected = null;
+            hwatuLock = false;
+            renderHwatu();
+          }, 450);
+        }
+      }
+    }
+
+    // ==============================================================
+    // [2] 카드 뒤집기 (기억력 짝맞추기)
+    // ==============================================================
+    const cardIcons = ['🍎', '🍌', '🍓', '🍇', '🍉', '🍍', '🍒', '🥝'];
+    let cardDeck = [];
+    let flippedCards = [];
+    let cardMoves = 0;
+    let cardMatchedCount = 0;
+    let cardLock = false;
+
+    function initCardGame() {
+      const items = [...cardIcons, ...cardIcons];
+      items.sort(() => Math.random() - 0.5);
+      cardDeck = items.map((icon, idx) => ({
+        id: idx,
+        icon: icon,
+        matched: false
+      }));
+      flippedCards = [];
+      cardMoves = 0;
+      cardMatchedCount = 0;
+      cardLock = false;
+      document.getElementById('cardMovesText').textContent = cardMoves;
+
+      const grid = document.getElementById('cardGrid');
+      grid.innerHTML = '';
+      cardDeck.forEach((c, idx) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'w-full h-full card-flip cursor-pointer';
+        wrap.innerHTML = `
+          <div id="card-inner-${idx}" class="card-inner w-full h-full relative rounded-2xl shadow-md border border-slate-700">
+            <div class="card-front absolute inset-0 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-2xl flex items-center justify-center text-white text-2xl font-black border border-indigo-400/40">
+              ❓
+            </div>
+            <div class="card-back absolute inset-0 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl border-2 border-amber-400">
+              ${c.icon}
+            </div>
+          </div>
+        `;
+        wrap.onclick = () => flipCard(idx);
+        grid.appendChild(wrap);
+      });
+    }
+
+    function flipCard(idx) {
+      if (cardLock) return;
+      const card = cardDeck[idx];
+      if (card.matched || flippedCards.includes(idx)) return;
+
+      playSfx('cardFlip');
+      document.getElementById(`card-inner-${idx}`).classList.add('flipped');
+      flippedCards.push(idx);
+
+      if (flippedCards.length === 2) {
+        cardMoves++;
+        document.getElementById('cardMovesText').textContent = cardMoves;
+        const [firstIdx, secondIdx] = flippedCards;
+        const c1 = cardDeck[firstIdx];
+        const c2 = cardDeck[secondIdx];
+
+        if (c1.icon === c2.icon) {
+          playSfx('match');
+          c1.matched = true;
+          c2.matched = true;
+          cardMatchedCount += 2;
+          flippedCards = [];
+
+          if (cardMatchedCount === 16) {
+            setTimeout(() => {
+              openModal('🃏', '기억력 카드 완벽 클리어!', `${cardMoves}번 만에 모든 카드의 짝을 다 찾으셨어요! 대단합니다!`);
+            }, 400);
+          }
+        } else {
+          cardLock = true;
+          setTimeout(() => {
+            document.getElementById(`card-inner-${firstIdx}`).classList.remove('flipped');
+            document.getElementById(`card-inner-${secondIdx}`).classList.remove('flipped');
+            flippedCards = [];
+            cardLock = false;
+          }, 800);
+        }
+      }
+    }
+
+    // ==============================================================
+    // [3] 시원한 대형 오목
     // ==============================================================
     const omokCanvas = document.getElementById('omokCanvas');
     const omokCtx = omokCanvas.getContext('2d');
@@ -283,7 +473,6 @@
     let omokPlayer = 1;
     let omokHistory = [];
     let omokOver = false;
-    let omokDifficulty = 'hard';
 
     function resizeOmok() {
       const rect = omokCanvas.getBoundingClientRect();
@@ -316,14 +505,12 @@
         omokCtx.moveTo(offset, pos);
         omokCtx.lineTo(offset + cellSize * (OMOK_SIZE - 1), pos);
         omokCtx.stroke();
-
         omokCtx.beginPath();
         omokCtx.moveTo(pos, offset);
         omokCtx.lineTo(pos, offset + cellSize * (OMOK_SIZE - 1));
         omokCtx.stroke();
       }
 
-      // 화점
       const center = offset + cellSize * 5;
       omokCtx.fillStyle = '#4A2A10';
       omokCtx.beginPath();
@@ -423,7 +610,6 @@
     }
 
     function omokAiMove() {
-      // 5목 완성 혹은 방어
       for (let target of [2, 1]) {
         for (let r = 0; r < OMOK_SIZE; r++) {
           for (let c = 0; c < OMOK_SIZE; c++) {
@@ -439,7 +625,6 @@
           }
         }
       }
-      // 중앙 지향 간단 수비 배치
       let bestMove = null;
       let maxScore = -9999;
       for (let r = 0; r < OMOK_SIZE; r++) {
@@ -465,9 +650,10 @@
         text.textContent = '생각 중...';
       }
     }
+
     function undoOmok() {
       if (omokHistory.length === 0 || omokOver) return;
-      playSfx('pop');
+      playSfx('hwatuHit');
       const steps = omokHistory.length >= 2 ? 2 : 1;
       for (let i = 0; i < steps; i++) {
         const last = omokHistory.pop();
@@ -477,6 +663,7 @@
       updateOmokUI();
       drawOmok();
     }
+
     function resetOmok() {
       omokBoard = Array.from({ length: OMOK_SIZE }, () => Array(OMOK_SIZE).fill(0));
       omokHistory = [];
@@ -485,340 +672,14 @@
       updateOmokUI();
       drawOmok();
     }
-    function setOmokDifficulty(d) {
-      omokDifficulty = d;
+
+    function setOmokDiff(d) {
       document.getElementById('omok-diff-hard').className = d === 'hard' ? 'text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white' : 'text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400';
       document.getElementById('omok-diff-normal').className = d === 'normal' ? 'text-[11px] px-2 py-0.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400';
       resetOmok();
     }
 
-    // ==============================================================
-    // [2] 2048 숫자합치기 엔진
-    // ==============================================================
-    let board2048 = [];
-    let score2048 = 0;
-
-    const tileColors = {
-      2: 'bg-amber-100 text-amber-900',
-      4: 'bg-amber-200 text-amber-900',
-      8: 'bg-orange-400 text-white',
-      16: 'bg-orange-500 text-white',
-      32: 'bg-rose-500 text-white',
-      64: 'bg-rose-600 text-white',
-      128: 'bg-yellow-400 text-slate-950 font-black',
-      256: 'bg-yellow-300 text-slate-950 font-black shadow-lg',
-      512: 'bg-amber-400 text-slate-950 font-black shadow-lg',
-      1024: 'bg-cyan-400 text-slate-950 font-black shadow-xl',
-      2048: 'bg-emerald-400 text-slate-950 font-black shadow-2xl animate-pulse'
-    };
-
-    function init2048() {
-      board2048 = [
-        [0,0,0,0],
-        [0,0,0,0],
-        [0,0,0,0],
-        [0,0,0,0]
-      ];
-      score2048 = 0;
-      document.getElementById('score2048').textContent = score2048;
-      addRandomTile2048();
-      addRandomTile2048();
-      render2048();
-    }
-
-    function addRandomTile2048() {
-      let empty = [];
-      for (let r = 0; r < 4; r++) {
-        for (let c = 0; c < 4; c++) {
-          if (board2048[r][c] === 0) empty.push({ r, c });
-        }
-      }
-      if (empty.length > 0) {
-        const rand = empty[Math.floor(Math.random() * empty.length)];
-        board2048[rand.r][rand.c] = Math.random() < 0.9 ? 2 : 4;
-      }
-    }
-
-    function render2048() {
-      const container = document.getElementById('board2048Container');
-      container.innerHTML = '';
-      for (let r = 0; r < 4; r++) {
-        for (let c = 0; c < 4; c++) {
-          const val = board2048[r][c];
-          const div = document.createElement('div');
-          div.className = `rounded-xl flex items-center justify-center font-black transition-all duration-100 ${val === 0 ? 'bg-slate-700/60' : (tileColors[val] || 'bg-indigo-600 text-white')}`;
-          div.style.fontSize = val > 512 ? '1.2rem' : '1.5rem';
-          div.textContent = val === 0 ? '' : val;
-          container.appendChild(div);
-        }
-      }
-      document.getElementById('score2048').textContent = score2048;
-    }
-
-    function slide(row) {
-      let arr = row.filter(val => val !== 0);
-      for (let i = 0; i < arr.length - 1; i++) {
-        if (arr[i] === arr[i + 1]) {
-          arr[i] *= 2;
-          score2048 += arr[i];
-          arr[i + 1] = 0;
-          playSfx('pop');
-        }
-      }
-      arr = arr.filter(val => val !== 0);
-      while (arr.length < 4) arr.push(0);
-      return arr;
-    }
-
-    function move2048(direction) {
-      let prev = JSON.stringify(board2048);
-
-      if (direction === 'left') {
-        for (let r = 0; r < 4; r++) board2048[r] = slide(board2048[r]);
-      } else if (direction === 'right') {
-        for (let r = 0; r < 4; r++) board2048[r] = slide(board2048[r].reverse()).reverse();
-      } else if (direction === 'up') {
-        for (let c = 0; c < 4; c++) {
-          let col = [board2048[0][c], board2048[1][c], board2048[2][c], board2048[3][c]];
-          col = slide(col);
-          for (let r = 0; r < 4; r++) board2048[r][c] = col[r];
-        }
-      } else if (direction === 'down') {
-        for (let c = 0; c < 4; c++) {
-          let col = [board2048[0][c], board2048[1][c], board2048[2][c], board2048[3][c]].reverse();
-          col = slide(col).reverse();
-          for (let r = 0; r < 4; r++) board2048[r][c] = col[r];
-        }
-      }
-
-      if (prev !== JSON.stringify(board2048)) {
-        addRandomTile2048();
-        render2048();
-      }
-    }
-
-    // 2048 스와이프 터치 이벤트
-    let touchStartX = 0;
-    let touchStartY = 0;
-    const boardEl = document.getElementById('board2048Container');
-    boardEl.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
-
-    boardEl.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].screenX - touchStartX;
-      const dy = e.changedTouches[0].screenY - touchStartY;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (dx > 30) move2048('right');
-        else if (dx < -30) move2048('left');
-      } else {
-        if (dy > 30) move2048('down');
-        else if (dy < -30) move2048('up');
-      }
-    }, { passive: true });
-
-    // ==============================================================
-    // [3] 오델로 (Othello / Reversi) 엔진
-    // ==============================================================
-    const othelloCanvas = document.getElementById('othelloCanvas');
-    const othelloCtx = othelloCanvas.getContext('2d');
-    const O_SIZE = 8;
-    let othelloBoard = Array.from({ length: O_SIZE }, () => Array(O_SIZE).fill(0));
-    let othelloPlayer = 1; // 1: 흑(플레이어), 2: 백(AI)
-    let othelloOver = false;
-
-    function resizeOthello() {
-      const rect = othelloCanvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      othelloCanvas.width = rect.width * dpr;
-      othelloCanvas.height = rect.height * dpr;
-      othelloCtx.scale(dpr, dpr);
-      drawOthello();
-    }
-
-    function initOthello() {
-      othelloBoard = Array.from({ length: O_SIZE }, () => Array(O_SIZE).fill(0));
-      othelloBoard[3][3] = 2; othelloBoard[3][4] = 1;
-      othelloBoard[4][3] = 1; othelloBoard[4][4] = 2;
-      othelloPlayer = 1;
-      othelloOver = false;
-      document.getElementById('othelloTurnText').textContent = '내 차례';
-      drawOthello();
-      updateOthelloScore();
-    }
-
-    function getOthelloValidMoves(p) {
-      const moves = [];
-      for (let r = 0; r < O_SIZE; r++) {
-        for (let c = 0; c < O_SIZE; c++) {
-          if (canFlipOthello(r, c, p).length > 0) moves.push({ r, c });
-        }
-      }
-      return moves;
-    }
-
-    function canFlipOthello(r, c, p) {
-      if (othelloBoard[r][c] !== 0) return [];
-      const opp = p === 1 ? 2 : 1;
-      const dirs = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
-      let flips = [];
-
-      for (let [dr, dc] of dirs) {
-        let path = [];
-        let nr = r + dr, nc = c + dc;
-        while (nr >= 0 && nr < O_SIZE && nc >= 0 && nc < O_SIZE && othelloBoard[nr][nc] === opp) {
-          path.push({ r: nr, c: nc });
-          nr += dr; nc += dc;
-        }
-        if (nr >= 0 && nr < O_SIZE && nc >= 0 && nc < O_SIZE && othelloBoard[nr][nc] === p && path.length > 0) {
-          flips = flips.concat(path);
-        }
-      }
-      return flips;
-    }
-
-    function drawOthello() {
-      const rect = othelloCanvas.getBoundingClientRect();
-      const cell = rect.width / O_SIZE;
-      othelloCtx.clearRect(0, 0, rect.width, rect.height);
-
-      // 격자선
-      othelloCtx.strokeStyle = '#143628';
-      othelloCtx.lineWidth = 1.5;
-      for (let i = 0; i <= O_SIZE; i++) {
-        othelloCtx.beginPath();
-        othelloCtx.moveTo(0, cell * i);
-        othelloCtx.lineTo(rect.width, cell * i);
-        othelloCtx.stroke();
-        othelloCtx.beginPath();
-        othelloCtx.moveTo(cell * i, 0);
-        othelloCtx.lineTo(cell * i, rect.height);
-        othelloCtx.stroke();
-      }
-
-      // 유효 착수 위치(놓을 수 있는 곳) 안내 노란 점
-      if (othelloPlayer === 1 && !othelloOver) {
-        const valids = getOthelloValidMoves(1);
-        valids.forEach(m => {
-          othelloCtx.fillStyle = 'rgba(255, 230, 0, 0.4)';
-          othelloCtx.beginPath();
-          othelloCtx.arc(cell * (m.c + 0.5), cell * (m.r + 0.5), cell * 0.15, 0, Math.PI * 2);
-          othelloCtx.fill();
-        });
-      }
-
-      // 돌 그리기
-      for (let r = 0; r < O_SIZE; r++) {
-        for (let c = 0; c < O_SIZE; c++) {
-          if (othelloBoard[r][c] !== 0) {
-            const x = cell * (c + 0.5);
-            const y = cell * (r + 0.5);
-            const radius = cell * 0.4;
-            othelloCtx.save();
-            othelloCtx.beginPath();
-            othelloCtx.arc(x, y, radius, 0, Math.PI * 2);
-            othelloCtx.shadowColor = 'rgba(0,0,0,0.5)';
-            othelloCtx.shadowBlur = 4;
-            othelloCtx.fillStyle = othelloBoard[r][c] === 1 ? '#111' : '#f8f8f8';
-            othelloCtx.fill();
-            othelloCtx.restore();
-          }
-        }
-      }
-    }
-
-    othelloCanvas.addEventListener('click', (e) => {
-      if (othelloOver || othelloPlayer === 2) return;
-      const rect = othelloCanvas.getBoundingClientRect();
-      const cell = rect.width / O_SIZE;
-      const col = Math.floor((e.clientX - rect.left) / cell);
-      const row = Math.floor((e.clientY - rect.top) / cell);
-
-      const flips = canFlipOthello(row, col, 1);
-      if (flips.length > 0) {
-        othelloBoard[row][col] = 1;
-        flips.forEach(f => othelloBoard[f.r][f.c] = 1);
-        playSfx('flip');
-        drawOthello();
-        updateOthelloScore();
-
-        othelloPlayer = 2;
-        document.getElementById('othelloTurnText').textContent = 'AI 생각 중...';
-        setTimeout(othelloAiMove, 400);
-      }
-    });
-
-    function othelloAiMove() {
-      const moves = getOthelloValidMoves(2);
-      if (moves.length === 0) {
-        othelloPlayer = 1;
-        document.getElementById('othelloTurnText').textContent = '내 차례 (AI 패스)';
-        if (getOthelloValidMoves(1).length === 0) endOthello();
-        drawOthello();
-        return;
-      }
-
-      // 가장 많이 뒤집는 곳 우선 선택
-      let bestMove = moves[0];
-      let maxFlips = -1;
-      moves.forEach(m => {
-        const flips = canFlipOthello(m.r, m.c, 2);
-        if (flips.length > maxFlips) { maxFlips = flips.length; bestMove = m; }
-      });
-
-      const flips = canFlipOthello(bestMove.r, bestMove.c, 2);
-      othelloBoard[bestMove.r][bestMove.c] = 2;
-      flips.forEach(f => othelloBoard[f.r][f.c] = 2);
-      playSfx('flip');
-      drawOthello();
-      updateOthelloScore();
-
-      othelloPlayer = 1;
-      document.getElementById('othelloTurnText').textContent = '내 차례';
-      if (getOthelloValidMoves(1).length === 0 && getOthelloValidMoves(2).length === 0) {
-        endOthello();
-      }
-    }
-
-    function updateOthelloScore() {
-      let b = 0, w = 0;
-      for (let r = 0; r < O_SIZE; r++) {
-        for (let c = 0; c < O_SIZE; c++) {
-          if (othelloBoard[r][c] === 1) b++;
-          if (othelloBoard[r][c] === 2) w++;
-        }
-      }
-      document.getElementById('othelloBlackCount').textContent = b;
-      document.getElementById('othelloWhiteCount').textContent = w;
-      return { b, w };
-    }
-
-    function endOthello() {
-      othelloOver = true;
-      const { b, w } = updateOthelloScore();
-      if (b > w) openModal('🏆', '오델로 승리!', `흑돌(${b}개) vs 백돌(${w}개)로 승리하셨습니다!`);
-      else if (w > b) openModal('🤖', '컴퓨터 승리!', `백돌(${w}개) vs 흑돌(${b}개)로 컴퓨터가 이겼습니다.`);
-      else openModal('🤝', '무승부!', '동점으로 비겼습니다!');
-    }
-
-    // PC 키보드 방향키 (2048 지원)
-    window.addEventListener('keydown', (e) => {
-      if (!document.getElementById('game2048Screen').classList.contains('hidden')) {
-        if (e.key === 'ArrowUp') { move2048('up'); e.preventDefault(); }
-        if (e.key === 'ArrowDown') { move2048('down'); e.preventDefault(); }
-        if (e.key === 'ArrowLeft') { move2048('left'); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { move2048('right'); e.preventDefault(); }
-      }
-    });
-
-    window.addEventListener('resize', () => {
-      resizeOmok();
-      resizeOthello();
-    });
-    window.addEventListener('load', () => {
-      initOthello();
-    });
+    window.addEventListener('resize', resizeOmok);
   </script>
 </body>
 </html>
