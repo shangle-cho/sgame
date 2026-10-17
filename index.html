@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,43 +13,42 @@
     }
   </style>
 </head>
-<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-4 select-none">
+<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-2 sm:p-4 select-none">
 
-  <!-- 헤더 영역 -->
-  <header class="w-full max-w-sm text-center pt-2">
-    <div class="inline-block bg-amber-200 text-amber-900 text-xs font-bold px-3 py-1 rounded-full mb-1">
-      🧠 두뇌 활력 오목 게임
-    </div>
-    <h1 class="text-2xl font-black text-gray-900">두뇌 튼튼 오목 한판</h1>
-    
-    <!-- 난이도 & 모드 선택 -->
-    <div class="mt-3 flex flex-col gap-1.5 bg-white p-2.5 rounded-2xl shadow-sm border border-amber-200">
-      <div class="flex items-center justify-between">
-        <div class="flex gap-1">
-          <button id="diff-hard" onclick="setDifficulty('hard')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-rose-600 text-white shadow-sm">고수(어려움) 🔥</button>
-          <button id="diff-normal" onclick="setDifficulty('normal')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-gray-100 text-gray-700">보통</button>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <div id="turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow"></div>
-          <span id="turn-text" class="text-xs font-black text-gray-800">흑돌 차례</span>
-        </div>
+  <!-- 헤더 영역 (슬림하게 압축) -->
+  <header class="w-full max-w-md text-center pt-1 px-1">
+    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-2xl shadow-sm border border-amber-200">
+      <div class="flex items-center gap-1.5">
+        <span class="text-base font-black text-gray-900">두뇌 오목 🧠</span>
+      </div>
+      
+      <!-- 난이도 선택 버튼 -->
+      <div class="flex gap-1 bg-gray-100 p-0.5 rounded-xl">
+        <button id="diff-hard" onclick="setDifficulty('hard')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-rose-600 text-white shadow-sm transition">어려움 🔥</button>
+        <button id="diff-normal" onclick="setDifficulty('normal')" class="text-xs px-2.5 py-1 rounded-lg font-bold text-gray-600 transition">보통</button>
+      </div>
+
+      <!-- 턴 표시 -->
+      <div class="flex items-center gap-1.5 pl-1">
+        <div id="turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow"></div>
+        <span id="turn-text" class="text-xs font-black text-gray-800">내 차례</span>
       </div>
     </div>
   </header>
 
-  <!-- 바둑판 캔버스 영역 -->
-  <main class="w-full max-w-sm flex items-center justify-center my-auto">
-    <div class="bg-[#E4A054] p-3 rounded-2xl shadow-xl border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
-      <canvas id="omokCanvas" class="w-full h-full cursor-pointer"></canvas>
+  <!-- 바둑판 캔버스 영역 (화면 폭을 꽉 채워 시원시원한 대형 사이즈) -->
+  <main class="w-full max-w-md flex items-center justify-center my-auto p-1">
+    <div class="bg-[#E4A054] p-1.5 sm:p-2 rounded-2xl shadow-xl border-2 sm:border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
+      <canvas id="omokCanvas" class="w-full h-full cursor-pointer rounded-xl"></canvas>
     </div>
   </main>
 
-  <!-- 하단 조작 버튼 -->
-  <footer class="w-full max-w-sm pb-4 flex gap-2">
-    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3 rounded-xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
+  <!-- 하단 조작 버튼 (손쉬운 터치) -->
+  <footer class="w-full max-w-md pb-2 px-1 flex gap-2">
+    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3.5 rounded-2xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
       ↩ 무르기
     </button>
-    <button onclick="resetGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl shadow-md text-sm active:scale-95 transition">
+    <button onclick="resetGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-black py-3.5 rounded-2xl shadow-md text-sm active:scale-95 transition">
       🔄 새 판 시작하기
     </button>
   </footer>
@@ -141,7 +139,7 @@
     let currentPlayer = 1; // 1: 흑(플레이어), 2: 백(컴퓨터)
     let history = [];
     let isGameOver = false;
-    let difficulty = 'hard'; // 'normal' or 'hard'
+    let difficulty = 'hard';
 
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
@@ -152,37 +150,47 @@
       drawBoard();
     }
 
+    // 바둑판 안쪽 여백을 0.65배로 타이트하게 잡아 판 크기를 최대화
     function getCellSize() {
       const rect = canvas.getBoundingClientRect();
-      return rect.width / (SIZE + 1);
+      return rect.width / (SIZE + 0.3);
+    }
+
+    function getOffset() {
+      const cellSize = getCellSize();
+      return cellSize * 0.65;
     }
 
     function drawBoard() {
       const rect = canvas.getBoundingClientRect();
       const cellSize = getCellSize();
+      const offset = getOffset();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
-      ctx.strokeStyle = '#5C3A1E';
-      ctx.lineWidth = 1.5;
+      // 격자선 (더 선명하고 진하게)
+      ctx.strokeStyle = '#4A2A10';
+      ctx.lineWidth = 1.8;
 
       for (let i = 0; i < SIZE; i++) {
-        const pos = cellSize * (i + 1);
+        const pos = offset + cellSize * i;
+        // 가로선
         ctx.beginPath();
-        ctx.moveTo(cellSize, pos);
-        ctx.lineTo(cellSize * SIZE, pos);
+        ctx.moveTo(offset, pos);
+        ctx.lineTo(offset + cellSize * (SIZE - 1), pos);
         ctx.stroke();
 
+        // 세로선
         ctx.beginPath();
-        ctx.moveTo(pos, cellSize);
-        ctx.lineTo(pos, cellSize * SIZE);
+        ctx.moveTo(pos, offset);
+        ctx.lineTo(pos, offset + cellSize * (SIZE - 1));
         ctx.stroke();
       }
 
-      // 화점 표시
-      const centerPos = cellSize * 6;
-      ctx.fillStyle = '#5C3A1E';
+      // 화점 표시 (중앙 1개 및 모서리 포인트)
+      const centerPos = offset + cellSize * 5;
+      ctx.fillStyle = '#4A2A10';
       ctx.beginPath();
-      ctx.arc(centerPos, centerPos, 4, 0, Math.PI * 2);
+      ctx.arc(centerPos, centerPos, 5, 0, Math.PI * 2);
       ctx.fill();
 
       // 돌 그리기
@@ -194,31 +202,32 @@
         }
       }
 
-      // 마지막 착수 표시
+      // 마지막 착수 빨간 점 표시
       if (history.length > 0) {
         const last = history[history.length - 1];
-        const x = cellSize * (last.c + 1);
-        const y = cellSize * (last.r + 1);
+        const x = offset + cellSize * last.c;
+        const y = offset + cellSize * last.r;
         ctx.fillStyle = '#EF4444';
         ctx.beginPath();
-        ctx.arc(x, y, cellSize * 0.15, 0, Math.PI * 2);
+        ctx.arc(x, y, cellSize * 0.16, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     function drawStone(r, c, player) {
       const cellSize = getCellSize();
-      const x = cellSize * (c + 1);
-      const y = cellSize * (r + 1);
-      const radius = cellSize * 0.42;
+      const offset = getOffset();
+      const x = offset + cellSize * c;
+      const y = offset + cellSize * r;
+      const radius = cellSize * 0.44; // 알 크기를 시원하게 큼직하게 조정
 
       ctx.save();
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.shadowColor = 'rgba(0,0,0,0.35)';
-      ctx.shadowBlur = 4;
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
+      ctx.shadowColor = 'rgba(0,0,0,0.4)';
+      ctx.shadowBlur = 5;
+      ctx.shadowOffsetX = 2.5;
+      ctx.shadowOffsetY = 2.5;
 
       const grad = ctx.createRadialGradient(x - radius/3, y - radius/3, radius/10, x, y, radius);
       if (player === 1) {
@@ -226,14 +235,14 @@
         grad.addColorStop(1, '#111');
       } else {
         grad.addColorStop(0, '#ffffff');
-        grad.addColorStop(1, '#d8d8d8');
+        grad.addColorStop(1, '#d4d4d4');
       }
       ctx.fillStyle = grad;
       ctx.fill();
 
       if (player === 2) {
-        ctx.strokeStyle = '#bbb';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#b0b0b0';
+        ctx.lineWidth = 1.2;
         ctx.stroke();
       }
       ctx.restore();
@@ -246,9 +255,10 @@
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const cellSize = getCellSize();
+      const offset = getOffset();
 
-      const col = Math.round(x / cellSize) - 1;
-      const row = Math.round(y / cellSize) - 1;
+      const col = Math.round((x - offset) / cellSize);
+      const row = Math.round((y - offset) / cellSize);
 
       if (row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] === 0) {
         placeMove(row, col, 1);
@@ -270,16 +280,15 @@
       updateUI();
 
       if (currentPlayer === 2 && !isGameOver) {
-        setTimeout(aiTurn, 280);
+        setTimeout(aiTurn, 250);
       }
     }
 
-    // --- 고수 AI 계산 알고리즘 ---
+    // --- AI 계산 알고리즘 ---
     function evaluateLine(r, c, dr, dc, p) {
       let count = 1;
       let openEnds = 0;
 
-      // 정방향 탐색
       let step = 1;
       while (true) {
         let nr = r + dr * step, nc = c + dc * step;
@@ -290,7 +299,6 @@
         step++;
       }
 
-      // 역방향 탐색
       step = 1;
       while (true) {
         let nr = r - dr * step, nc = c - dc * step;
@@ -301,14 +309,14 @@
         step++;
       }
 
-      if (count >= 5) return 100000; // 5목 완성
+      if (count >= 5) return 100000;
       if (count === 4) {
-        if (openEnds === 2) return 10000; // 열린 4
-        if (openEnds === 1) return 1500;  // 닫힌 4
+        if (openEnds === 2) return 10000;
+        if (openEnds === 1) return 1500;
       }
       if (count === 3) {
-        if (openEnds === 2) return 2000;  // 열린 3 (가장 위협적)
-        if (openEnds === 1) return 200;   // 닫힌 3
+        if (openEnds === 2) return 2000;
+        if (openEnds === 1) return 200;
       }
       if (count === 2) {
         if (openEnds === 2) return 100;
@@ -330,7 +338,6 @@
       let bestMove = null;
       let maxScore = -Infinity;
 
-      // 1. 내가 즉시 이기는 자리가 있는지 확인 (5목)
       for (let r = 0; r < SIZE; r++) {
         for (let c = 0; c < SIZE; c++) {
           if (board[r][c] === 0) {
@@ -345,7 +352,6 @@
         }
       }
 
-      // 2. 상대(플레이어)가 이기는 자리 즉시 차단 (5목 방어)
       for (let r = 0; r < SIZE; r++) {
         for (let c = 0; c < SIZE; c++) {
           if (board[r][c] === 0) {
@@ -360,23 +366,17 @@
         }
       }
 
-      // 3. 패턴 점수 전수 계산
       for (let r = 0; r < SIZE; r++) {
         for (let c = 0; c < SIZE; c++) {
           if (board[r][c] === 0) {
-            // 공격 가치 (AI: 2) & 방어 가치 (유저: 1)
             let attackScore = evaluatePosition(r, c, 2);
             let defenseScore = evaluatePosition(r, c, 1);
-
-            // 중앙에 가까울수록 가산점 (바둑판 크기 11)
             let centerBonus = (5 - Math.abs(r - 5)) + (5 - Math.abs(c - 5));
 
             let totalScore = 0;
             if (difficulty === 'hard') {
-              // 고수 모드: 공격 점수와 방어 점수를 철저하게 종합 (수비 우선도 높음)
               totalScore = (attackScore * 1.2) + (defenseScore * 1.5) + centerBonus;
             } else {
-              // 보통 모드: 약간의 무작위성 허용
               totalScore = attackScore + defenseScore + (Math.random() * 80);
             }
 
@@ -417,10 +417,10 @@
       const text = document.getElementById('turn-text');
       if (currentPlayer === 1) {
         dot.className = 'w-3.5 h-3.5 rounded-full bg-black shadow';
-        text.textContent = '흑돌 차례';
+        text.textContent = '내 차례';
       } else {
         dot.className = 'w-3.5 h-3.5 rounded-full bg-white border border-gray-400 shadow';
-        text.textContent = '컴퓨터 수읽기 중...';
+        text.textContent = '생각 중...';
       }
     }
 
@@ -447,7 +447,6 @@
     function undoMove() {
       if (history.length === 0 || isGameOver) return;
       playUndoSound();
-      // AI 모드는 컴퓨터와 유저 수 2개를 한 번에 무르기
       const steps = history.length >= 2 ? 2 : 1;
       for (let i = 0; i < steps; i++) {
         const last = history.pop();
@@ -470,8 +469,8 @@
 
     function setDifficulty(diff) {
       difficulty = diff;
-      document.getElementById('diff-hard').className = diff === 'hard' ? 'text-xs px-2.5 py-1 rounded-lg font-bold bg-rose-600 text-white shadow-sm' : 'text-xs px-2.5 py-1 rounded-lg font-bold bg-gray-100 text-gray-700';
-      document.getElementById('diff-normal').className = diff === 'normal' ? 'text-xs px-2.5 py-1 rounded-lg font-bold bg-amber-600 text-white shadow-sm' : 'text-xs px-2.5 py-1 rounded-lg font-bold bg-gray-100 text-gray-700';
+      document.getElementById('diff-hard').className = diff === 'hard' ? 'text-xs px-2.5 py-1 rounded-lg font-bold bg-rose-600 text-white shadow-sm transition' : 'text-xs px-2.5 py-1 rounded-lg font-bold text-gray-600 transition';
+      document.getElementById('diff-normal').className = diff === 'normal' ? 'text-xs px-2.5 py-1 rounded-lg font-bold bg-amber-600 text-white shadow-sm transition' : 'text-xs px-2.5 py-1 rounded-lg font-bold text-gray-600 transition';
       resetGame();
     }
 
