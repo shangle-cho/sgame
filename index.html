@@ -3,8 +3,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>두뇌 튼튼 오목 한판</title>
+  <title>두뇌 힐링 게임 라운지 🎮</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap');
     body {
@@ -13,470 +14,811 @@
     }
   </style>
 </head>
-<body class="bg-amber-50 min-h-screen flex flex-col items-center justify-between p-2 sm:p-4 select-none">
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-between p-2 sm:p-4 select-none">
 
-  <!-- 헤더 영역 (슬림하게 압축) -->
-  <header class="w-full max-w-md text-center pt-1 px-1">
-    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-2xl shadow-sm border border-amber-200">
+  <!-- ================= 1. 메인 첫 화면 (게임 선택 로비) ================= -->
+  <section id="lobbyScreen" class="w-full max-w-md my-auto flex flex-col items-center py-6 px-3">
+    <div class="inline-block bg-gradient-to-r from-amber-500 to-rose-500 text-white text-xs font-black px-4 py-1.5 rounded-full mb-2 shadow-md">
+      ☕ 부담 없이 편하게 즐기는
+    </div>
+    <h1 class="text-3xl font-black text-amber-200 mb-1 text-center">힐링 게임 라운지 🎮</h1>
+    <p class="text-xs text-slate-400 mb-6 text-center">하고 싶은 게임을 골라보세요!</p>
+
+    <div class="w-full flex flex-col gap-3.5">
+      <!-- 오목 카드 -->
+      <button onclick="switchScreen('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-3.5">
+          <div class="w-13 h-13 text-3xl bg-amber-950/70 rounded-2xl p-2.5 flex items-center justify-center border border-amber-400/30">
+            ⚫⚪
+          </div>
+          <div>
+            <h2 class="text-lg font-black text-white">두뇌 튼튼 오목 한판</h2>
+            <p class="text-xs text-amber-200/80 mt-0.5">시원시원한 대형 바둑판 & AI 대전</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-amber-300 pr-1 text-lg"></i>
+      </button>
+
+      <!-- 2048 카드 -->
+      <button onclick="switchScreen('game2048')" class="w-full bg-gradient-to-r from-orange-800 to-amber-600 hover:from-orange-700 hover:to-amber-500 border-2 border-orange-400/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-3.5">
+          <div class="w-13 h-13 text-3xl bg-amber-950/70 rounded-2xl p-2.5 flex items-center justify-center border border-orange-400/30 font-black text-amber-300">
+            2048
+          </div>
+          <div>
+            <h2 class="text-lg font-black text-white">2048 숫자합치기</h2>
+            <p class="text-xs text-orange-200/80 mt-0.5">화면을 쓱쓱 밀어 숫자를 뻥튀기!</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-orange-300 pr-1 text-lg"></i>
+      </button>
+
+      <!-- 오델로(리버시) 카드 -->
+      <button onclick="switchScreen('othello')" class="w-full bg-gradient-to-r from-emerald-900 to-teal-800 hover:from-emerald-800 hover:to-teal-700 border-2 border-emerald-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-3.5">
+          <div class="w-13 h-13 text-3xl bg-emerald-950/70 rounded-2xl p-2.5 flex items-center justify-center border border-emerald-400/30">
+            🔄
+          </div>
+          <div>
+            <h2 class="text-lg font-black text-white">오델로 (돌 뒤집기)</h2>
+            <p class="text-xs text-emerald-200/80 mt-0.5">상대 돌을 가둬 싹 뒤집는 손맛!</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right text-emerald-300 pr-1 text-lg"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 2. 오목 게임 화면 ================= -->
+  <section id="omokScreen" class="w-full max-w-md hidden flex flex-col justify-between h-full flex-1">
+    <!-- 헤더 -->
+    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700 mt-1">
+      <button onclick="switchScreen('lobby')" class="text-xs font-bold text-slate-300 hover:text-white px-2 py-1 bg-slate-700/80 rounded-xl active:scale-95 flex items-center gap-1">
+        <i class="fa-solid fa-house"></i> 홈으로
+      </button>
+      <div class="flex gap-1 bg-slate-900 p-0.5 rounded-xl">
+        <button id="omok-diff-hard" onclick="setOmokDifficulty('hard')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white">어려움</button>
+        <button id="omok-diff-normal" onclick="setOmokDifficulty('normal')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400">보통</button>
+      </div>
       <div class="flex items-center gap-1.5">
-        <span class="text-base font-black text-gray-900">두뇌 오목 🧠</span>
-      </div>
-      
-      <!-- 난이도 선택 버튼 -->
-      <div class="flex gap-1 bg-gray-100 p-0.5 rounded-xl">
-        <button id="diff-hard" onclick="setDifficulty('hard')" class="text-xs px-2.5 py-1 rounded-lg font-bold bg-rose-600 text-white shadow-sm transition">어려움 🔥</button>
-        <button id="diff-normal" onclick="setDifficulty('normal')" class="text-xs px-2.5 py-1 rounded-lg font-bold text-gray-600 transition">보통</button>
-      </div>
-
-      <!-- 턴 표시 -->
-      <div class="flex items-center gap-1.5 pl-1">
-        <div id="turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow"></div>
-        <span id="turn-text" class="text-xs font-black text-gray-800">내 차례</span>
+        <div id="omok-turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow border border-white/20"></div>
+        <span id="omok-turn-text" class="text-xs font-black text-amber-300">내 차례</span>
       </div>
     </div>
-  </header>
 
-  <!-- 바둑판 캔버스 영역 (화면 폭을 꽉 채워 시원시원한 대형 사이즈) -->
-  <main class="w-full max-w-md flex items-center justify-center my-auto p-1">
-    <div class="bg-[#E4A054] p-1.5 sm:p-2 rounded-2xl shadow-xl border-2 sm:border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
-      <canvas id="omokCanvas" class="w-full h-full cursor-pointer rounded-xl"></canvas>
+    <!-- 대형 바둑판 -->
+    <div class="my-auto p-1 flex items-center justify-center">
+      <div class="bg-[#E4A054] p-1.5 rounded-2xl shadow-2xl border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
+        <canvas id="omokCanvas" class="w-full h-full cursor-pointer rounded-xl"></canvas>
+      </div>
     </div>
-  </main>
 
-  <!-- 하단 조작 버튼 (손쉬운 터치) -->
-  <footer class="w-full max-w-md pb-2 px-1 flex gap-2">
-    <button onclick="undoMove()" class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3.5 rounded-2xl border border-gray-300 shadow-sm text-sm active:scale-95 transition">
-      ↩ 무르기
-    </button>
-    <button onclick="resetGame()" class="flex-[2] bg-amber-600 hover:bg-amber-700 text-white font-black py-3.5 rounded-2xl shadow-md text-sm active:scale-95 transition">
-      🔄 새 판 시작하기
-    </button>
-  </footer>
+    <!-- 하단 버튼 -->
+    <div class="pb-2 flex gap-2">
+      <button onclick="undoOmok()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 rounded-2xl border border-slate-700 shadow text-xs active:scale-95">
+        ↩ 무르기
+      </button>
+      <button onclick="resetOmok()" class="flex-[2] bg-amber-600 hover:bg-amber-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
+        🔄 새 판 시작하기
+      </button>
+    </div>
+  </section>
 
-  <!-- 승리 모달 -->
-  <div id="winModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl border-4 border-amber-400">
-      <div id="winEmoji" class="text-5xl mb-2">🏆</div>
-      <h2 id="winTitle" class="text-2xl font-black text-gray-800 mb-1">흑돌 승리!</h2>
-      <p id="winDesc" class="text-gray-600 text-sm font-bold mb-5">축하드립니다! 다섯 알을 멋지게 이으셨어요!</p>
-      <button onclick="resetGame()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black text-base py-3 rounded-xl shadow-md transition active:scale-95">
-        다시 한판 하기 🎯
+  <!-- ================= 3. 2048 숫자합치기 화면 ================= -->
+  <section id="game2048Screen" class="w-full max-w-md hidden flex flex-col justify-between h-full flex-1">
+    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700 mt-1">
+      <button onclick="switchScreen('lobby')" class="text-xs font-bold text-slate-300 hover:text-white px-2 py-1 bg-slate-700/80 rounded-xl active:scale-95 flex items-center gap-1">
+        <i class="fa-solid fa-house"></i> 홈으로
+      </button>
+      <h2 class="text-lg font-black text-orange-400">2048</h2>
+      <div class="bg-slate-900 border border-slate-700 px-3 py-1 rounded-xl text-right">
+        <span class="text-[9px] text-slate-400 block font-bold">SCORE</span>
+        <span id="score2048" class="text-sm font-black text-amber-300">0</span>
+      </div>
+    </div>
+
+    <!-- 2048 격자 보드 -->
+    <div class="my-auto p-1 flex items-center justify-center">
+      <div id="board2048Container" class="bg-slate-800 p-2.5 rounded-2xl shadow-2xl border-2 border-slate-700 w-full aspect-square grid grid-cols-4 gap-2 touch-none">
+        <!-- 16개 셀이 자바스크립트로 생성됨 -->
+      </div>
+    </div>
+
+    <!-- 모바일 방향 가이드 & 다시하기 -->
+    <div class="pb-2 flex flex-col gap-2">
+      <p class="text-center text-[11px] text-slate-400">화면을 상하좌우로 쓱 밀어보세요!</p>
+      <div class="flex gap-2">
+        <div class="grid grid-cols-4 gap-1.5 flex-1">
+          <button onclick="move2048('up')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-up"></i></button>
+          <button onclick="move2048('down')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-down"></i></button>
+          <button onclick="move2048('left')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-left"></i></button>
+          <button onclick="move2048('right')" class="bg-slate-800 p-3 rounded-xl active:bg-slate-700"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <button onclick="init2048()" class="bg-orange-600 hover:bg-orange-500 font-black px-4 rounded-xl text-xs active:scale-95">
+          🔄 다시하기
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. 오델로 게임 화면 ================= -->
+  <section id="othelloScreen" class="w-full max-w-md hidden flex flex-col justify-between h-full flex-1">
+    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700 mt-1">
+      <button onclick="switchScreen('lobby')" class="text-xs font-bold text-slate-300 hover:text-white px-2 py-1 bg-slate-700/80 rounded-xl active:scale-95 flex items-center gap-1">
+        <i class="fa-solid fa-house"></i> 홈으로
+      </button>
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold text-slate-200">나(흑): <b id="othelloBlackCount" class="text-emerald-400">2</b></span>
+        <span class="text-xs font-bold text-slate-200">AI(백): <b id="othelloWhiteCount" class="text-rose-400">2</b></span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span id="othelloTurnText" class="text-xs font-black text-emerald-400">내 차례</span>
+      </div>
+    </div>
+
+    <!-- 오델로 녹색 판 (8x8) -->
+    <div class="my-auto p-1 flex items-center justify-center">
+      <div class="bg-[#1b4332] p-1.5 rounded-2xl shadow-2xl border-4 border-[#081c15] w-full aspect-square flex items-center justify-center">
+        <canvas id="othelloCanvas" class="w-full h-full cursor-pointer rounded-xl"></canvas>
+      </div>
+    </div>
+
+    <!-- 하단 버튼 -->
+    <div class="pb-2">
+      <button onclick="initOthello()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
+        🔄 오델로 새 판 시작하기
+      </button>
+    </div>
+  </section>
+
+  <!-- 승리/알림 모달 -->
+  <div id="gameModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border-2 border-amber-400/80 rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl">
+      <div id="modalEmoji" class="text-5xl mb-2">🏆</div>
+      <h3 id="modalTitle" class="text-xl font-black text-white mb-1">승리!</h3>
+      <p id="modalDesc" class="text-xs text-slate-300 font-bold mb-5">멋진 승부였습니다!</p>
+      <button onclick="closeModal()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm py-3 rounded-xl shadow active:scale-95">
+        확인 👍
       </button>
     </div>
   </div>
 
   <script>
-    // --- 효과음 시스템 ---
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    // --- 공통 Web Audio 효과음 엔진 ---
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
-
-    function getAudioContext() {
-      if (!audioCtx) audioCtx = new AudioContext();
+    function getAudioCtx() {
+      if (!audioCtx) audioCtx = new AudioCtx();
       if (audioCtx.state === 'suspended') audioCtx.resume();
       return audioCtx;
     }
 
-    function playStoneSound() {
+    function playSfx(type) {
       try {
-        const ctx = getAudioContext();
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(520, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.8, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.09);
-      } catch(e) {}
-    }
 
-    function playUndoSound() {
-      try {
-        const ctx = getAudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(320, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.4, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.13);
-      } catch(e) {}
-    }
-
-    function playWinSound() {
-      try {
-        const ctx = getAudioContext();
-        const notes = [261.63, 329.63, 392.00, 523.25];
-        notes.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          const start = ctx.currentTime + (idx * 0.12);
+        if (type === 'stone') {
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, start);
-          gain.gain.setValueAtTime(0, start);
-          gain.gain.linearRampToValueAtTime(0.4, start + 0.03);
-          gain.gain.exponentialRampToValueAtTime(0.01, start + 0.25);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(start);
-          osc.stop(start + 0.25);
-        });
+          osc.frequency.setValueAtTime(500, now);
+          osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
+          gain.gain.setValueAtTime(0.7, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        } else if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(350, now);
+          osc.frequency.exponentialRampToValueAtTime(700, now + 0.07);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+        } else if (type === 'flip') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.06);
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+        } else if (type === 'win') {
+          [392, 523, 659, 783].forEach((f, i) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'sine';
+            o.frequency.setValueAtTime(f, now + i * 0.08);
+            g.gain.setValueAtTime(0.2, now + i * 0.08);
+            g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.2);
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start(now + i * 0.08);
+            o.stop(now + i * 0.08 + 0.21);
+          });
+          return;
+        }
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.09);
       } catch(e) {}
     }
 
-    // --- 게임 & AI 엔진 ---
-    const canvas = document.getElementById('omokCanvas');
-    const ctx = canvas.getContext('2d');
-    const SIZE = 11;
-    let board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
-    let currentPlayer = 1; // 1: 흑(플레이어), 2: 백(컴퓨터)
-    let history = [];
-    let isGameOver = false;
-    let difficulty = 'hard';
+    // --- 화면 전환 네비게이션 ---
+    function switchScreen(screen) {
+      getAudioCtx();
+      document.getElementById('lobbyScreen').classList.add('hidden');
+      document.getElementById('omokScreen').classList.add('hidden');
+      document.getElementById('game2048Screen').classList.add('hidden');
+      document.getElementById('othelloScreen').classList.add('hidden');
 
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
+      if (screen === 'lobby') {
+        document.getElementById('lobbyScreen').classList.remove('hidden');
+      } else if (screen === 'omok') {
+        document.getElementById('omokScreen').classList.remove('hidden');
+        setTimeout(resizeOmok, 50);
+      } else if (screen === 'game2048') {
+        document.getElementById('game2048Screen').classList.remove('hidden');
+        init2048();
+      } else if (screen === 'othello') {
+        document.getElementById('othelloScreen').classList.remove('hidden');
+        setTimeout(resizeOthello, 50);
+      }
+    }
+
+    function openModal(emoji, title, desc) {
+      playSfx('win');
+      document.getElementById('modalEmoji').textContent = emoji;
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalDesc').textContent = desc;
+      document.getElementById('gameModal').classList.remove('hidden');
+    }
+    function closeModal() {
+      document.getElementById('gameModal').classList.add('hidden');
+    }
+
+    // ==============================================================
+    // [1] 시원한 대형 오목 (Omok) 엔진
+    // ==============================================================
+    const omokCanvas = document.getElementById('omokCanvas');
+    const omokCtx = omokCanvas.getContext('2d');
+    const OMOK_SIZE = 11;
+    let omokBoard = Array.from({ length: OMOK_SIZE }, () => Array(OMOK_SIZE).fill(0));
+    let omokPlayer = 1;
+    let omokHistory = [];
+    let omokOver = false;
+    let omokDifficulty = 'hard';
+
+    function resizeOmok() {
+      const rect = omokCanvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      drawBoard();
+      omokCanvas.width = rect.width * dpr;
+      omokCanvas.height = rect.height * dpr;
+      omokCtx.scale(dpr, dpr);
+      drawOmok();
     }
 
-    // 바둑판 안쪽 여백을 0.65배로 타이트하게 잡아 판 크기를 최대화
-    function getCellSize() {
-      const rect = canvas.getBoundingClientRect();
-      return rect.width / (SIZE + 0.3);
+    function getOmokCellSize() {
+      return omokCanvas.getBoundingClientRect().width / (OMOK_SIZE + 0.3);
+    }
+    function getOmokOffset() {
+      return getOmokCellSize() * 0.65;
     }
 
-    function getOffset() {
-      const cellSize = getCellSize();
-      return cellSize * 0.65;
-    }
+    function drawOmok() {
+      const rect = omokCanvas.getBoundingClientRect();
+      const cellSize = getOmokCellSize();
+      const offset = getOmokOffset();
+      omokCtx.clearRect(0, 0, rect.width, rect.height);
 
-    function drawBoard() {
-      const rect = canvas.getBoundingClientRect();
-      const cellSize = getCellSize();
-      const offset = getOffset();
-      ctx.clearRect(0, 0, rect.width, rect.height);
+      omokCtx.strokeStyle = '#4A2A10';
+      omokCtx.lineWidth = 1.8;
 
-      // 격자선 (더 선명하고 진하게)
-      ctx.strokeStyle = '#4A2A10';
-      ctx.lineWidth = 1.8;
-
-      for (let i = 0; i < SIZE; i++) {
+      for (let i = 0; i < OMOK_SIZE; i++) {
         const pos = offset + cellSize * i;
-        // 가로선
-        ctx.beginPath();
-        ctx.moveTo(offset, pos);
-        ctx.lineTo(offset + cellSize * (SIZE - 1), pos);
-        ctx.stroke();
+        omokCtx.beginPath();
+        omokCtx.moveTo(offset, pos);
+        omokCtx.lineTo(offset + cellSize * (OMOK_SIZE - 1), pos);
+        omokCtx.stroke();
 
-        // 세로선
-        ctx.beginPath();
-        ctx.moveTo(pos, offset);
-        ctx.lineTo(pos, offset + cellSize * (SIZE - 1));
-        ctx.stroke();
+        omokCtx.beginPath();
+        omokCtx.moveTo(pos, offset);
+        omokCtx.lineTo(pos, offset + cellSize * (OMOK_SIZE - 1));
+        omokCtx.stroke();
       }
 
-      // 화점 표시 (중앙 1개 및 모서리 포인트)
-      const centerPos = offset + cellSize * 5;
-      ctx.fillStyle = '#4A2A10';
-      ctx.beginPath();
-      ctx.arc(centerPos, centerPos, 5, 0, Math.PI * 2);
-      ctx.fill();
+      // 화점
+      const center = offset + cellSize * 5;
+      omokCtx.fillStyle = '#4A2A10';
+      omokCtx.beginPath();
+      omokCtx.arc(center, center, 5, 0, Math.PI * 2);
+      omokCtx.fill();
 
-      // 돌 그리기
-      for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-          if (board[r][c] !== 0) {
-            drawStone(r, c, board[r][c]);
-          }
+      for (let r = 0; r < OMOK_SIZE; r++) {
+        for (let c = 0; c < OMOK_SIZE; c++) {
+          if (omokBoard[r][c] !== 0) drawOmokStone(r, c, omokBoard[r][c]);
         }
       }
 
-      // 마지막 착수 빨간 점 표시
-      if (history.length > 0) {
-        const last = history[history.length - 1];
-        const x = offset + cellSize * last.c;
-        const y = offset + cellSize * last.r;
-        ctx.fillStyle = '#EF4444';
-        ctx.beginPath();
-        ctx.arc(x, y, cellSize * 0.16, 0, Math.PI * 2);
-        ctx.fill();
+      if (omokHistory.length > 0) {
+        const last = omokHistory[omokHistory.length - 1];
+        omokCtx.fillStyle = '#EF4444';
+        omokCtx.beginPath();
+        omokCtx.arc(offset + cellSize * last.c, offset + cellSize * last.r, cellSize * 0.16, 0, Math.PI * 2);
+        omokCtx.fill();
       }
     }
 
-    function drawStone(r, c, player) {
-      const cellSize = getCellSize();
-      const offset = getOffset();
+    function drawOmokStone(r, c, p) {
+      const cellSize = getOmokCellSize();
+      const offset = getOmokOffset();
       const x = offset + cellSize * c;
       const y = offset + cellSize * r;
-      const radius = cellSize * 0.44; // 알 크기를 시원하게 큼직하게 조정
+      const radius = cellSize * 0.44;
 
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.shadowColor = 'rgba(0,0,0,0.4)';
-      ctx.shadowBlur = 5;
-      ctx.shadowOffsetX = 2.5;
-      ctx.shadowOffsetY = 2.5;
+      omokCtx.save();
+      omokCtx.beginPath();
+      omokCtx.arc(x, y, radius, 0, Math.PI * 2);
+      omokCtx.shadowColor = 'rgba(0,0,0,0.4)';
+      omokCtx.shadowBlur = 4;
+      omokCtx.shadowOffsetX = 2;
+      omokCtx.shadowOffsetY = 2;
 
-      const grad = ctx.createRadialGradient(x - radius/3, y - radius/3, radius/10, x, y, radius);
-      if (player === 1) {
-        grad.addColorStop(0, '#666');
-        grad.addColorStop(1, '#111');
+      const grad = omokCtx.createRadialGradient(x - radius/3, y - radius/3, radius/10, x, y, radius);
+      if (p === 1) {
+        grad.addColorStop(0, '#555'); grad.addColorStop(1, '#111');
       } else {
-        grad.addColorStop(0, '#ffffff');
-        grad.addColorStop(1, '#d4d4d4');
+        grad.addColorStop(0, '#fff'); grad.addColorStop(1, '#ddd');
       }
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      if (player === 2) {
-        ctx.strokeStyle = '#b0b0b0';
-        ctx.lineWidth = 1.2;
-        ctx.stroke();
-      }
-      ctx.restore();
+      omokCtx.fillStyle = grad;
+      omokCtx.fill();
+      omokCtx.restore();
     }
 
-    canvas.addEventListener('click', (e) => {
-      if (isGameOver || currentPlayer === 2) return;
+    omokCanvas.addEventListener('click', (e) => {
+      if (omokOver || omokPlayer === 2) return;
+      const rect = omokCanvas.getBoundingClientRect();
+      const cellSize = getOmokCellSize();
+      const offset = getOmokOffset();
+      const col = Math.round((e.clientX - rect.left - offset) / cellSize);
+      const row = Math.round((e.clientY - rect.top - offset) / cellSize);
 
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const cellSize = getCellSize();
-      const offset = getOffset();
-
-      const col = Math.round((x - offset) / cellSize);
-      const row = Math.round((y - offset) / cellSize);
-
-      if (row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] === 0) {
-        placeMove(row, col, 1);
+      if (row >= 0 && row < OMOK_SIZE && col >= 0 && col < OMOK_SIZE && omokBoard[row][col] === 0) {
+        placeOmok(row, col, 1);
       }
     });
 
-    function placeMove(r, c, player) {
-      board[r][c] = player;
-      history.push({ r, c, player });
-      drawBoard();
-      playStoneSound();
+    function placeOmok(r, c, p) {
+      omokBoard[r][c] = p;
+      omokHistory.push({ r, c, p });
+      drawOmok();
+      playSfx('stone');
 
-      if (checkWin(r, c, player)) {
-        endGame(player);
+      if (checkOmokWin(r, c, p)) {
+        omokOver = true;
+        if (p === 1) openModal('🏆', '오목 승리!', '축하합니다! 인공지능을 멋지게 이기셨어요!');
+        else openModal('🤖', '컴퓨터 승리!', '아쉽네요! 한 번 더 도전해보세요!');
         return;
       }
 
-      currentPlayer = (player === 1) ? 2 : 1;
-      updateUI();
+      omokPlayer = (p === 1) ? 2 : 1;
+      updateOmokUI();
 
-      if (currentPlayer === 2 && !isGameOver) {
-        setTimeout(aiTurn, 250);
+      if (omokPlayer === 2 && !omokOver) {
+        setTimeout(omokAiMove, 250);
       }
     }
 
-    // --- AI 계산 알고리즘 ---
-    function evaluateLine(r, c, dr, dc, p) {
-      let count = 1;
-      let openEnds = 0;
-
-      let step = 1;
-      while (true) {
-        let nr = r + dr * step, nc = c + dc * step;
-        if (nr < 0 || nr >= SIZE || nc < 0 || nc >= SIZE) break;
-        if (board[nr][nc] === p) count++;
-        else if (board[nr][nc] === 0) { openEnds++; break; }
-        else break;
-        step++;
-      }
-
-      step = 1;
-      while (true) {
-        let nr = r - dr * step, nc = c - dc * step;
-        if (nr < 0 || nr >= SIZE || nc < 0 || nc >= SIZE) break;
-        if (board[nr][nc] === p) count++;
-        else if (board[nr][nc] === 0) { openEnds++; break; }
-        else break;
-        step++;
-      }
-
-      if (count >= 5) return 100000;
-      if (count === 4) {
-        if (openEnds === 2) return 10000;
-        if (openEnds === 1) return 1500;
-      }
-      if (count === 3) {
-        if (openEnds === 2) return 2000;
-        if (openEnds === 1) return 200;
-      }
-      if (count === 2) {
-        if (openEnds === 2) return 100;
-        if (openEnds === 1) return 20;
-      }
-      return 1;
-    }
-
-    function evaluatePosition(r, c, p) {
-      const dirs = [[1, 0], [0, 1], [1, 1], [1, -1]];
-      let score = 0;
-      for (let [dr, dc] of dirs) {
-        score += evaluateLine(r, c, dr, dc, p);
-      }
-      return score;
-    }
-
-    function aiTurn() {
-      let bestMove = null;
-      let maxScore = -Infinity;
-
-      for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-          if (board[r][c] === 0) {
-            board[r][c] = 2;
-            if (checkWin(r, c, 2)) {
-              board[r][c] = 0;
-              placeMove(r, c, 2);
-              return;
-            }
-            board[r][c] = 0;
-          }
-        }
-      }
-
-      for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-          if (board[r][c] === 0) {
-            board[r][c] = 1;
-            if (checkWin(r, c, 1)) {
-              board[r][c] = 0;
-              placeMove(r, c, 2);
-              return;
-            }
-            board[r][c] = 0;
-          }
-        }
-      }
-
-      for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-          if (board[r][c] === 0) {
-            let attackScore = evaluatePosition(r, c, 2);
-            let defenseScore = evaluatePosition(r, c, 1);
-            let centerBonus = (5 - Math.abs(r - 5)) + (5 - Math.abs(c - 5));
-
-            let totalScore = 0;
-            if (difficulty === 'hard') {
-              totalScore = (attackScore * 1.2) + (defenseScore * 1.5) + centerBonus;
-            } else {
-              totalScore = attackScore + defenseScore + (Math.random() * 80);
-            }
-
-            if (totalScore > maxScore) {
-              maxScore = totalScore;
-              bestMove = { r, c };
-            }
-          }
-        }
-      }
-
-      if (bestMove) {
-        placeMove(bestMove.r, bestMove.c, 2);
-      }
-    }
-
-    function checkWin(r, c, p) {
+    function checkOmokWin(r, c, p) {
       const dirs = [[1,0], [0,1], [1,1], [1,-1]];
       for (let [dr, dc] of dirs) {
         let count = 1;
-        for (let step = 1; step <= 4; step++) {
-          let nr = r + dr * step, nc = c + dc * step;
-          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
-          else break;
+        for (let s = 1; s <= 4; s++) {
+          let nr = r + dr*s, nc = c + dc*s;
+          if (nr>=0 && nr<OMOK_SIZE && nc>=0 && nc<OMOK_SIZE && omokBoard[nr][nc] === p) count++; else break;
         }
-        for (let step = 1; step <= 4; step++) {
-          let nr = r - dr * step, nc = c - dc * step;
-          if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] === p) count++;
-          else break;
+        for (let s = 1; s <= 4; s++) {
+          let nr = r - dr*s, nc = c - dc*s;
+          if (nr>=0 && nr<OMOK_SIZE && nc>=0 && nc<OMOK_SIZE && omokBoard[nr][nc] === p) count++; else break;
         }
         if (count >= 5) return true;
       }
       return false;
     }
 
-    function updateUI() {
-      const dot = document.getElementById('turn-dot');
-      const text = document.getElementById('turn-text');
-      if (currentPlayer === 1) {
-        dot.className = 'w-3.5 h-3.5 rounded-full bg-black shadow';
+    function omokAiMove() {
+      // 5목 완성 혹은 방어
+      for (let target of [2, 1]) {
+        for (let r = 0; r < OMOK_SIZE; r++) {
+          for (let c = 0; c < OMOK_SIZE; c++) {
+            if (omokBoard[r][c] === 0) {
+              omokBoard[r][c] = target;
+              if (checkOmokWin(r, c, target)) {
+                omokBoard[r][c] = 0;
+                placeOmok(r, c, 2);
+                return;
+              }
+              omokBoard[r][c] = 0;
+            }
+          }
+        }
+      }
+      // 중앙 지향 간단 수비 배치
+      let bestMove = null;
+      let maxScore = -9999;
+      for (let r = 0; r < OMOK_SIZE; r++) {
+        for (let c = 0; c < OMOK_SIZE; c++) {
+          if (omokBoard[r][c] === 0) {
+            let centerBonus = (5 - Math.abs(r - 5)) + (5 - Math.abs(c - 5));
+            let score = centerBonus + Math.random() * 20;
+            if (score > maxScore) { maxScore = score; bestMove = { r, c }; }
+          }
+        }
+      }
+      if (bestMove) placeOmok(bestMove.r, bestMove.c, 2);
+    }
+
+    function updateOmokUI() {
+      const dot = document.getElementById('omok-turn-dot');
+      const text = document.getElementById('omok-turn-text');
+      if (omokPlayer === 1) {
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-black shadow border border-white/20';
         text.textContent = '내 차례';
       } else {
-        dot.className = 'w-3.5 h-3.5 rounded-full bg-white border border-gray-400 shadow';
+        dot.className = 'w-3.5 h-3.5 rounded-full bg-white shadow';
         text.textContent = '생각 중...';
       }
     }
-
-    function endGame(winner) {
-      isGameOver = true;
-      playWinSound();
-      const modal = document.getElementById('winModal');
-      const title = document.getElementById('winTitle');
-      const desc = document.getElementById('winDesc');
-      const emoji = document.getElementById('winEmoji');
-
-      if (winner === 1) {
-        emoji.textContent = "🏆";
-        title.textContent = "흑돌 승리! 🎉";
-        desc.textContent = "고수 인공지능을 멋지게 꺾으셨습니다! 대단하세요!";
-      } else {
-        emoji.textContent = "🤖";
-        title.textContent = "컴퓨터 승리! 👏";
-        desc.textContent = "컴퓨터가 한 수 앞섰네요. 다시 도전해보세요!";
-      }
-      modal.classList.remove('hidden');
-    }
-
-    function undoMove() {
-      if (history.length === 0 || isGameOver) return;
-      playUndoSound();
-      const steps = history.length >= 2 ? 2 : 1;
+    function undoOmok() {
+      if (omokHistory.length === 0 || omokOver) return;
+      playSfx('pop');
+      const steps = omokHistory.length >= 2 ? 2 : 1;
       for (let i = 0; i < steps; i++) {
-        const last = history.pop();
-        if (last) board[last.r][last.c] = 0;
+        const last = omokHistory.pop();
+        if (last) omokBoard[last.r][last.c] = 0;
       }
-      currentPlayer = 1;
-      updateUI();
-      drawBoard();
+      omokPlayer = 1;
+      updateOmokUI();
+      drawOmok();
+    }
+    function resetOmok() {
+      omokBoard = Array.from({ length: OMOK_SIZE }, () => Array(OMOK_SIZE).fill(0));
+      omokHistory = [];
+      omokPlayer = 1;
+      omokOver = false;
+      updateOmokUI();
+      drawOmok();
+    }
+    function setOmokDifficulty(d) {
+      omokDifficulty = d;
+      document.getElementById('omok-diff-hard').className = d === 'hard' ? 'text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white' : 'text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400';
+      document.getElementById('omok-diff-normal').className = d === 'normal' ? 'text-[11px] px-2 py-0.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400';
+      resetOmok();
     }
 
-    function resetGame() {
-      board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
-      history = [];
-      currentPlayer = 1;
-      isGameOver = false;
-      document.getElementById('winModal').classList.add('hidden');
-      updateUI();
-      drawBoard();
+    // ==============================================================
+    // [2] 2048 숫자합치기 엔진
+    // ==============================================================
+    let board2048 = [];
+    let score2048 = 0;
+
+    const tileColors = {
+      2: 'bg-amber-100 text-amber-900',
+      4: 'bg-amber-200 text-amber-900',
+      8: 'bg-orange-400 text-white',
+      16: 'bg-orange-500 text-white',
+      32: 'bg-rose-500 text-white',
+      64: 'bg-rose-600 text-white',
+      128: 'bg-yellow-400 text-slate-950 font-black',
+      256: 'bg-yellow-300 text-slate-950 font-black shadow-lg',
+      512: 'bg-amber-400 text-slate-950 font-black shadow-lg',
+      1024: 'bg-cyan-400 text-slate-950 font-black shadow-xl',
+      2048: 'bg-emerald-400 text-slate-950 font-black shadow-2xl animate-pulse'
+    };
+
+    function init2048() {
+      board2048 = [
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0],
+        [0,0,0,0]
+      ];
+      score2048 = 0;
+      document.getElementById('score2048').textContent = score2048;
+      addRandomTile2048();
+      addRandomTile2048();
+      render2048();
     }
 
-    function setDifficulty(diff) {
-      difficulty = diff;
-      document.getElementById('diff-hard').className = diff === 'hard' ? 'text-xs px-2.5 py-1 rounded-lg font-bold bg-rose-600 text-white shadow-sm transition' : 'text-xs px-2.5 py-1 rounded-lg font-bold text-gray-600 transition';
-      document.getElementById('diff-normal').className = diff === 'normal' ? 'text-xs px-2.5 py-1 rounded-lg font-bold bg-amber-600 text-white shadow-sm transition' : 'text-xs px-2.5 py-1 rounded-lg font-bold text-gray-600 transition';
-      resetGame();
+    function addRandomTile2048() {
+      let empty = [];
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          if (board2048[r][c] === 0) empty.push({ r, c });
+        }
+      }
+      if (empty.length > 0) {
+        const rand = empty[Math.floor(Math.random() * empty.length)];
+        board2048[rand.r][rand.c] = Math.random() < 0.9 ? 2 : 4;
+      }
     }
 
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('load', resizeCanvas);
-    setTimeout(resizeCanvas, 100);
+    function render2048() {
+      const container = document.getElementById('board2048Container');
+      container.innerHTML = '';
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const val = board2048[r][c];
+          const div = document.createElement('div');
+          div.className = `rounded-xl flex items-center justify-center font-black transition-all duration-100 ${val === 0 ? 'bg-slate-700/60' : (tileColors[val] || 'bg-indigo-600 text-white')}`;
+          div.style.fontSize = val > 512 ? '1.2rem' : '1.5rem';
+          div.textContent = val === 0 ? '' : val;
+          container.appendChild(div);
+        }
+      }
+      document.getElementById('score2048').textContent = score2048;
+    }
+
+    function slide(row) {
+      let arr = row.filter(val => val !== 0);
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] === arr[i + 1]) {
+          arr[i] *= 2;
+          score2048 += arr[i];
+          arr[i + 1] = 0;
+          playSfx('pop');
+        }
+      }
+      arr = arr.filter(val => val !== 0);
+      while (arr.length < 4) arr.push(0);
+      return arr;
+    }
+
+    function move2048(direction) {
+      let prev = JSON.stringify(board2048);
+
+      if (direction === 'left') {
+        for (let r = 0; r < 4; r++) board2048[r] = slide(board2048[r]);
+      } else if (direction === 'right') {
+        for (let r = 0; r < 4; r++) board2048[r] = slide(board2048[r].reverse()).reverse();
+      } else if (direction === 'up') {
+        for (let c = 0; c < 4; c++) {
+          let col = [board2048[0][c], board2048[1][c], board2048[2][c], board2048[3][c]];
+          col = slide(col);
+          for (let r = 0; r < 4; r++) board2048[r][c] = col[r];
+        }
+      } else if (direction === 'down') {
+        for (let c = 0; c < 4; c++) {
+          let col = [board2048[0][c], board2048[1][c], board2048[2][c], board2048[3][c]].reverse();
+          col = slide(col).reverse();
+          for (let r = 0; r < 4; r++) board2048[r][c] = col[r];
+        }
+      }
+
+      if (prev !== JSON.stringify(board2048)) {
+        addRandomTile2048();
+        render2048();
+      }
+    }
+
+    // 2048 스와이프 터치 이벤트
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const boardEl = document.getElementById('board2048Container');
+    boardEl.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    boardEl.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 30) move2048('right');
+        else if (dx < -30) move2048('left');
+      } else {
+        if (dy > 30) move2048('down');
+        else if (dy < -30) move2048('up');
+      }
+    }, { passive: true });
+
+    // ==============================================================
+    // [3] 오델로 (Othello / Reversi) 엔진
+    // ==============================================================
+    const othelloCanvas = document.getElementById('othelloCanvas');
+    const othelloCtx = othelloCanvas.getContext('2d');
+    const O_SIZE = 8;
+    let othelloBoard = Array.from({ length: O_SIZE }, () => Array(O_SIZE).fill(0));
+    let othelloPlayer = 1; // 1: 흑(플레이어), 2: 백(AI)
+    let othelloOver = false;
+
+    function resizeOthello() {
+      const rect = othelloCanvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      othelloCanvas.width = rect.width * dpr;
+      othelloCanvas.height = rect.height * dpr;
+      othelloCtx.scale(dpr, dpr);
+      drawOthello();
+    }
+
+    function initOthello() {
+      othelloBoard = Array.from({ length: O_SIZE }, () => Array(O_SIZE).fill(0));
+      othelloBoard[3][3] = 2; othelloBoard[3][4] = 1;
+      othelloBoard[4][3] = 1; othelloBoard[4][4] = 2;
+      othelloPlayer = 1;
+      othelloOver = false;
+      document.getElementById('othelloTurnText').textContent = '내 차례';
+      drawOthello();
+      updateOthelloScore();
+    }
+
+    function getOthelloValidMoves(p) {
+      const moves = [];
+      for (let r = 0; r < O_SIZE; r++) {
+        for (let c = 0; c < O_SIZE; c++) {
+          if (canFlipOthello(r, c, p).length > 0) moves.push({ r, c });
+        }
+      }
+      return moves;
+    }
+
+    function canFlipOthello(r, c, p) {
+      if (othelloBoard[r][c] !== 0) return [];
+      const opp = p === 1 ? 2 : 1;
+      const dirs = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+      let flips = [];
+
+      for (let [dr, dc] of dirs) {
+        let path = [];
+        let nr = r + dr, nc = c + dc;
+        while (nr >= 0 && nr < O_SIZE && nc >= 0 && nc < O_SIZE && othelloBoard[nr][nc] === opp) {
+          path.push({ r: nr, c: nc });
+          nr += dr; nc += dc;
+        }
+        if (nr >= 0 && nr < O_SIZE && nc >= 0 && nc < O_SIZE && othelloBoard[nr][nc] === p && path.length > 0) {
+          flips = flips.concat(path);
+        }
+      }
+      return flips;
+    }
+
+    function drawOthello() {
+      const rect = othelloCanvas.getBoundingClientRect();
+      const cell = rect.width / O_SIZE;
+      othelloCtx.clearRect(0, 0, rect.width, rect.height);
+
+      // 격자선
+      othelloCtx.strokeStyle = '#143628';
+      othelloCtx.lineWidth = 1.5;
+      for (let i = 0; i <= O_SIZE; i++) {
+        othelloCtx.beginPath();
+        othelloCtx.moveTo(0, cell * i);
+        othelloCtx.lineTo(rect.width, cell * i);
+        othelloCtx.stroke();
+        othelloCtx.beginPath();
+        othelloCtx.moveTo(cell * i, 0);
+        othelloCtx.lineTo(cell * i, rect.height);
+        othelloCtx.stroke();
+      }
+
+      // 유효 착수 위치(놓을 수 있는 곳) 안내 노란 점
+      if (othelloPlayer === 1 && !othelloOver) {
+        const valids = getOthelloValidMoves(1);
+        valids.forEach(m => {
+          othelloCtx.fillStyle = 'rgba(255, 230, 0, 0.4)';
+          othelloCtx.beginPath();
+          othelloCtx.arc(cell * (m.c + 0.5), cell * (m.r + 0.5), cell * 0.15, 0, Math.PI * 2);
+          othelloCtx.fill();
+        });
+      }
+
+      // 돌 그리기
+      for (let r = 0; r < O_SIZE; r++) {
+        for (let c = 0; c < O_SIZE; c++) {
+          if (othelloBoard[r][c] !== 0) {
+            const x = cell * (c + 0.5);
+            const y = cell * (r + 0.5);
+            const radius = cell * 0.4;
+            othelloCtx.save();
+            othelloCtx.beginPath();
+            othelloCtx.arc(x, y, radius, 0, Math.PI * 2);
+            othelloCtx.shadowColor = 'rgba(0,0,0,0.5)';
+            othelloCtx.shadowBlur = 4;
+            othelloCtx.fillStyle = othelloBoard[r][c] === 1 ? '#111' : '#f8f8f8';
+            othelloCtx.fill();
+            othelloCtx.restore();
+          }
+        }
+      }
+    }
+
+    othelloCanvas.addEventListener('click', (e) => {
+      if (othelloOver || othelloPlayer === 2) return;
+      const rect = othelloCanvas.getBoundingClientRect();
+      const cell = rect.width / O_SIZE;
+      const col = Math.floor((e.clientX - rect.left) / cell);
+      const row = Math.floor((e.clientY - rect.top) / cell);
+
+      const flips = canFlipOthello(row, col, 1);
+      if (flips.length > 0) {
+        othelloBoard[row][col] = 1;
+        flips.forEach(f => othelloBoard[f.r][f.c] = 1);
+        playSfx('flip');
+        drawOthello();
+        updateOthelloScore();
+
+        othelloPlayer = 2;
+        document.getElementById('othelloTurnText').textContent = 'AI 생각 중...';
+        setTimeout(othelloAiMove, 400);
+      }
+    });
+
+    function othelloAiMove() {
+      const moves = getOthelloValidMoves(2);
+      if (moves.length === 0) {
+        othelloPlayer = 1;
+        document.getElementById('othelloTurnText').textContent = '내 차례 (AI 패스)';
+        if (getOthelloValidMoves(1).length === 0) endOthello();
+        drawOthello();
+        return;
+      }
+
+      // 가장 많이 뒤집는 곳 우선 선택
+      let bestMove = moves[0];
+      let maxFlips = -1;
+      moves.forEach(m => {
+        const flips = canFlipOthello(m.r, m.c, 2);
+        if (flips.length > maxFlips) { maxFlips = flips.length; bestMove = m; }
+      });
+
+      const flips = canFlipOthello(bestMove.r, bestMove.c, 2);
+      othelloBoard[bestMove.r][bestMove.c] = 2;
+      flips.forEach(f => othelloBoard[f.r][f.c] = 2);
+      playSfx('flip');
+      drawOthello();
+      updateOthelloScore();
+
+      othelloPlayer = 1;
+      document.getElementById('othelloTurnText').textContent = '내 차례';
+      if (getOthelloValidMoves(1).length === 0 && getOthelloValidMoves(2).length === 0) {
+        endOthello();
+      }
+    }
+
+    function updateOthelloScore() {
+      let b = 0, w = 0;
+      for (let r = 0; r < O_SIZE; r++) {
+        for (let c = 0; c < O_SIZE; c++) {
+          if (othelloBoard[r][c] === 1) b++;
+          if (othelloBoard[r][c] === 2) w++;
+        }
+      }
+      document.getElementById('othelloBlackCount').textContent = b;
+      document.getElementById('othelloWhiteCount').textContent = w;
+      return { b, w };
+    }
+
+    function endOthello() {
+      othelloOver = true;
+      const { b, w } = updateOthelloScore();
+      if (b > w) openModal('🏆', '오델로 승리!', `흑돌(${b}개) vs 백돌(${w}개)로 승리하셨습니다!`);
+      else if (w > b) openModal('🤖', '컴퓨터 승리!', `백돌(${w}개) vs 흑돌(${b}개)로 컴퓨터가 이겼습니다.`);
+      else openModal('🤝', '무승부!', '동점으로 비겼습니다!');
+    }
+
+    // PC 키보드 방향키 (2048 지원)
+    window.addEventListener('keydown', (e) => {
+      if (!document.getElementById('game2048Screen').classList.contains('hidden')) {
+        if (e.key === 'ArrowUp') { move2048('up'); e.preventDefault(); }
+        if (e.key === 'ArrowDown') { move2048('down'); e.preventDefault(); }
+        if (e.key === 'ArrowLeft') { move2048('left'); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { move2048('right'); e.preventDefault(); }
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      resizeOmok();
+      resizeOthello();
+    });
+    window.addEventListener('load', () => {
+      initOthello();
+    });
   </script>
 </body>
 </html>
