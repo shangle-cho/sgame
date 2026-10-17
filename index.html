@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>두뇌 힐링 게임 삼총사 🃏⚫✨</title>
+  <title>두뇌 힐링 게임 삼총사 💎🃏⚫</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -28,6 +28,9 @@
     .card-back {
       transform: rotateY(180deg);
     }
+    .gem-cell {
+      transition: transform 0.15s ease, background-color 0.2s;
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none">
@@ -37,22 +40,22 @@
     <div class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-3 shadow">
       ✨ 부담 없이 즐기는 두뇌 게임 3종
     </div>
-    <h1 class="text-3xl sm:text-4xl font-black text-amber-100 mb-2 tracking-tight text-center">클래식 게임 라운지 🃏</h1>
+    <h1 class="text-3xl sm:text-4xl font-black text-amber-100 mb-2 tracking-tight text-center">힐링 게임 라운지 🎮</h1>
     <p class="text-xs sm:text-sm text-slate-400 mb-6 text-center">원하는 게임을 콕 눌러보세요!</p>
 
     <div class="w-full flex flex-col gap-4">
-      <!-- 1) 포커 하이로우 -->
-      <button onclick="openGame('highlow')" class="w-full bg-gradient-to-r from-emerald-800 to-teal-700 hover:from-emerald-700 hover:to-teal-600 border-2 border-emerald-400/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+      <!-- 1) 보석 팡팡 -->
+      <button onclick="openGame('jewel')" class="w-full bg-gradient-to-r from-pink-700 via-purple-700 to-indigo-700 hover:from-pink-600 hover:to-indigo-600 border-2 border-pink-400/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 text-2xl font-black bg-black/40 rounded-2xl border border-emerald-400/30 text-emerald-300 flex items-center justify-center shrink-0">
-            ♠ A
+          <div class="w-14 h-14 text-3xl bg-black/40 rounded-2xl border border-pink-400/30 flex items-center justify-center shrink-0">
+            💎
           </div>
           <div>
-            <h2 class="text-lg sm:text-xl font-black text-white">포커 하이로우 (UP & DOWN)</h2>
-            <p class="text-xs sm:text-sm text-emerald-200/80 mt-0.5">다음 카드가 더 높을까? 낮을까?</p>
+            <h2 class="text-lg sm:text-xl font-black text-white">팡팡! 보석 매치 3</h2>
+            <p class="text-xs sm:text-sm text-pink-200/80 mt-0.5">같은 색 보석 3개를 이어 팡팡 터뜨려요!</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-emerald-300 text-lg pr-2"></i>
+        <i class="fa-solid fa-chevron-right text-pink-300 text-lg pr-2"></i>
       </button>
 
       <!-- 2) 기억력 카드 뒤집기 -->
@@ -85,73 +88,39 @@
     </div>
   </section>
 
-  <!-- ================= 2. 포커 하이로우 화면 (화면 꽉 찬 특대형 카드) ================= -->
-  <section id="highlowScreen" class="w-full max-w-2xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
+  <!-- ================= 2. 보석 팡팡 화면 ================= -->
+  <section id="jewelScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
     <!-- 상단 바 -->
     <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow-md">
       <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
         <i class="fa-solid fa-house"></i> 홈
       </button>
       <div class="text-center">
-        <span class="text-base sm:text-lg font-black text-emerald-400">포커 하이로우 ♠</span>
+        <span class="text-base sm:text-lg font-black text-pink-400">보석 팡팡 💎</span>
       </div>
       <div class="flex gap-2 text-right">
         <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-xl">
-          <span class="text-[10px] text-slate-400 block font-bold">연승</span>
-          <span id="streakText" class="text-sm sm:text-base font-black text-amber-300">0 연승</span>
+          <span class="text-[10px] text-slate-400 block font-bold">점수</span>
+          <span id="jewelScoreText" class="text-sm sm:text-base font-black text-amber-300">0</span>
         </div>
         <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-xl">
-          <span class="text-[10px] text-slate-400 block font-bold">최고</span>
-          <span id="bestStreakText" class="text-sm sm:text-base font-black text-cyan-300">0</span>
+          <span class="text-[10px] text-slate-400 block font-bold">남은 턴</span>
+          <span id="jewelMovesText" class="text-sm sm:text-base font-black text-cyan-300">20</span>
         </div>
       </div>
     </div>
 
-    <!-- 초대형 카지노 테이블 무대 -->
-    <div class="my-auto w-full flex flex-col items-center justify-center">
-      <div class="bg-[#0f4c3a] p-6 sm:p-10 rounded-3xl sm:rounded-[36px] shadow-[inset_0_0_50px_rgba(0,0,0,0.85)] border-4 border-[#08291f] w-full flex flex-col items-center justify-center">
-        
-        <p class="text-sm sm:text-base text-emerald-100 font-bold mb-5 text-center drop-shadow">
-          다음 카드는 이 카드보다 높을까요? 낮을까요?
-        </p>
-
-        <!-- 포커 카드 2장 (대형 크기 w-40 sm:w-52 / h-64 sm:h-80) -->
-        <div class="flex items-center justify-center gap-4 sm:gap-8 w-full">
-          <!-- 현재 카드 -->
-          <div id="currentCardEl" class="w-40 h-64 sm:w-52 sm:h-80 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-slate-300 flex flex-col justify-between p-4 sm:p-5 text-slate-900 transition-all duration-300">
-            <div class="flex flex-col items-start leading-none">
-              <span id="currentCardRankTop" class="text-3xl sm:text-4xl font-black">7</span>
-              <span id="currentCardSuitTop" class="text-2xl sm:text-3xl mt-0.5">♠</span>
-            </div>
-            <div id="currentCardCenter" class="text-7xl sm:text-8xl self-center">♠</div>
-            <div class="flex flex-col items-end leading-none rotate-180">
-              <span id="currentCardRankBottom" class="text-3xl sm:text-4xl font-black">7</span>
-              <span id="currentCardSuitBottom" class="text-2xl sm:text-3xl mt-0.5">♠</span>
-            </div>
-          </div>
-
-          <!-- 다음 카드 (물음표 뒷면) -->
-          <div id="nextCardEl" class="w-40 h-64 sm:w-52 sm:h-80 bg-gradient-to-br from-blue-700 via-indigo-800 to-indigo-950 rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-blue-400 flex flex-col items-center justify-center p-4 text-white">
-            <span class="text-6xl sm:text-7xl mb-3">❓</span>
-            <span class="text-xs sm:text-sm font-black text-blue-200 tracking-wider">NEXT CARD</span>
-          </div>
-        </div>
-
-        <p id="hlResultText" class="text-sm sm:text-base font-black text-yellow-300 mt-6 min-h-[1.75rem] text-center drop-shadow">
-          카드를 보고 선택하세요! (A는 1, K가 가장 높음)
-        </p>
+    <!-- 대형 보석 판 (6x6) -->
+    <div class="my-auto p-1 flex items-center justify-center w-full">
+      <div class="bg-slate-900/90 p-3 sm:p-4 rounded-3xl shadow-[0_0_35px_rgba(236,72,153,0.2)] border-4 border-slate-800 w-full aspect-square max-w-lg flex items-center justify-center">
+        <div id="jewelGrid" class="w-full h-full grid grid-cols-6 gap-1.5 sm:gap-2"></div>
       </div>
     </div>
 
-    <!-- 하단 예측 버튼 (큼직하고 묵직한 터치 버튼) -->
-    <div class="pb-2 grid grid-cols-2 gap-3 sm:gap-4 w-full">
-      <button onclick="guessHighLow('HIGH')" class="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl text-lg sm:text-xl flex items-center justify-center gap-2 active:scale-95 transition">
-        <i class="fa-solid fa-arrow-up"></i>
-        <span>더 높다 (HIGH)</span>
-      </button>
-      <button onclick="guessHighLow('LOW')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl text-lg sm:text-xl flex items-center justify-center gap-2 active:scale-95 transition">
-        <i class="fa-solid fa-arrow-down"></i>
-        <span>더 낮다 (LOW)</span>
+    <div class="pb-2 w-full">
+      <button onclick="initJewelGame()" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl text-base active:scale-95 transition flex items-center justify-center gap-2">
+        <i class="fa-solid fa-rotate"></i>
+        <span>새 게임 시작하기</span>
       </button>
     </div>
   </section>
@@ -228,7 +197,7 @@
   </div>
 
   <script>
-    // --- 효과음 시스템 (Web Audio) ---
+    // --- Web Audio 사운드 시스템 ---
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     function getAudioCtx() {
@@ -244,11 +213,29 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
-        if (type === 'cardFlip') {
+        if (type === 'gemClick') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+        } else if (type === 'gemPop') {
+          [600, 800, 1000].forEach((f, i) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'triangle';
+            o.frequency.setValueAtTime(f, now + i * 0.04);
+            g.gain.setValueAtTime(0.25, now + i * 0.04);
+            g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.04 + 0.08);
+            o.connect(g); g.connect(ctx.destination);
+            o.start(now + i * 0.04); o.stop(now + i * 0.04 + 0.09);
+          });
+          return;
+        } else if (type === 'cardFlip') {
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(320, now);
           osc.frequency.exponentialRampToValueAtTime(140, now + 0.07);
-          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.setValueAtTime(0.4, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
         } else if (type === 'winPoint') {
           [523, 659, 783, 1046].forEach((f, i) => {
@@ -261,12 +248,6 @@
             o.start(now + i * 0.06); o.stop(now + i * 0.06 + 0.13);
           });
           return;
-        } else if (type === 'fail') {
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(180, now);
-          osc.frequency.exponentialRampToValueAtTime(70, now + 0.2);
-          gain.gain.setValueAtTime(0.3, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
         } else if (type === 'stone') {
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(500, now);
@@ -277,24 +258,24 @@
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.22);
+        osc.stop(now + 0.1);
       } catch(e) {}
     }
 
-    // --- 네비게이션 ---
+    // --- 화면 네비게이션 ---
     function openGame(name) {
       getAudioCtx();
       document.getElementById('lobbyScreen').classList.add('hidden');
-      ['highlowScreen', 'cardScreen', 'omokScreen'].forEach(id => {
+      ['jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
         const el = document.getElementById(id);
         el.classList.add('hidden');
         el.classList.remove('flex');
       });
 
-      if (name === 'highlow') {
-        const el = document.getElementById('highlowScreen');
+      if (name === 'jewel') {
+        const el = document.getElementById('jewelScreen');
         el.classList.remove('hidden'); el.classList.add('flex');
-        initHighLow();
+        initJewelGame();
       } else if (name === 'card') {
         const el = document.getElementById('cardScreen');
         el.classList.remove('hidden'); el.classList.add('flex');
@@ -307,7 +288,7 @@
     }
 
     function goHome() {
-      ['highlowScreen', 'cardScreen', 'omokScreen'].forEach(id => {
+      ['jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
         const el = document.getElementById(id);
         el.classList.add('hidden');
         el.classList.remove('flex');
@@ -326,120 +307,168 @@
     }
 
     // ==============================================================
-    // [1] 포커 하이로우 게임 로직 (High-Low)
+    // [1] 보석 팡팡 매치 3 (Jewel Match 3) 엔진
     // ==============================================================
-    const suits = [
-      { symbol: '♠', color: 'text-slate-900' },
-      { symbol: '♥', color: 'text-rose-600' },
-      { symbol: '♦', color: 'text-red-500' },
-      { symbol: '♣', color: 'text-slate-800' }
-    ];
-    const rankNames = { 1: 'A', 11: 'J', 12: 'Q', 13: 'K' };
+    const J_ROWS = 6;
+    const J_COLS = 6;
+    const GEMS = ['💎', '🍒', '🍊', '🍇', '⭐', '🍀'];
+    let jewelGrid = [];
+    let selectedGem = null;
+    let jewelScore = 0;
+    let jewelMoves = 20;
+    let isProcessing = false;
 
-    let currentCard = null;
-    let streak = 0;
-    let bestStreak = 0;
-    let isHLGuessed = false;
+    function initJewelGame() {
+      jewelScore = 0;
+      jewelMoves = 20;
+      selectedGem = null;
+      isProcessing = false;
+      document.getElementById('jewelScoreText').textContent = jewelScore;
+      document.getElementById('jewelMovesText').textContent = jewelMoves;
 
-    function getRandomCard() {
-      const val = Math.floor(Math.random() * 13) + 1;
-      const suit = suits[Math.floor(Math.random() * suits.length)];
-      const name = rankNames[val] || String(val);
-      return { val, suit, name };
+      do {
+        jewelGrid = [];
+        for (let r = 0; r < J_ROWS; r++) {
+          jewelGrid[r] = [];
+          for (let c = 0; c < J_COLS; c++) {
+            jewelGrid[r][c] = GEMS[Math.floor(Math.random() * GEMS.length)];
+          }
+        }
+      } while (findMatches().length > 0);
+
+      renderJewelGrid();
     }
 
-    function initHighLow() {
-      streak = 0;
-      document.getElementById('streakText').textContent = '0 연승';
-      document.getElementById('hlResultText').textContent = '카드를 보고 선택하세요! (A는 1, K가 13)';
-      currentCard = getRandomCard();
-      renderCurrentCard(currentCard);
-      resetNextCardSlot();
-      isHLGuessed = false;
-    }
-
-    function renderCurrentCard(card) {
-      const topR = document.getElementById('currentCardRankTop');
-      const topS = document.getElementById('currentCardSuitTop');
-      const center = document.getElementById('currentCardCenter');
-      const btmR = document.getElementById('currentCardRankBottom');
-      const btmS = document.getElementById('currentCardSuitBottom');
-
-      topR.textContent = card.name;
-      btmR.textContent = card.name;
-      topS.textContent = card.suit.symbol;
-      btmS.textContent = card.suit.symbol;
-      center.textContent = card.suit.symbol;
-
-      const cardEl = document.getElementById('currentCardEl');
-      cardEl.className = `w-40 h-64 sm:w-52 sm:h-80 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-slate-300 flex flex-col justify-between p-4 sm:p-5 ${card.suit.color} transition-all duration-300`;
-    }
-
-    function resetNextCardSlot() {
-      const slot = document.getElementById('nextCardEl');
-      slot.className = 'w-40 h-64 sm:w-52 sm:h-80 bg-gradient-to-br from-blue-700 via-indigo-800 to-indigo-950 rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-blue-400 flex flex-col items-center justify-center p-4 text-white';
-      slot.innerHTML = `
-        <span class="text-6xl sm:text-7xl mb-3">❓</span>
-        <span class="text-xs sm:text-sm font-black text-blue-200 tracking-wider">NEXT CARD</span>
-      `;
-    }
-
-    function guessHighLow(choice) {
-      if (isHLGuessed) return;
-      isHLGuessed = true;
-
-      let nextCard = getRandomCard();
-      while (nextCard.val === currentCard.val) {
-        nextCard = getRandomCard();
+    function renderJewelGrid() {
+      const container = document.getElementById('jewelGrid');
+      container.innerHTML = '';
+      for (let r = 0; r < J_ROWS; r++) {
+        for (let c = 0; c < J_COLS; c++) {
+          const btn = document.createElement('button');
+          const isSelected = selectedGem && selectedGem.r === r && selectedGem.c === c;
+          btn.className = `gem-cell w-full h-full rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-md border ${isSelected ? 'bg-pink-600/60 border-yellow-300 scale-105 ring-4 ring-yellow-400' : 'bg-slate-800/80 border-slate-700/60 hover:bg-slate-700/80'} active:scale-95`;
+          btn.textContent = jewelGrid[r][c];
+          btn.onclick = () => onGemClick(r, c);
+          container.appendChild(btn);
+        }
       }
+    }
 
-      playSfx('cardFlip');
+    function onGemClick(r, c) {
+      if (isProcessing || jewelMoves <= 0) return;
+      playSfx('gemClick');
 
-      const slot = document.getElementById('nextCardEl');
-      slot.className = `w-40 h-64 sm:w-52 sm:h-80 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-yellow-400 flex flex-col justify-between p-4 sm:p-5 ${nextCard.suit.color} animate-pulse`;
-      slot.innerHTML = `
-        <div class="flex flex-col items-start leading-none">
-          <span class="text-3xl sm:text-4xl font-black">${nextCard.name}</span>
-          <span class="text-2xl sm:text-3xl mt-0.5">${nextCard.suit.symbol}</span>
-        </div>
-        <div class="text-7xl sm:text-8xl self-center">${nextCard.suit.symbol}</div>
-        <div class="flex flex-col items-end leading-none rotate-180">
-          <span class="text-3xl sm:text-4xl font-black">${nextCard.name}</span>
-          <span class="text-2xl sm:text-3xl mt-0.5">${nextCard.suit.symbol}</span>
-        </div>
-      `;
-
-      const isHigh = nextCard.val > currentCard.val;
-      const isWin = (choice === 'HIGH' && isHigh) || (choice === 'LOW' && !isHigh);
-
-      const resText = document.getElementById('hlResultText');
-
-      if (isWin) {
-        streak++;
-        if (streak > bestStreak) {
-          bestStreak = streak;
-          document.getElementById('bestStreakText').textContent = bestStreak;
-        }
-        document.getElementById('streakText').textContent = `${streak} 연승 🔥`;
-        resText.textContent = `🎉 적중! (${nextCard.name}이(가) 나왔습니다!)`;
-        playSfx('winPoint');
-
-        if (streak === 5 || streak === 10) {
-          openModal('🔥', `${streak}연승 대기록 달성!`, '엄청난 감각이십니다! 계속해서 기록을 깨보세요!');
-        }
+      if (!selectedGem) {
+        selectedGem = { r, c };
+        renderJewelGrid();
       } else {
-        streak = 0;
-        document.getElementById('streakText').textContent = '0 연승';
-        resText.textContent = `앗! 아쉽네요 (${nextCard.name}이(가) 나왔습니다)`;
-        playSfx('fail');
+        const dr = Math.abs(selectedGem.r - r);
+        const dc = Math.abs(selectedGem.c - c);
+
+        // 상하좌우 바로 옆 칸일 때만 스왑 시도
+        if ((dr === 1 && dc === 0) || (dr === 0 && dc === 1)) {
+          swapGems(selectedGem.r, selectedGem.c, r, c);
+          const matches = findMatches();
+
+          if (matches.length > 0) {
+            jewelMoves--;
+            document.getElementById('jewelMovesText').textContent = jewelMoves;
+            selectedGem = null;
+            processMatches();
+          } else {
+            // 원위치로 롤백
+            swapGems(selectedGem.r, selectedGem.c, r, c);
+            selectedGem = null;
+            renderJewelGrid();
+          }
+        } else {
+          selectedGem = { r, c };
+          renderJewelGrid();
+        }
+      }
+    }
+
+    function swapGems(r1, c1, r2, c2) {
+      const temp = jewelGrid[r1][c1];
+      jewelGrid[r1][c1] = jewelGrid[r2][c2];
+      jewelGrid[r2][c2] = temp;
+    }
+
+    function findMatches() {
+      const matched = new Set();
+
+      // 가로 검사
+      for (let r = 0; r < J_ROWS; r++) {
+        for (let c = 0; c < J_COLS - 2; c++) {
+          const gem = jewelGrid[r][c];
+          if (gem && gem === jewelGrid[r][c+1] && gem === jewelGrid[r][c+2]) {
+            matched.add(`${r},${c}`);
+            matched.add(`${r},${c+1}`);
+            matched.add(`${r},${c+2}`);
+          }
+        }
       }
 
+      // 세로 검사
+      for (let c = 0; c < J_COLS; c++) {
+        for (let r = 0; r < J_ROWS - 2; r++) {
+          const gem = jewelGrid[r][c];
+          if (gem && gem === jewelGrid[r+1][c] && gem === jewelGrid[r+2][c]) {
+            matched.add(`${r},${c}`);
+            matched.add(`${r+1},${c}`);
+            matched.add(`${r+2},${c}`);
+          }
+        }
+      }
+
+      return Array.from(matched).map(s => {
+        const [r, c] = s.split(',').map(Number);
+        return { r, c };
+      });
+    }
+
+    function processMatches() {
+      isProcessing = true;
+      const matches = findMatches();
+
+      if (matches.length === 0) {
+        isProcessing = false;
+        renderJewelGrid();
+        if (jewelMoves <= 0) {
+          openModal('💎', '게임 종료!', `최종 점수: ${jewelScore}점! 멋지게 완료하셨습니다!`);
+        }
+        return;
+      }
+
+      playSfx('gemPop');
+      jewelScore += matches.length * 20;
+      document.getElementById('jewelScoreText').textContent = jewelScore;
+
+      // 터진 보석 빈칸 처리
+      matches.forEach(m => {
+        jewelGrid[m.r][m.c] = null;
+      });
+      renderJewelGrid();
+
+      // 윗쪽 보석 떨어뜨리기 & 채우기
       setTimeout(() => {
-        currentCard = nextCard;
-        renderCurrentCard(currentCard);
-        resetNextCardSlot();
-        isHLGuessed = false;
-      }, 950);
+        for (let c = 0; c < J_COLS; c++) {
+          let emptyRow = J_ROWS - 1;
+          for (let r = J_ROWS - 1; r >= 0; r--) {
+            if (jewelGrid[r][c] !== null) {
+              jewelGrid[emptyRow][c] = jewelGrid[r][c];
+              if (emptyRow !== r) jewelGrid[r][c] = null;
+              emptyRow--;
+            }
+          }
+          // 빈칸에 새 보석 생성
+          for (let r = emptyRow; r >= 0; r--) {
+            jewelGrid[r][c] = GEMS[Math.floor(Math.random() * GEMS.length)];
+          }
+        }
+        renderJewelGrid();
+        setTimeout(processMatches, 300); // 연쇄 폭발 검사
+      }, 250);
     }
 
     // ==============================================================
