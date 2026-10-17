@@ -3,7 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>두뇌 힐링 게임 삼총사 💎🃏⚫</title>
+  <title>러브 & 두뇌 힐링 게임 라운지 💖</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -31,56 +31,87 @@
     .gem-cell {
       transition: transform 0.15s ease, background-color 0.2s;
     }
+    @keyframes heartFloat {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.12) translateY(-8px); }
+    }
+    .heart-float {
+      animation: heartFloat 0.8s ease-in-out infinite;
+    }
+    @keyframes popParticle {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(1.6); opacity: 0; }
+    }
+    .particle {
+      animation: popParticle 0.7s ease-out forwards;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none overflow-x-hidden">
 
   <!-- ================= 1. 메인 첫 화면 (로비) ================= -->
   <section id="lobbyScreen" class="w-full max-w-xl my-auto flex flex-col items-center py-6 px-3">
-    <div class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-3 shadow">
-      ✨ 부담 없이 즐기는 두뇌 게임 3종
+    <div class="inline-block bg-pink-500/20 text-pink-300 border border-pink-500/40 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-3 shadow">
+      💖 사랑 가득 & 두뇌 힐링 라운지
     </div>
-    <h1 class="text-3xl sm:text-4xl font-black text-amber-100 mb-2 tracking-tight text-center">힐링 게임 라운지 🎮</h1>
-    <p class="text-xs sm:text-sm text-slate-400 mb-6 text-center">원하는 게임을 콕 눌러보세요!</p>
+    <h1 class="text-3xl sm:text-4xl font-black text-rose-100 mb-2 tracking-tight text-center">달콤한 게임 라운지 🎁</h1>
+    <p class="text-xs sm:text-sm text-slate-400 mb-6 text-center">하고 싶은 게임을 골라보세요!</p>
 
-    <div class="w-full flex flex-col gap-4">
-      <!-- 1) 보석 팡팡 -->
-      <button onclick="openGame('jewel')" class="w-full bg-gradient-to-r from-pink-700 via-purple-700 to-indigo-700 hover:from-pink-600 hover:to-indigo-600 border-2 border-pink-400/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+    <div class="w-full flex flex-col gap-3.5">
+      <!-- 0) 애인 전용 하트 누르기 게임 -->
+      <button onclick="openGame('loveHeart')" class="w-full bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 border-2 border-pink-300 p-5 rounded-3xl shadow-[0_0_25px_rgba(244,63,94,0.4)] flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 text-3xl bg-black/40 rounded-2xl border border-pink-400/30 flex items-center justify-center shrink-0">
+          <div class="w-14 h-14 text-3xl bg-white/20 backdrop-blur-sm rounded-2xl border border-white/40 flex items-center justify-center shrink-0 heart-float">
+            💖
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="bg-white text-rose-600 text-[10px] font-black px-2 py-0.5 rounded-full">당신을 위한 🎁</span>
+              <h2 class="text-lg sm:text-xl font-black text-white">러브 하트 팡팡!</h2>
+            </div>
+            <p class="text-xs sm:text-sm text-rose-100/90 mt-0.5">움직이는 하트를 잡으면 특급 쿠폰 당첨!</p>
+          </div>
+        </div>
+        <i class="fa-solid fa-gift text-white text-xl pr-2 animate-bounce"></i>
+      </button>
+
+      <!-- 1) 보석 팡팡 -->
+      <button onclick="openGame('jewel')" class="w-full bg-gradient-to-r from-purple-800 to-indigo-800 hover:from-purple-700 hover:to-indigo-700 border-2 border-purple-400/60 p-4 sm:p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-4">
+          <div class="w-13 h-13 text-3xl bg-black/40 rounded-2xl border border-purple-400/30 flex items-center justify-center shrink-0">
             💎
           </div>
           <div>
-            <h2 class="text-lg sm:text-xl font-black text-white">팡팡! 보석 매치 3</h2>
-            <p class="text-xs sm:text-sm text-pink-200/80 mt-0.5">같은 색 보석 3개를 이어 팡팡 터뜨려요!</p>
+            <h2 class="text-base sm:text-lg font-black text-white">팡팡! 보석 매치 3</h2>
+            <p class="text-xs text-purple-200/80 mt-0.5">같은 색 보석 3개를 이어 팡팡 터뜨려요!</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-pink-300 text-lg pr-2"></i>
+        <i class="fa-solid fa-chevron-right text-purple-300 text-lg pr-2"></i>
       </button>
 
       <!-- 2) 기억력 카드 뒤집기 -->
-      <button onclick="openGame('card')" class="w-full bg-gradient-to-r from-indigo-800 to-purple-700 hover:from-indigo-700 hover:to-purple-600 border-2 border-indigo-400/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+      <button onclick="openGame('card')" class="w-full bg-gradient-to-r from-blue-900 to-indigo-900 hover:from-blue-800 hover:to-indigo-800 border-2 border-blue-400/60 p-4 sm:p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 text-3xl bg-black/40 rounded-2xl border border-indigo-400/30 flex items-center justify-center shrink-0">
+          <div class="w-13 h-13 text-3xl bg-black/40 rounded-2xl border border-blue-400/30 flex items-center justify-center shrink-0">
             🃏
           </div>
           <div>
-            <h2 class="text-lg sm:text-xl font-black text-white">기억력 쑥쑥! 카드 뒤집기</h2>
-            <p class="text-xs sm:text-sm text-indigo-200/80 mt-0.5">숨겨진 카드를 열어 짝을 맞춰봐요</p>
+            <h2 class="text-base sm:text-lg font-black text-white">기억력 쑥쑥! 카드 뒤집기</h2>
+            <p class="text-xs text-blue-200/80 mt-0.5">숨겨진 카드를 열어 짝을 맞춰봐요</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-indigo-300 text-lg pr-2"></i>
+        <i class="fa-solid fa-chevron-right text-blue-300 text-lg pr-2"></i>
       </button>
 
       <!-- 3) 두뇌 오목 -->
-      <button onclick="openGame('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+      <button onclick="openGame('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-4 sm:p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
-          <div class="w-14 h-14 text-3xl bg-black/40 rounded-2xl border border-amber-400/30 flex items-center justify-center shrink-0">
+          <div class="w-13 h-13 text-3xl bg-black/40 rounded-2xl border border-amber-400/30 flex items-center justify-center shrink-0">
             ⚫⚪
           </div>
           <div>
-            <h2 class="text-lg sm:text-xl font-black text-white">두뇌 튼튼 오목 한판</h2>
-            <p class="text-xs sm:text-sm text-amber-200/80 mt-0.5">시원시원한 대형 바둑판 & AI 대전</p>
+            <h2 class="text-base sm:text-lg font-black text-white">두뇌 튼튼 오목 한판</h2>
+            <p class="text-xs text-amber-200/80 mt-0.5">시원시원한 대형 바둑판 & AI 대전</p>
           </div>
         </div>
         <i class="fa-solid fa-chevron-right text-amber-300 text-lg pr-2"></i>
@@ -88,9 +119,59 @@
     </div>
   </section>
 
-  <!-- ================= 2. 보석 팡팡 화면 ================= -->
-  <section id="jewelScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
+  <!-- ================= 2.  러브 하트 누르기 화면 ================= -->
+  <section id="loveHeartScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-3 py-2">
     <!-- 상단 바 -->
+    <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-2.5 rounded-2xl border border-rose-800/60 shadow-md">
+      <button onclick="goHome()" class="text-xs sm:text-sm font-bold text-rose-200 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
+        <i class="fa-solid fa-house"></i> 홈
+      </button>
+      <div class="text-center">
+        <span class="text-sm sm:text-base font-black text-rose-300">러브 하트 캐치 💖</span>
+      </div>
+      <div class="flex gap-2 text-right">
+        <div class="bg-slate-950 border border-rose-900 px-3 py-1 rounded-xl">
+          <span class="text-[9px] text-rose-300/70 block font-bold">누른 하트</span>
+          <span id="heartCountText" class="text-sm sm:text-base font-black text-rose-400">0 회</span>
+        </div>
+        <div class="bg-slate-950 border border-amber-900 px-3 py-1 rounded-xl">
+          <span class="text-[9px] text-amber-300/70 block font-bold">다음 쿠폰</span>
+          <span id="nextRewardText" class="text-xs sm:text-sm font-black text-amber-300">10회 (포옹권)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하트 잡기 무대 -->
+    <div class="my-auto w-full p-1 flex flex-col items-center justify-center">
+      <div id="heartPlayground" class="relative bg-gradient-to-b from-rose-950/40 via-purple-950/30 to-slate-950 p-4 rounded-3xl sm:rounded-[36px] shadow-[inset_0_0_40px_rgba(244,63,94,0.3)] border-4 border-rose-900/60 w-full aspect-[4/5] max-w-lg flex flex-col items-center justify-center overflow-hidden cursor-pointer">
+        
+        <div class="absolute top-4 text-center pointer-events-none z-10 px-4">
+          <p class="text-xs sm:text-sm font-black text-rose-300 drop-shadow">움직이는 하트를 터치해서 쿠폰을 받아보세요!</p>
+          <p id="subHintText" class="text-[11px] text-slate-400 mt-0.5">10회 꽉 안아주기 · 25회 저녁데이트 · 50회 어깨안마 · 77회 소원권</p>
+        </div>
+
+        <button id="floatingHeartBtn" onclick="onHeartClicked(event)" class="absolute z-20 text-6xl sm:text-7xl active:scale-75 transition-all duration-200 select-none drop-shadow-[0_0_20px_rgba(244,63,94,0.9)] heart-float focus:outline-none">
+          💖
+        </button>
+
+        <div id="particleContainer" class="absolute inset-0 pointer-events-none z-30"></div>
+      </div>
+    </div>
+
+    <!-- 하단 획득 쿠폰 보관함 버튼 -->
+    <div class="pb-2 w-full flex gap-2">
+      <button onclick="showMyRewards()" class="flex-1 bg-gradient-to-r from-amber-600 to-rose-600 hover:from-amber-500 hover:to-rose-500 text-white font-black py-3.5 rounded-2xl shadow-xl text-sm flex items-center justify-center gap-2 active:scale-95 transition">
+        <i class="fa-solid fa-ticket"></i>
+        <span>내 당첨 쿠폰함 열기 (<span id="rewardBadgeCount">0</span>개)</span>
+      </button>
+      <button onclick="resetHeartGame()" class="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3.5 rounded-2xl border border-slate-700 text-xs active:scale-95 transition">
+        초기화
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 3. 보석 팡팡 화면 ================= -->
+  <section id="jewelScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
     <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow-md">
       <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
         <i class="fa-solid fa-house"></i> 홈
@@ -110,7 +191,6 @@
       </div>
     </div>
 
-    <!-- 대형 보석 판 (6x6) -->
     <div class="my-auto p-1 flex items-center justify-center w-full">
       <div class="bg-slate-900/90 p-3 sm:p-4 rounded-3xl shadow-[0_0_35px_rgba(236,72,153,0.2)] border-4 border-slate-800 w-full aspect-square max-w-lg flex items-center justify-center">
         <div id="jewelGrid" class="w-full h-full grid grid-cols-6 gap-1.5 sm:gap-2"></div>
@@ -125,7 +205,7 @@
     </div>
   </section>
 
-  <!-- ================= 3. 카드 뒤집기 화면 ================= -->
+  <!-- ================= 4. 카드 뒤집기 화면 ================= -->
   <section id="cardScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
     <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow">
       <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
@@ -151,7 +231,7 @@
     </div>
   </section>
 
-  <!-- ================= 4. 두뇌 오목 화면 ================= -->
+  <!-- ================= 5. 두뇌 오목 화면 ================= -->
   <section id="omokScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
     <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow">
       <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
@@ -167,7 +247,6 @@
       </div>
     </div>
 
-    <!-- 대형 바둑판 -->
     <div class="my-auto p-1 flex items-center justify-center w-full">
       <div class="bg-[#E4A054] p-2 sm:p-3 rounded-3xl shadow-2xl border-4 border-[#8B5A2B] w-full aspect-square max-w-lg flex items-center justify-center">
         <canvas id="omokCanvas" class="w-full h-full cursor-pointer rounded-2xl"></canvas>
@@ -184,7 +263,39 @@
     </div>
   </section>
 
-  <!-- 결과 알림 모달 -->
+  <!-- 당첨 쿠폰 모달 (선물 상자) -->
+  <div id="couponModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-gradient-to-b from-slate-900 to-rose-950 border-2 border-pink-400 rounded-3xl p-6 sm:p-8 text-center max-w-xs sm:max-w-sm w-full shadow-[0_0_40px_rgba(244,63,94,0.5)]">
+      <div id="couponEmoji" class="text-6xl mb-2 animate-bounce">🥰</div>
+      <span class="text-xs font-black text-pink-300 uppercase tracking-widest bg-pink-900/60 px-3 py-1 rounded-full border border-pink-500/40">당첨을 축하해요!</span>
+      <h3 id="couponTitle" class="text-xl sm:text-2xl font-black text-white mt-3 mb-2">따뜻한 포옹권</h3>
+      <div class="p-3 bg-white/10 rounded-2xl border border-white/20 mb-5">
+        <p id="couponDesc" class="text-xs sm:text-sm text-pink-100 font-bold leading-relaxed">
+          "언제든 제시하면 10초 동안 따뜻하게 꽉 안아드립니다!"
+        </p>
+      </div>
+      <button onclick="closeCouponModal()" class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white font-black text-base py-3.5 rounded-xl active:scale-95 transition shadow-lg">
+        쿠폰 보관함에 쏙 넣기 💌
+      </button>
+    </div>
+  </div>
+
+  <!-- 획득한 쿠폰 목록 모달 -->
+  <div id="myRewardsModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border-2 border-amber-400 rounded-3xl p-6 text-center max-w-sm w-full shadow-2xl flex flex-col max-h-[80vh]">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <h3 class="text-lg font-black text-amber-300">내 데이트 쿠폰함 🎁</h3>
+        <button onclick="closeRewardsModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="rewardListContainer" class="flex-1 overflow-y-auto py-3 flex flex-col gap-2.5 text-left text-xs">
+      </div>
+      <button onclick="closeRewardsModal()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl mt-2 active:scale-95 transition">
+        닫기
+      </button>
+    </div>
+  </div>
+
+  <!-- 일반 게임 승리 알림 모달 -->
   <div id="gameModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
     <div class="bg-slate-900 border-2 border-amber-400 rounded-3xl p-6 sm:p-8 text-center max-w-xs sm:max-w-sm w-full shadow-2xl">
       <div id="modalEmoji" class="text-5xl sm:text-6xl mb-3">🏆</div>
@@ -213,12 +324,34 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
-        if (type === 'gemClick') {
+        if (type === 'heartPop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.08);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.09);
+        } else if (type === 'couponJackpot') {
+          [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'triangle';
+            o.frequency.setValueAtTime(f, now + i * 0.07);
+            g.gain.setValueAtTime(0.25, now + i * 0.07);
+            g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.07 + 0.2);
+            o.connect(g); g.connect(ctx.destination);
+            o.start(now + i * 0.07); o.stop(now + i * 0.07 + 0.21);
+          });
+          return;
+        } else if (type === 'gemClick') {
           osc.type = 'sine';
           osc.frequency.setValueAtTime(450, now);
           osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
           gain.gain.setValueAtTime(0.2, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.06);
         } else if (type === 'gemPop') {
           [600, 800, 1000].forEach((f, i) => {
             const o = ctx.createOscillator();
@@ -237,6 +370,8 @@
           osc.frequency.exponentialRampToValueAtTime(140, now + 0.07);
           gain.gain.setValueAtTime(0.4, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.08);
         } else if (type === 'winPoint') {
           [523, 659, 783, 1046].forEach((f, i) => {
             const o = ctx.createOscillator();
@@ -254,11 +389,9 @@
           osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
           gain.gain.setValueAtTime(0.7, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now); osc.stop(now + 0.09);
         }
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.1);
       } catch(e) {}
     }
 
@@ -266,13 +399,17 @@
     function openGame(name) {
       getAudioCtx();
       document.getElementById('lobbyScreen').classList.add('hidden');
-      ['jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
+      ['loveHeartScreen', 'jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
         const el = document.getElementById(id);
         el.classList.add('hidden');
         el.classList.remove('flex');
       });
 
-      if (name === 'jewel') {
+      if (name === 'loveHeart') {
+        const el = document.getElementById('loveHeartScreen');
+        el.classList.remove('hidden'); el.classList.add('flex');
+        initLoveHeartGame();
+      } else if (name === 'jewel') {
         const el = document.getElementById('jewelScreen');
         el.classList.remove('hidden'); el.classList.add('flex');
         initJewelGame();
@@ -288,7 +425,7 @@
     }
 
     function goHome() {
-      ['jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
+      ['loveHeartScreen', 'jewelScreen', 'cardScreen', 'omokScreen'].forEach(id => {
         const el = document.getElementById(id);
         el.classList.add('hidden');
         el.classList.remove('flex');
@@ -307,7 +444,156 @@
     }
 
     // ==============================================================
-    // [1] 보석 팡팡 매치 3 (Jewel Match 3) 엔진
+    // [0] 애인 전용 러브 하트 누르기 게임 엔진 (돈 안 드는 달콤한 쿠폰)
+    // ==============================================================
+    let heartClicks = 0;
+    let unlockedRewards = [];
+    const heartEmojis = ['💖', '💕', '💗', '💓', '💝', '💘', '✨'];
+
+    const REWARDS = [
+      { target: 10, emoji: '🥰', title: '10초 꽉 안아주기권 (충전 포옹)', desc: '언제든 제시하면 따뜻하게 10초간 꽉 안아드립니다! 지친 하루 충전 완료 🥰' },
+      { target: 25, emoji: '🍽️', title: '오늘의 메뉴 선택 & 저녁 데이트권', desc: '오늘 먹고 싶은 거 다 골라! 맛있는 저녁 함께 먹기 🍕🍣' },
+      { target: 50, emoji: '💆', title: '피로 싹 풀리는 10분 어깨 안마권', desc: '오늘 하루도 수고했어! 정성 가득 10분 힐링 안마 서비스 💆' },
+      { target: 77, emoji: '👑', title: '무조건 소원 1가지 들어주기권', desc: '언제든 사용 가능! 묻지도 따지지도 않고 소원 1개 들어줍니다 👑' }
+    ];
+
+    function initLoveHeartGame() {
+      updateHeartUI();
+      moveHeartRandomly();
+    }
+
+    function onHeartClicked(e) {
+      playSfx('heartPop');
+      heartClicks++;
+
+      createParticles(e.clientX, e.clientY);
+
+      const btn = document.getElementById('floatingHeartBtn');
+      btn.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      moveHeartRandomly();
+
+      checkRewardMilestone();
+      updateHeartUI();
+    }
+
+    function moveHeartRandomly() {
+      const playground = document.getElementById('heartPlayground');
+      const btn = document.getElementById('floatingHeartBtn');
+      const rect = playground.getBoundingClientRect();
+
+      const maxX = rect.width - 90;
+      const maxY = rect.height - 110;
+      const randX = Math.max(20, Math.floor(Math.random() * maxX));
+      const randY = Math.max(70, Math.floor(Math.random() * maxY));
+
+      btn.style.left = `${randX}px`;
+      btn.style.top = `${randY}px`;
+    }
+
+    function createParticles(x, y) {
+      const container = document.getElementById('particleContainer');
+      const rect = container.getBoundingClientRect();
+      const originX = x - rect.left;
+      const originY = y - rect.top;
+
+      for (let i = 0; i < 7; i++) {
+        const span = document.createElement('span');
+        span.className = 'particle absolute text-xl select-none';
+        span.textContent = ['💖', '✨', '💕', '🌸'][Math.floor(Math.random() * 4)];
+        span.style.left = `${originX}px`;
+        span.style.top = `${originY}px`;
+
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 40 + Math.random() * 50;
+        span.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);
+        span.style.setProperty('--ty', `${Math.sin(angle) * dist}px`);
+
+        container.appendChild(span);
+        setTimeout(() => span.remove(), 700);
+      }
+    }
+
+    function checkRewardMilestone() {
+      for (let r of REWARDS) {
+        if (heartClicks === r.target && !unlockedRewards.some(item => item.target === r.target)) {
+          unlockedRewards.push(r);
+          setTimeout(() => {
+            triggerCouponModal(r);
+          }, 200);
+          break;
+        }
+      }
+    }
+
+    function triggerCouponModal(reward) {
+      playSfx('couponJackpot');
+      document.getElementById('couponEmoji').textContent = reward.emoji;
+      document.getElementById('couponTitle').textContent = reward.title;
+      document.getElementById('couponDesc').textContent = `"${reward.desc}"`;
+      document.getElementById('couponModal').classList.remove('hidden');
+    }
+
+    function closeCouponModal() {
+      document.getElementById('couponModal').classList.add('hidden');
+    }
+
+    function updateHeartUI() {
+      document.getElementById('heartCountText').textContent = `${heartClicks} 회`;
+      document.getElementById('rewardBadgeCount').textContent = unlockedRewards.length;
+
+      const next = REWARDS.find(r => r.target > heartClicks);
+      if (next) {
+        document.getElementById('nextRewardText').textContent = `${next.target}회 (${next.title.split(' ')[0]})`;
+      } else {
+        document.getElementById('nextRewardText').textContent = '모든 쿠폰 올클리어! 👑';
+      }
+    }
+
+    function showMyRewards() {
+      const list = document.getElementById('rewardListContainer');
+      list.innerHTML = '';
+
+      if (unlockedRewards.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-8 text-slate-400">
+            <span class="text-3xl block mb-2">🎁</span>
+            아직 당첨된 쿠폰이 없어요!<br>하트를 10번 눌러서 첫 포옹 쿠폰을 받아보세요!
+          </div>
+        `;
+      } else {
+        unlockedRewards.forEach(r => {
+          const item = document.createElement('div');
+          item.className = 'bg-slate-800 border border-pink-500/40 p-3 rounded-2xl flex items-center gap-3 shadow';
+          item.innerHTML = `
+            <span class="text-3xl bg-pink-950/70 p-2 rounded-xl border border-pink-400/30">${r.emoji}</span>
+            <div class="flex-1">
+              <span class="text-[10px] text-pink-300 font-bold block">${r.target}회 달성 보상</span>
+              <h4 class="text-sm font-black text-white">${r.title}</h4>
+              <p class="text-[11px] text-slate-300 mt-0.5">${r.desc}</p>
+            </div>
+          `;
+          list.appendChild(item);
+        });
+      }
+
+      document.getElementById('myRewardsModal').classList.remove('hidden');
+    }
+
+    function closeRewardsModal() {
+      document.getElementById('myRewardsModal').classList.add('hidden');
+    }
+
+    function resetHeartGame() {
+      if (confirm('하트 누른 횟수와 쿠폰을 초기화할까요?')) {
+        heartClicks = 0;
+        unlockedRewards = [];
+        updateHeartUI();
+        moveHeartRandomly();
+      }
+    }
+
+    // ==============================================================
+    // [1] 보석 팡팡 매치 3
     // ==============================================================
     const J_ROWS = 6;
     const J_COLS = 6;
@@ -365,7 +651,6 @@
         const dr = Math.abs(selectedGem.r - r);
         const dc = Math.abs(selectedGem.c - c);
 
-        // 상하좌우 바로 옆 칸일 때만 스왑 시도
         if ((dr === 1 && dc === 0) || (dr === 0 && dc === 1)) {
           swapGems(selectedGem.r, selectedGem.c, r, c);
           const matches = findMatches();
@@ -376,7 +661,6 @@
             selectedGem = null;
             processMatches();
           } else {
-            // 원위치로 롤백
             swapGems(selectedGem.r, selectedGem.c, r, c);
             selectedGem = null;
             renderJewelGrid();
@@ -396,8 +680,6 @@
 
     function findMatches() {
       const matched = new Set();
-
-      // 가로 검사
       for (let r = 0; r < J_ROWS; r++) {
         for (let c = 0; c < J_COLS - 2; c++) {
           const gem = jewelGrid[r][c];
@@ -408,8 +690,6 @@
           }
         }
       }
-
-      // 세로 검사
       for (let c = 0; c < J_COLS; c++) {
         for (let r = 0; r < J_ROWS - 2; r++) {
           const gem = jewelGrid[r][c];
@@ -420,7 +700,6 @@
           }
         }
       }
-
       return Array.from(matched).map(s => {
         const [r, c] = s.split(',').map(Number);
         return { r, c };
@@ -444,13 +723,11 @@
       jewelScore += matches.length * 20;
       document.getElementById('jewelScoreText').textContent = jewelScore;
 
-      // 터진 보석 빈칸 처리
       matches.forEach(m => {
         jewelGrid[m.r][m.c] = null;
       });
       renderJewelGrid();
 
-      // 윗쪽 보석 떨어뜨리기 & 채우기
       setTimeout(() => {
         for (let c = 0; c < J_COLS; c++) {
           let emptyRow = J_ROWS - 1;
@@ -461,13 +738,12 @@
               emptyRow--;
             }
           }
-          // 빈칸에 새 보석 생성
           for (let r = emptyRow; r >= 0; r--) {
             jewelGrid[r][c] = GEMS[Math.floor(Math.random() * GEMS.length)];
           }
         }
         renderJewelGrid();
-        setTimeout(processMatches, 300); // 연쇄 폭발 검사
+        setTimeout(processMatches, 300);
       }, 250);
     }
 
