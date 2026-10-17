@@ -30,120 +30,126 @@
     }
   </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-between p-3 select-none">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none">
 
   <!-- ================= 1. 메인 첫 화면 (로비) ================= -->
-  <section id="lobbyScreen" class="w-full max-w-sm my-auto flex flex-col items-center py-4">
-    <div class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold px-3.5 py-1 rounded-full mb-3 shadow">
+  <section id="lobbyScreen" class="w-full max-w-xl my-auto flex flex-col items-center py-6 px-3">
+    <div class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full mb-3 shadow">
       ✨ 부담 없이 즐기는 두뇌 게임 3종
     </div>
-    <h1 class="text-3xl font-black text-amber-100 mb-1 tracking-tight">클래식 게임 라운지 🃏</h1>
-    <p class="text-xs text-slate-400 mb-6">원하는 게임을 콕 눌러보세요!</p>
+    <h1 class="text-3xl sm:text-4xl font-black text-amber-100 mb-2 tracking-tight text-center">클래식 게임 라운지 🃏</h1>
+    <p class="text-xs sm:text-sm text-slate-400 mb-6 text-center">원하는 게임을 콕 눌러보세요!</p>
 
-    <div class="w-full flex flex-col gap-3.5">
+    <div class="w-full flex flex-col gap-4">
       <!-- 1) 포커 하이로우 -->
-      <button onclick="openGame('highlow')" class="w-full bg-gradient-to-r from-emerald-800 to-teal-700 hover:from-emerald-700 hover:to-teal-600 border-2 border-emerald-400/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
-        <div class="flex items-center gap-3.5">
-          <div class="w-13 h-13 text-2xl font-black bg-black/40 p-2.5 rounded-2xl border border-emerald-400/30 text-emerald-300 flex items-center justify-center">
+      <button onclick="openGame('highlow')" class="w-full bg-gradient-to-r from-emerald-800 to-teal-700 hover:from-emerald-700 hover:to-teal-600 border-2 border-emerald-400/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 text-2xl font-black bg-black/40 rounded-2xl border border-emerald-400/30 text-emerald-300 flex items-center justify-center shrink-0">
             ♠ A
           </div>
           <div>
-            <h2 class="text-base font-black text-white">포커 하이로우 (UP & DOWN)</h2>
-            <p class="text-[11px] text-emerald-200/80">다음 카드가 더 높을까? 낮을까?</p>
+            <h2 class="text-lg sm:text-xl font-black text-white">포커 하이로우 (UP & DOWN)</h2>
+            <p class="text-xs sm:text-sm text-emerald-200/80 mt-0.5">다음 카드가 더 높을까? 낮을까?</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-emerald-300 text-base pr-1"></i>
+        <i class="fa-solid fa-chevron-right text-emerald-300 text-lg pr-2"></i>
       </button>
 
       <!-- 2) 기억력 카드 뒤집기 -->
-      <button onclick="openGame('card')" class="w-full bg-gradient-to-r from-indigo-800 to-purple-700 hover:from-indigo-700 hover:to-purple-600 border-2 border-indigo-400/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
-        <div class="flex items-center gap-3.5">
-          <span class="text-3xl bg-black/40 p-2.5 rounded-2xl border border-indigo-400/30">🃏</span>
+      <button onclick="openGame('card')" class="w-full bg-gradient-to-r from-indigo-800 to-purple-700 hover:from-indigo-700 hover:to-purple-600 border-2 border-indigo-400/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 text-3xl bg-black/40 rounded-2xl border border-indigo-400/30 flex items-center justify-center shrink-0">
+            🃏
+          </div>
           <div>
-            <h2 class="text-base font-black text-white">기억력 쑥쑥! 카드 뒤집기</h2>
-            <p class="text-[11px] text-indigo-200/80">숨겨진 카드를 열어 짝을 맞춰봐요</p>
+            <h2 class="text-lg sm:text-xl font-black text-white">기억력 쑥쑥! 카드 뒤집기</h2>
+            <p class="text-xs sm:text-sm text-indigo-200/80 mt-0.5">숨겨진 카드를 열어 짝을 맞춰봐요</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-indigo-300 text-base pr-1"></i>
+        <i class="fa-solid fa-chevron-right text-indigo-300 text-lg pr-2"></i>
       </button>
 
       <!-- 3) 두뇌 오목 -->
-      <button onclick="openGame('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-4 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
-        <div class="flex items-center gap-3.5">
-          <span class="text-3xl bg-black/40 p-2.5 rounded-2xl border border-amber-400/30">⚫⚪</span>
+      <button onclick="openGame('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 text-3xl bg-black/40 rounded-2xl border border-amber-400/30 flex items-center justify-center shrink-0">
+            ⚫⚪
+          </div>
           <div>
-            <h2 class="text-base font-black text-white">두뇌 튼튼 오목 한판</h2>
-            <p class="text-[11px] text-amber-200/80">시원시원한 대형 바둑판 & AI 대전</p>
+            <h2 class="text-lg sm:text-xl font-black text-white">두뇌 튼튼 오목 한판</h2>
+            <p class="text-xs sm:text-sm text-amber-200/80 mt-0.5">시원시원한 대형 바둑판 & AI 대전</p>
           </div>
         </div>
-        <i class="fa-solid fa-chevron-right text-amber-300 text-base pr-1"></i>
+        <i class="fa-solid fa-chevron-right text-amber-300 text-lg pr-2"></i>
       </button>
     </div>
   </section>
 
-  <!-- ================= 2. 포커 하이로우 화면 ================= -->
-  <section id="highlowScreen" class="w-full max-w-sm hidden flex-col justify-between h-full flex-1">
+  <!-- ================= 2. 포커 하이로우 화면 (화면 꽉 찬 특대형 카드) ================= -->
+  <section id="highlowScreen" class="w-full max-w-2xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
     <!-- 상단 바 -->
-    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700">
-      <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
+    <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow-md">
+      <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
         <i class="fa-solid fa-house"></i> 홈
       </button>
       <div class="text-center">
-        <span class="text-xs font-black text-emerald-400">포커 하이로우 ♠</span>
+        <span class="text-base sm:text-lg font-black text-emerald-400">포커 하이로우 ♠</span>
       </div>
       <div class="flex gap-2 text-right">
-        <div class="bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded-xl">
-          <span class="text-[9px] text-slate-400 block font-bold">연승</span>
-          <span id="streakText" class="text-xs font-black text-amber-300">0 연승</span>
+        <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-xl">
+          <span class="text-[10px] text-slate-400 block font-bold">연승</span>
+          <span id="streakText" class="text-sm sm:text-base font-black text-amber-300">0 연승</span>
         </div>
-        <div class="bg-slate-900 border border-slate-700 px-2.5 py-0.5 rounded-xl">
-          <span class="text-[9px] text-slate-400 block font-bold">최고</span>
-          <span id="bestStreakText" class="text-xs font-black text-cyan-300">0</span>
+        <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-xl">
+          <span class="text-[10px] text-slate-400 block font-bold">최고</span>
+          <span id="bestStreakText" class="text-sm sm:text-base font-black text-cyan-300">0</span>
         </div>
       </div>
     </div>
 
-    <!-- 카지노 테이블 무대 -->
-    <div class="my-auto p-1 flex flex-col items-center justify-center">
-      <div class="bg-[#0f4c3a] p-4 rounded-3xl shadow-[inset_0_0_30px_rgba(0,0,0,0.7)] border-4 border-[#08291f] w-full flex flex-col items-center justify-center">
+    <!-- 초대형 카지노 테이블 무대 -->
+    <div class="my-auto w-full flex flex-col items-center justify-center">
+      <div class="bg-[#0f4c3a] p-6 sm:p-10 rounded-3xl sm:rounded-[36px] shadow-[inset_0_0_50px_rgba(0,0,0,0.85)] border-4 border-[#08291f] w-full flex flex-col items-center justify-center">
         
-        <p class="text-xs text-emerald-200/90 font-bold mb-3">다음 카드는 이 카드보다 높을까요? 낮을까요?</p>
+        <p class="text-sm sm:text-base text-emerald-100 font-bold mb-5 text-center drop-shadow">
+          다음 카드는 이 카드보다 높을까요? 낮을까요?
+        </p>
 
-        <!-- 포커 카드 액자 -->
-        <div class="flex items-center gap-3">
+        <!-- 포커 카드 2장 (대형 크기 w-40 sm:w-52 / h-64 sm:h-80) -->
+        <div class="flex items-center justify-center gap-4 sm:gap-8 w-full">
           <!-- 현재 카드 -->
-          <div id="currentCardEl" class="w-28 h-40 bg-white rounded-2xl shadow-2xl border-2 border-slate-300 flex flex-col justify-between p-2.5 text-slate-900 transition-all duration-300">
+          <div id="currentCardEl" class="w-40 h-64 sm:w-52 sm:h-80 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-slate-300 flex flex-col justify-between p-4 sm:p-5 text-slate-900 transition-all duration-300">
             <div class="flex flex-col items-start leading-none">
-              <span id="currentCardRankTop" class="text-2xl font-black">7</span>
-              <span id="currentCardSuitTop" class="text-lg">♠</span>
+              <span id="currentCardRankTop" class="text-3xl sm:text-4xl font-black">7</span>
+              <span id="currentCardSuitTop" class="text-2xl sm:text-3xl mt-0.5">♠</span>
             </div>
-            <div id="currentCardCenter" class="text-5xl self-center">♠</div>
+            <div id="currentCardCenter" class="text-7xl sm:text-8xl self-center">♠</div>
             <div class="flex flex-col items-end leading-none rotate-180">
-              <span id="currentCardRankBottom" class="text-2xl font-black">7</span>
-              <span id="currentCardSuitBottom" class="text-lg">♠</span>
+              <span id="currentCardRankBottom" class="text-3xl sm:text-4xl font-black">7</span>
+              <span id="currentCardSuitBottom" class="text-2xl sm:text-3xl mt-0.5">♠</span>
             </div>
           </div>
 
           <!-- 다음 카드 (물음표 뒷면) -->
-          <div id="nextCardEl" class="w-28 h-40 bg-gradient-to-br from-blue-700 to-indigo-900 rounded-2xl shadow-2xl border-2 border-blue-400 flex flex-col items-center justify-center p-2 text-white">
-            <span class="text-3xl mb-1">❓</span>
-            <span class="text-[10px] font-bold text-blue-200">NEXT CARD</span>
+          <div id="nextCardEl" class="w-40 h-64 sm:w-52 sm:h-80 bg-gradient-to-br from-blue-700 via-indigo-800 to-indigo-950 rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-blue-400 flex flex-col items-center justify-center p-4 text-white">
+            <span class="text-6xl sm:text-7xl mb-3">❓</span>
+            <span class="text-xs sm:text-sm font-black text-blue-200 tracking-wider">NEXT CARD</span>
           </div>
         </div>
 
-        <p id="hlResultText" class="text-xs font-black text-yellow-300 mt-4 min-h-[1.2rem]">
+        <p id="hlResultText" class="text-sm sm:text-base font-black text-yellow-300 mt-6 min-h-[1.75rem] text-center drop-shadow">
           카드를 보고 선택하세요! (A는 1, K가 가장 높음)
         </p>
       </div>
     </div>
 
-    <!-- 하단 예측 버튼 (더 높다 / 더 낮다) -->
-    <div class="pb-2 grid grid-cols-2 gap-2.5">
-      <button onclick="guessHighLow('HIGH')" class="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black py-4 rounded-2xl shadow-lg text-base flex items-center justify-center gap-2 active:scale-95 transition">
+    <!-- 하단 예측 버튼 (큼직하고 묵직한 터치 버튼) -->
+    <div class="pb-2 grid grid-cols-2 gap-3 sm:gap-4 w-full">
+      <button onclick="guessHighLow('HIGH')" class="bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl text-lg sm:text-xl flex items-center justify-center gap-2 active:scale-95 transition">
         <i class="fa-solid fa-arrow-up"></i>
         <span>더 높다 (HIGH)</span>
       </button>
-      <button onclick="guessHighLow('LOW')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-4 rounded-2xl shadow-lg text-base flex items-center justify-center gap-2 active:scale-95 transition">
+      <button onclick="guessHighLow('LOW')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl text-lg sm:text-xl flex items-center justify-center gap-2 active:scale-95 transition">
         <i class="fa-solid fa-arrow-down"></i>
         <span>더 낮다 (LOW)</span>
       </button>
@@ -151,78 +157,78 @@
   </section>
 
   <!-- ================= 3. 카드 뒤집기 화면 ================= -->
-  <section id="cardScreen" class="w-full max-w-sm hidden flex-col justify-between h-full flex-1">
-    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700">
-      <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
+  <section id="cardScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
+    <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow">
+      <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
         <i class="fa-solid fa-house"></i> 홈
       </button>
-      <h2 class="text-base font-black text-indigo-400">카드 뒤집기 🃏</h2>
-      <div class="bg-slate-900 border border-slate-700 px-3 py-1 rounded-xl text-right">
-        <span class="text-[9px] text-slate-400 block font-bold">시도 횟수</span>
-        <span id="cardMovesText" class="text-sm font-black text-amber-300">0</span>
+      <h2 class="text-base sm:text-lg font-black text-indigo-400">카드 뒤집기 🃏</h2>
+      <div class="bg-slate-950 border border-slate-800 px-3 py-1 rounded-xl text-right">
+        <span class="text-[10px] text-slate-400 block font-bold">시도 횟수</span>
+        <span id="cardMovesText" class="text-sm sm:text-base font-black text-amber-300">0</span>
       </div>
     </div>
 
-    <div class="my-auto p-1 flex items-center justify-center">
-      <div class="bg-slate-800/90 p-2.5 rounded-3xl shadow-2xl border-2 border-slate-700 w-full aspect-square flex items-center justify-center">
-        <div id="cardGrid" class="w-full h-full grid grid-cols-4 gap-2"></div>
+    <div class="my-auto p-1 flex items-center justify-center w-full">
+      <div class="bg-slate-900 p-4 sm:p-5 rounded-3xl shadow-2xl border-2 border-slate-800 w-full aspect-square max-w-lg flex items-center justify-center">
+        <div id="cardGrid" class="w-full h-full grid grid-cols-4 gap-2.5 sm:gap-3.5"></div>
       </div>
     </div>
 
-    <div class="pb-2">
-      <button onclick="initCardGame()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
+    <div class="pb-2 w-full">
+      <button onclick="initCardGame()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg text-base active:scale-95 transition">
         🔄 새 게임 시작하기
       </button>
     </div>
   </section>
 
   <!-- ================= 4. 두뇌 오목 화면 ================= -->
-  <section id="omokScreen" class="w-full max-w-sm hidden flex-col justify-between h-full flex-1">
-    <div class="flex items-center justify-between bg-slate-800/90 px-3 py-2 rounded-2xl border border-slate-700">
-      <button onclick="goHome()" class="text-xs font-bold text-slate-300 px-2.5 py-1 bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1">
+  <section id="omokScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
+    <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow">
+      <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
         <i class="fa-solid fa-house"></i> 홈
       </button>
-      <div class="flex gap-1 bg-slate-900 p-0.5 rounded-xl">
-        <button id="omok-diff-hard" onclick="setOmokDiff('hard')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white">어려움</button>
-        <button id="omok-diff-normal" onclick="setOmokDiff('normal')" class="text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400">보통</button>
+      <div class="flex gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+        <button id="omok-diff-hard" onclick="setOmokDiff('hard')" class="text-xs sm:text-sm px-3 py-1 rounded-lg font-bold bg-rose-600 text-white">어려움</button>
+        <button id="omok-diff-normal" onclick="setOmokDiff('normal')" class="text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400">보통</button>
       </div>
-      <div class="flex items-center gap-1.5">
-        <div id="omok-turn-dot" class="w-3.5 h-3.5 rounded-full bg-black shadow border border-white/30"></div>
-        <span id="omok-turn-text" class="text-xs font-black text-amber-300">내 차례</span>
+      <div class="flex items-center gap-2">
+        <div id="omok-turn-dot" class="w-4 h-4 rounded-full bg-black shadow border border-white/30"></div>
+        <span id="omok-turn-text" class="text-sm font-black text-amber-300">내 차례</span>
       </div>
     </div>
 
     <!-- 대형 바둑판 -->
-    <div class="my-auto p-1 flex items-center justify-center">
-      <div class="bg-[#E4A054] p-1.5 rounded-2xl shadow-2xl border-4 border-[#8B5A2B] w-full aspect-square flex items-center justify-center">
-        <canvas id="omokCanvas" class="w-full h-full cursor-pointer rounded-xl"></canvas>
+    <div class="my-auto p-1 flex items-center justify-center w-full">
+      <div class="bg-[#E4A054] p-2 sm:p-3 rounded-3xl shadow-2xl border-4 border-[#8B5A2B] w-full aspect-square max-w-lg flex items-center justify-center">
+        <canvas id="omokCanvas" class="w-full h-full cursor-pointer rounded-2xl"></canvas>
       </div>
     </div>
 
-    <div class="pb-2 flex gap-2">
-      <button onclick="undoOmok()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 rounded-2xl border border-slate-700 text-xs active:scale-95">
+    <div class="pb-2 flex gap-3 w-full">
+      <button onclick="undoOmok()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-4 rounded-2xl border border-slate-700 text-sm sm:text-base active:scale-95 transition">
         ↩ 무르기
       </button>
-      <button onclick="resetOmok()" class="flex-[2] bg-amber-600 hover:bg-amber-500 text-white font-black py-3.5 rounded-2xl shadow text-xs active:scale-95">
+      <button onclick="resetOmok()" class="flex-[2] bg-amber-600 hover:bg-amber-500 text-white font-black py-4 rounded-2xl shadow-lg text-sm sm:text-base active:scale-95 transition">
         🔄 새 판 시작
       </button>
     </div>
   </section>
 
   <!-- 결과 알림 모달 -->
-  <div id="gameModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-    <div class="bg-slate-900 border-2 border-amber-400 rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl">
-      <div id="modalEmoji" class="text-5xl mb-2">🏆</div>
-      <h3 id="modalTitle" class="text-xl font-black text-white mb-1">승리!</h3>
-      <p id="modalDesc" class="text-xs text-slate-300 font-bold mb-5">멋지게 해내셨습니다!</p>
-      <button onclick="closeModal()" class="w-full bg-amber-500 text-slate-950 font-black text-sm py-3 rounded-xl active:scale-95">
+  <div id="gameModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-900 border-2 border-amber-400 rounded-3xl p-6 sm:p-8 text-center max-w-xs sm:max-w-sm w-full shadow-2xl">
+      <div id="modalEmoji" class="text-5xl sm:text-6xl mb-3">🏆</div>
+      <h3 id="modalTitle" class="text-xl sm:text-2xl font-black text-white mb-2">승리!</h3>
+      <p id="modalDesc" class="text-sm text-slate-300 font-bold mb-6">멋지게 해내셨습니다!</p>
+      <button onclick="closeModal()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-base py-3.5 rounded-xl active:scale-95 transition">
         확인 👍
       </button>
     </div>
   </div>
 
   <script>
-    // --- 공통 효과음 시스템 ---
+    // --- 효과음 시스템 (Web Audio) ---
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     function getAudioCtx() {
@@ -336,7 +342,7 @@
     let isHLGuessed = false;
 
     function getRandomCard() {
-      const val = Math.floor(Math.random() * 13) + 1; // 1 ~ 13
+      const val = Math.floor(Math.random() * 13) + 1;
       const suit = suits[Math.floor(Math.random() * suits.length)];
       const name = rankNames[val] || String(val);
       return { val, suit, name };
@@ -366,15 +372,15 @@
       center.textContent = card.suit.symbol;
 
       const cardEl = document.getElementById('currentCardEl');
-      cardEl.className = `w-28 h-40 bg-white rounded-2xl shadow-2xl border-2 border-slate-300 flex flex-col justify-between p-2.5 ${card.suit.color} transition-all duration-300`;
+      cardEl.className = `w-40 h-64 sm:w-52 sm:h-80 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-slate-300 flex flex-col justify-between p-4 sm:p-5 ${card.suit.color} transition-all duration-300`;
     }
 
     function resetNextCardSlot() {
       const slot = document.getElementById('nextCardEl');
-      slot.className = 'w-28 h-40 bg-gradient-to-br from-blue-700 to-indigo-900 rounded-2xl shadow-2xl border-2 border-blue-400 flex flex-col items-center justify-center p-2 text-white';
+      slot.className = 'w-40 h-64 sm:w-52 sm:h-80 bg-gradient-to-br from-blue-700 via-indigo-800 to-indigo-950 rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-blue-400 flex flex-col items-center justify-center p-4 text-white';
       slot.innerHTML = `
-        <span class="text-3xl mb-1">❓</span>
-        <span class="text-[10px] font-bold text-blue-200">NEXT CARD</span>
+        <span class="text-6xl sm:text-7xl mb-3">❓</span>
+        <span class="text-xs sm:text-sm font-black text-blue-200 tracking-wider">NEXT CARD</span>
       `;
     }
 
@@ -382,7 +388,6 @@
       if (isHLGuessed) return;
       isHLGuessed = true;
 
-      // 다음 카드 뽑기 (동점 방지)
       let nextCard = getRandomCard();
       while (nextCard.val === currentCard.val) {
         nextCard = getRandomCard();
@@ -390,18 +395,17 @@
 
       playSfx('cardFlip');
 
-      // 다음 카드 공개 연출
       const slot = document.getElementById('nextCardEl');
-      slot.className = `w-28 h-40 bg-white rounded-2xl shadow-2xl border-2 border-yellow-400 flex flex-col justify-between p-2.5 ${nextCard.suit.color} animate-pulse`;
+      slot.className = `w-40 h-64 sm:w-52 sm:h-80 bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-yellow-400 flex flex-col justify-between p-4 sm:p-5 ${nextCard.suit.color} animate-pulse`;
       slot.innerHTML = `
         <div class="flex flex-col items-start leading-none">
-          <span class="text-2xl font-black">${nextCard.name}</span>
-          <span class="text-lg">${nextCard.suit.symbol}</span>
+          <span class="text-3xl sm:text-4xl font-black">${nextCard.name}</span>
+          <span class="text-2xl sm:text-3xl mt-0.5">${nextCard.suit.symbol}</span>
         </div>
-        <div class="text-5xl self-center">${nextCard.suit.symbol}</div>
+        <div class="text-7xl sm:text-8xl self-center">${nextCard.suit.symbol}</div>
         <div class="flex flex-col items-end leading-none rotate-180">
-          <span class="text-2xl font-black">${nextCard.name}</span>
-          <span class="text-lg">${nextCard.suit.symbol}</span>
+          <span class="text-3xl sm:text-4xl font-black">${nextCard.name}</span>
+          <span class="text-2xl sm:text-3xl mt-0.5">${nextCard.suit.symbol}</span>
         </div>
       `;
 
@@ -430,13 +434,12 @@
         playSfx('fail');
       }
 
-      // 0.8초 후 다음 카드가 현재 카드가 되며 자동 연속 진행
       setTimeout(() => {
         currentCard = nextCard;
         renderCurrentCard(currentCard);
         resetNextCardSlot();
         isHLGuessed = false;
-      }, 900);
+      }, 950);
     }
 
     // ==============================================================
@@ -470,10 +473,10 @@
         wrap.className = 'w-full h-full card-flip cursor-pointer';
         wrap.innerHTML = `
           <div id="card-inner-${idx}" class="card-inner w-full h-full relative rounded-2xl shadow-md border border-slate-700">
-            <div class="card-front absolute inset-0 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-2xl flex items-center justify-center text-white text-2xl font-black border border-indigo-400/40">
+            <div class="card-front absolute inset-0 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-2xl flex items-center justify-center text-white text-2xl sm:text-3xl font-black border border-indigo-400/40">
               ❓
             </div>
-            <div class="card-back absolute inset-0 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl border-2 border-amber-400">
+            <div class="card-back absolute inset-0 bg-slate-800 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl border-2 border-amber-400">
               ${c.icon}
             </div>
           </div>
@@ -703,10 +706,10 @@
       const dot = document.getElementById('omok-turn-dot');
       const text = document.getElementById('omok-turn-text');
       if (omokPlayer === 1) {
-        dot.className = 'w-3.5 h-3.5 rounded-full bg-black shadow border border-white/20';
+        dot.className = 'w-4 h-4 rounded-full bg-black shadow border border-white/20';
         text.textContent = '내 차례';
       } else {
-        dot.className = 'w-3.5 h-3.5 rounded-full bg-white shadow';
+        dot.className = 'w-4 h-4 rounded-full bg-white shadow';
         text.textContent = '생각 중...';
       }
     }
@@ -734,8 +737,8 @@
     }
 
     function setOmokDiff(d) {
-      document.getElementById('omok-diff-hard').className = d === 'hard' ? 'text-[11px] px-2 py-0.5 rounded-lg font-bold bg-rose-600 text-white' : 'text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400';
-      document.getElementById('omok-diff-normal').className = d === 'normal' ? 'text-[11px] px-2 py-0.5 rounded-lg font-bold bg-amber-600 text-white' : 'text-[11px] px-2 py-0.5 rounded-lg font-bold text-slate-400';
+      document.getElementById('omok-diff-hard').className = d === 'hard' ? 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold bg-rose-600 text-white' : 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400';
+      document.getElementById('omok-diff-normal').className = d === 'normal' ? 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400';
       resetOmok();
     }
 
