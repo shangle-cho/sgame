@@ -6,7 +6,6 @@
   <title>러브 & 두뇌 힐링 게임 라운지 💖</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- 폭죽 & 피날레 파티클 라이브러리 (무설치 경량 CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap');
@@ -48,7 +47,6 @@
       animation: popParticle 0.7s ease-out forwards;
     }
 
-    /* 화면 강타 진동 효과 (Screen Shake) */
     @keyframes screenShake {
       0%, 100% { transform: translate(0, 0); }
       20% { transform: translate(-6px, 4px); }
@@ -60,7 +58,6 @@
       animation: screenShake 0.35s ease-in-out;
     }
 
-    /* 콤보 팝업 텍스트 플로팅 */
     @keyframes comboFloat {
       0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
       20% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
@@ -74,7 +71,7 @@
 </head>
 <body id="mainBody" class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none overflow-x-hidden">
 
-  <!-- 화면 중앙 콤보/축하 텍스트 플로팅 컨테이너 -->
+  <!-- 화면 중앙 콤보/축하 텍스트 컨테이너 -->
   <div id="impactNoticeContainer" class="fixed inset-0 pointer-events-none z-50 flex items-center justify-center"></div>
 
   <!-- ================= 1. 메인 첫 화면 (로비) ================= -->
@@ -86,7 +83,7 @@
     <p class="text-xs sm:text-sm text-slate-400 mb-6 text-center">하고 싶은 게임을 골라보세요!</p>
 
     <div class="w-full flex flex-col gap-3.5">
-      <!-- 0) 하트 누르기 게임 -->
+      <!-- 0) 하트 누르기 -->
       <button onclick="openGame('loveHeart')" class="w-full bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 border-2 border-pink-300 p-5 rounded-3xl shadow-[0_0_25px_rgba(244,63,94,0.4)] flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
           <div class="w-14 h-14 text-3xl bg-white/20 backdrop-blur-sm rounded-2xl border border-white/40 flex items-center justify-center shrink-0 heart-float">
@@ -131,15 +128,18 @@
         <i class="fa-solid fa-chevron-right text-blue-300 text-lg pr-2"></i>
       </button>
 
-      <!-- 3) 두뇌 오목 -->
+      <!-- 3) 두뇌 오목 (초고수 AI 탑재) -->
       <button onclick="openGame('omok')" class="w-full bg-gradient-to-r from-amber-800 to-amber-700 hover:from-amber-700 hover:to-amber-600 border-2 border-amber-500/60 p-4 sm:p-5 rounded-3xl shadow-xl flex items-center justify-between active:scale-95 transition text-left">
         <div class="flex items-center gap-4">
           <div class="w-13 h-13 text-3xl bg-black/40 rounded-2xl border border-amber-400/30 flex items-center justify-center shrink-0">
             ⚫⚪
           </div>
           <div>
-            <h2 class="text-base sm:text-lg font-black text-white">두뇌 튼튼 오목 한판</h2>
-            <p class="text-xs text-amber-200/80 mt-0.5">시원시원한 대형 바둑판 & AI 대전</p>
+            <div class="flex items-center gap-1.5">
+              <span class="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">초고수 AI 🔥</span>
+              <h2 class="text-base sm:text-lg font-black text-white">두뇌 튼튼 오목 한판</h2>
+            </div>
+            <p class="text-xs text-amber-200/80 mt-0.5">치밀한 수읽기의 인공지능과 펼치는 명승부!</p>
           </div>
         </div>
         <i class="fa-solid fa-chevron-right text-amber-300 text-lg pr-2"></i>
@@ -147,7 +147,7 @@
     </div>
   </section>
 
-  <!-- ================= 2. 애인 전용 고속 러브 하트 누르기 화면 ================= -->
+  <!-- ================= 2. 하트 누르기 화면 ================= -->
   <section id="loveHeartScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-3 py-2">
     <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-2.5 rounded-2xl border border-rose-800/60 shadow-md">
       <button onclick="goHome()" class="text-xs sm:text-sm font-bold text-rose-200 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
@@ -168,7 +168,6 @@
       </div>
     </div>
 
-    <!-- 하트 무대 -->
     <div class="my-auto w-full p-1 flex flex-col items-center justify-center">
       <div id="heartPlayground" class="relative bg-gradient-to-b from-rose-950/40 via-purple-950/30 to-slate-950 p-4 rounded-3xl sm:rounded-[36px] shadow-[inset_0_0_40px_rgba(244,63,94,0.3)] border-4 border-rose-900/60 w-full aspect-[4/5] max-w-lg flex flex-col items-center justify-center overflow-hidden cursor-pointer">
         <div class="absolute top-4 text-center pointer-events-none z-10 px-4">
@@ -216,7 +215,6 @@
       </div>
     </div>
 
-    <!-- 보석 게임 보드 -->
     <div class="my-auto p-1 flex items-center justify-center w-full">
       <div id="jewelBoardWrapper" class="bg-slate-900/90 p-3 sm:p-4 rounded-3xl shadow-[0_0_35px_rgba(236,72,153,0.2)] border-4 border-slate-800 w-full aspect-square max-w-lg flex items-center justify-center transition-transform">
         <div id="jewelGrid" class="w-full h-full grid grid-cols-6 gap-1.5 sm:gap-2"></div>
@@ -257,14 +255,14 @@
     </div>
   </section>
 
-  <!-- ================= 5. 두뇌 오목 화면 ================= -->
+  <!-- ================= 5. 두뇌 오목 화면 (초고수 AI 모드) ================= -->
   <section id="omokScreen" class="w-full max-w-xl hidden flex-col justify-between h-full flex-1 gap-4 py-2">
     <div class="w-full flex items-center justify-between bg-slate-900/95 px-4 py-3 rounded-2xl border border-slate-800 shadow">
       <button onclick="goHome()" class="text-sm font-bold text-slate-200 px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl active:scale-95 flex items-center gap-1.5 border border-slate-700 transition">
         <i class="fa-solid fa-house"></i> 홈
       </button>
       <div class="flex gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
-        <button id="omok-diff-hard" onclick="setOmokDiff('hard')" class="text-xs sm:text-sm px-3 py-1 rounded-lg font-bold bg-rose-600 text-white">어려움</button>
+        <button id="omok-diff-hard" onclick="setOmokDiff('hard')" class="text-xs sm:text-sm px-3 py-1 rounded-lg font-black bg-rose-600 text-white shadow">초고수 🔥</button>
         <button id="omok-diff-normal" onclick="setOmokDiff('normal')" class="text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400">보통</button>
       </div>
       <div class="flex items-center gap-2">
@@ -289,7 +287,7 @@
     </div>
   </section>
 
-  <!-- 당첨 쿠폰 모달 (선물 상자) -->
+  <!-- 당첨 쿠폰 모달 -->
   <div id="couponModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
     <div class="bg-gradient-to-b from-slate-900 to-rose-950 border-2 border-pink-400 rounded-3xl p-6 sm:p-8 text-center max-w-xs sm:max-w-sm w-full shadow-[0_0_50px_rgba(244,63,94,0.7)] animate-bounce">
       <div id="couponEmoji" class="text-7xl mb-2">🥰</div>
@@ -333,7 +331,7 @@
   </div>
 
   <script>
-    // --- 공통 시각 임팩트 헬퍼 함수들 ---
+    // --- 공통 시각 임팩트 함수 ---
     function triggerScreenShake(elementId = 'mainBody') {
       const el = document.getElementById(elementId);
       if (!el) return;
@@ -343,18 +341,15 @@
       setTimeout(() => el.classList.remove('shake'), 400);
     }
 
-    // 팡파레 피날레 폭죽 발사 (confetti)
     function fireConfettiFinale() {
       if (typeof confetti !== 'function') return;
-      // 좌측 & 우측 동시 대포 발사
       confetti({ particleCount: 70, spread: 60, origin: { x: 0.1, y: 0.7 } });
       confetti({ particleCount: 70, spread: 60, origin: { x: 0.9, y: 0.7 } });
       setTimeout(() => {
-        confetti({ particleCount: 100, spread: 100, origin: { y: 0.4 }, colors: ['#ff0a54', '#ff477e', '#ff85a1', '#ffd166', '#06d6a0', '#118ab2'] });
+        confetti({ particleCount: 100, spread: 100, origin: { y: 0.4 }, colors: ['#ff0a54', '#ff477e', '#ffd166', '#06d6a0', '#118ab2'] });
       }, 250);
     }
 
-    // 화면 중앙에 뜨는 네온 콤보 팝업 텍스트
     function showImpactText(text, colorClass = 'text-yellow-300') {
       const container = document.getElementById('impactNoticeContainer');
       const div = document.createElement('div');
@@ -379,7 +374,6 @@
         const now = ctx.currentTime;
 
         if (type === 'fanfareMega') {
-          // 웅장한 아케이드 피날레 팡파레 멜로디
           const chords = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
           chords.forEach((freq, idx) => {
             const osc = ctx.createOscillator();
@@ -551,7 +545,6 @@
       playSfx('heartPop');
       heartClicks++;
 
-      // 클릭 시 사랑 칭찬 팝업
       const compliments = ['Sweet! 💕', 'Lovely! 💖', 'Good Catch! ✨', 'Perfect! 💘'];
       if (heartClicks % 3 === 0) {
         showImpactText(compliments[Math.floor(Math.random() * compliments.length)], 'text-pink-300');
@@ -693,7 +686,7 @@
     }
 
     // ==============================================================
-    // [1] 보석 팡팡 매치 3 (피날레 콤보 & 진동 탑재)
+    // [1] 보석 팡팡 매치 3
     // ==============================================================
     const J_ROWS = 6;
     const J_COLS = 6;
@@ -824,7 +817,6 @@
 
       chainComboCount++;
 
-      // [핵심 임팩트] 6개 이상 대량 폭발 또는 2연쇄 콤보 이상일 때 피날레 폭죽 & 화면 진동
       if (matches.length >= 6 || chainComboCount >= 2) {
         triggerScreenShake('jewelBoardWrapper');
         fireConfettiFinale();
@@ -947,15 +939,16 @@
     }
 
     // ==============================================================
-    // [3] 시원한 대형 오목 (승리 시 피날레 축포 & 골드 레이저 연출)
+    // [3] 초고수 인공지능 오목 엔진 (Master AI Evaluation)
     // ==============================================================
     const omokCanvas = document.getElementById('omokCanvas');
     const omokCtx = omokCanvas.getContext('2d');
     const OMOK_SIZE = 11;
     let omokBoard = Array.from({ length: OMOK_SIZE }, () => Array(OMOK_SIZE).fill(0));
-    let omokPlayer = 1;
+    let omokPlayer = 1; // 1: 흑(플레이어), 2: 백(초고수 AI)
     let omokHistory = [];
     let omokOver = false;
+    let omokDiff = 'hard';
     let winningStones = [];
 
     function resizeOmok() {
@@ -1007,7 +1000,7 @@
         }
       }
 
-      // 승리한 5개 알 위에 반짝이는 골드 하이라이트 링
+      // 5목 연결 시 황금 링 레이저
       if (winningStones.length >= 5) {
         winningStones.forEach(pos => {
           const x = offset + cellSize * pos.c;
@@ -1086,10 +1079,10 @@
           triggerScreenShake('omokBoardWrapper');
           showImpactText('🏆 5목 승리!!', 'text-amber-300');
           setTimeout(() => {
-            openModal('🏆', '오목 승리!', '인공지능을 멋지게 격파하셨습니다! 대단하세요!');
+            openModal('🏆', '오목 승리!', '초고수 인공지능을 멋지게 격파하셨습니다! 대단하세요!');
           }, 600);
         } else {
-          openModal('🤖', '컴퓨터 승리!', '컴퓨터가 한 수 앞섰네요. 다시 도전해 보세요!');
+          openModal('🤖', '컴퓨터 승리!', '초고수 AI가 한 수 앞섰네요! 다시 도전해 보세요!');
         }
         return;
       }
@@ -1099,7 +1092,7 @@
       updateOmokUI();
 
       if (omokPlayer === 2 && !omokOver) {
-        setTimeout(omokAiMove, 250);
+        setTimeout(omokAiMove, 280);
       }
     }
 
@@ -1120,34 +1113,131 @@
       return null;
     }
 
+    // --- 초고수 오목 패턴 평가 함수 ---
+    function evaluateLine(r, c, dr, dc, p) {
+      let count = 1;
+      let openEnds = 0;
+
+      // 정방향 탐색
+      let s = 1;
+      while (true) {
+        let nr = r + dr * s, nc = c + dc * s;
+        if (nr < 0 || nr >= OMOK_SIZE || nc < 0 || nc >= OMOK_SIZE) break;
+        if (omokBoard[nr][nc] === p) count++;
+        else if (omokBoard[nr][nc] === 0) { openEnds++; break; }
+        else break;
+        s++;
+      }
+
+      // 역방향 탐색
+      s = 1;
+      while (true) {
+        let nr = r - dr * s, nc = c - dc * s;
+        if (nr < 0 || nr >= OMOK_SIZE || nc < 0 || nc >= OMOK_SIZE) break;
+        if (omokBoard[nr][nc] === p) count++;
+        else if (omokBoard[nr][nc] === 0) { openEnds++; break; }
+        else break;
+        s++;
+      }
+
+      if (count >= 5) return 1000000; // 5목 완성
+      if (count === 4) {
+        if (openEnds === 2) return 100000; // 열린 4 (무조건 승리)
+        if (openEnds === 1) return 10000;  // 닫힌 4
+      }
+      if (count === 3) {
+        if (openEnds === 2) return 12000;  // 열린 3 (가장 위협적)
+        if (openEnds === 1) return 1200;   // 닫힌 3
+      }
+      if (count === 2) {
+        if (openEnds === 2) return 600;
+        if (openEnds === 1) return 100;
+      }
+      return 10;
+    }
+
+    function evaluatePosition(r, c, p) {
+      const dirs = [[1, 0], [0, 1], [1, 1], [1, -1]];
+      let score = 0;
+      let openThrees = 0;
+      let fours = 0;
+
+      for (let [dr, dc] of dirs) {
+        let val = evaluateLine(r, c, dr, dc, p);
+        score += val;
+        if (val === 12000) openThrees++;
+        if (val === 100000 || val === 10000) fours++;
+      }
+
+      // 필승 노림수: 4-3, 3-3 포크 공격 가산점
+      if (fours >= 1 && openThrees >= 1) score += 50000;
+      if (openThrees >= 2) score += 60000;
+
+      return score;
+    }
+
     function omokAiMove() {
-      for (let target of [2, 1]) {
-        for (let r = 0; r < OMOK_SIZE; r++) {
-          for (let c = 0; c < OMOK_SIZE; c++) {
-            if (omokBoard[r][c] === 0) {
-              omokBoard[r][c] = target;
-              if (getWinningLine(r, c, target)) {
-                omokBoard[r][c] = 0;
-                placeOmok(r, c, 2);
-                return;
-              }
+      // 1순위: 내가 놓아서 즉시 5목 이기는 자리
+      for (let r = 0; r < OMOK_SIZE; r++) {
+        for (let c = 0; c < OMOK_SIZE; c++) {
+          if (omokBoard[r][c] === 0) {
+            omokBoard[r][c] = 2;
+            if (getWinningLine(r, c, 2)) {
               omokBoard[r][c] = 0;
+              placeOmok(r, c, 2);
+              return;
+            }
+            omokBoard[r][c] = 0;
+          }
+        }
+      }
+
+      // 2순위: 상대방(플레이어)이 다음 턴에 5목 이기는 자리 즉각 차단
+      for (let r = 0; r < OMOK_SIZE; r++) {
+        for (let c = 0; c < OMOK_SIZE; c++) {
+          if (omokBoard[r][c] === 0) {
+            omokBoard[r][c] = 1;
+            if (getWinningLine(r, c, 1)) {
+              omokBoard[r][c] = 0;
+              placeOmok(r, c, 2);
+              return;
+            }
+            omokBoard[r][c] = 0;
+          }
+        }
+      }
+
+      // 3순위: 전수 패턴 가중치 계산 (초고수 평가)
+      let bestMove = null;
+      let maxScore = -Infinity;
+
+      for (let r = 0; r < OMOK_SIZE; r++) {
+        for (let c = 0; c < OMOK_SIZE; c++) {
+          if (omokBoard[r][c] === 0) {
+            let aiAttack = evaluatePosition(r, c, 2);
+            let userDefense = evaluatePosition(r, c, 1);
+            let centerBonus = (5 - Math.abs(r - 5)) * 12 + (5 - Math.abs(c - 5)) * 12;
+
+            let totalScore = 0;
+            if (omokDiff === 'hard') {
+              // 초고수 모드: 상대방의 열린 3, 4를 철저하게 방어하며 자신의 연계수 창출
+              totalScore = (aiAttack * 1.1) + (userDefense * 1.6) + centerBonus;
+            } else {
+              // 보통 모드: 약간의 틈을 둠
+              totalScore = (aiAttack * 0.9) + (userDefense * 0.9) + centerBonus + (Math.random() * 200);
+            }
+
+            if (totalScore > maxScore) {
+              maxScore = totalScore;
+              bestMove = { r, c };
             }
           }
         }
       }
-      let bestMove = null;
-      let maxScore = -9999;
-      for (let r = 0; r < OMOK_SIZE; r++) {
-        for (let c = 0; c < OMOK_SIZE; c++) {
-          if (omokBoard[r][c] === 0) {
-            let centerBonus = (5 - Math.abs(r - 5)) + (5 - Math.abs(c - 5));
-            let score = centerBonus + Math.random() * 20;
-            if (score > maxScore) { maxScore = score; bestMove = { r, c }; }
-          }
-        }
+
+      if (bestMove) {
+        placeOmok(bestMove.r, bestMove.c, 2);
       }
-      if (bestMove) placeOmok(bestMove.r, bestMove.c, 2);
     }
 
     function updateOmokUI() {
@@ -1158,7 +1248,7 @@
         text.textContent = '내 차례';
       } else {
         dot.className = 'w-4 h-4 rounded-full bg-white shadow';
-        text.textContent = '생각 중...';
+        text.textContent = '수읽기 중...';
       }
     }
 
@@ -1187,8 +1277,9 @@
     }
 
     function setOmokDiff(d) {
-      document.getElementById('omok-diff-hard').className = d === 'hard' ? 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold bg-rose-600 text-white' : 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400';
-      document.getElementById('omok-diff-normal').className = d === 'normal' ? 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold bg-amber-600 text-white' : 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400';
+      omokDiff = d;
+      document.getElementById('omok-diff-hard').className = d === 'hard' ? 'text-xs sm:text-sm px-3 py-1 rounded-lg font-black bg-rose-600 text-white shadow' : 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400';
+      document.getElementById('omok-diff-normal').className = d === 'normal' ? 'text-xs sm:text-sm px-3 py-1 rounded-lg font-black bg-amber-600 text-white shadow' : 'text-xs sm:text-sm px-3 py-1 rounded-lg font-bold text-slate-400';
       resetOmok();
     }
 
